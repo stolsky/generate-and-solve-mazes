@@ -1,0 +1,32 @@
+.TaskCard {
+    background-color: darkgreen;
+
+    position: relative;
+}
+
+.TaskCard .Title {
+    background-color: #FFFFFF;
+    margin: 0;
+    font-size: 1rem;
+    padding: 0.2rem 0.4rem;
+}
+
+.TaskCard .Canvas {
+    background-color: #000000;
+    display: block;
+}
+
+.TaskCard .Position {
+    position: absolute;
+    display: none;
+    right: 5px;
+    background: #FFFF00;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0;
+    top: 5px;
+    font-size: 2.4rem;
+    text-align: center;
+    border: 5px solid #FF0000;
+}
