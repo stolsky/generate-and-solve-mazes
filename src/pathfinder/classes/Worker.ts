@@ -16,6 +16,7 @@ class Worker {
         this.updates = new Updates()
     }
 
+    // TODO make static and make use of "from" and "to"
     find_random_position(from?: number, to?: number): IPosition {
         const x = Math.floor(random(1, this.grid.width - 2))
         const y = Math.floor(random(1, this.grid.height - 2))

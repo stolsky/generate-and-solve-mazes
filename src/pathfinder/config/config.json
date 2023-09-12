@@ -16,7 +16,7 @@
     },
     {
         "key": "iterations",
-        "value": 10,
+        "value": 1,
         "type": "number"
     },
     {

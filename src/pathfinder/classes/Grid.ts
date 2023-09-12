@@ -75,6 +75,14 @@ class Grid {
         }
     }
 
+    each(callback: (cell: Cell) => void): void {
+        this.grid.forEach((row) => {
+            row.forEach((cell) => {
+                callback(cell)
+            })
+        })
+    }
+
   }
   
   export default Grid

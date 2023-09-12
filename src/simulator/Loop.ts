@@ -32,6 +32,7 @@ const loop = (delta_time: number): void => {
     runtime = runtime + adjusted_delta_time;
     update_runtime(runtime)
 
+    // TODO how to skip the rendering of an entire State
     for (let i = 0; i < speed; i = i + 1) {
         update(delta_time)
         render()

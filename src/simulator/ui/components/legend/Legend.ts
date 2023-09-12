@@ -16,6 +16,8 @@ const add_item = (name: string, color: string): void => {
 const update = (message: string): void => {
     if (message.length > 0 && message.includes(":")) {
         const [key, value] = message.split(":")
+        // TODO add if same key and value
+        // TODO replace if same key and different value
         add_item(key, value)
     }
 }

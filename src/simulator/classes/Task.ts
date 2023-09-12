@@ -59,18 +59,19 @@ class Task {
                 stroke_color = fill_color
             }
         
-            this.renderer.fillRect(
+            this.renderer.fill_rect(
                 cell.x * size,
                 cell.y * size,
                 size,
                 size,
                 fill_color
             )
-            this.renderer.fillRect(
-                cell.x * size + 1,
-                cell.y * size + 1,
-                size - 2,
-                size - 2,
+
+            const half_size = size >>> 1
+            this.renderer.fill_circle(
+                cell.x * size + half_size,
+                cell.y * size + half_size,
+                half_size - 1,
                 stroke_color
             )
             

@@ -1,6 +1,7 @@
 import Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import Grid from "../classes/Grid"
+import type IPosition from "../classes/IPosition"
 import Solver from "./Solver"
 import SortedCellStore from "../classes/SortedCellStore"
 
@@ -22,10 +23,8 @@ class AStar extends Solver {
      * that are floor tiles and not visited.
      */
     private get_von_neumann_neighbourhood (cell: Cell): Cell[] {
-
         const neighbours: Cell[] = []
         const directions = Grid.calculate_directions(cell.x, cell.y)
-
         directions.forEach((direction) => {
             // add neighbour from direction
             const neighbour = this.grid.get_cell(direction.x, direction.y)
@@ -33,7 +32,6 @@ class AStar extends Solver {
                 neighbours.push(neighbour)
             }
         })
-
         return neighbours
     }
     
@@ -49,21 +47,9 @@ class AStar extends Solver {
 
     constructor(grid: Grid) {
         super(grid)
-
         this.open_set = new SortedCellStore()
         this.closed_set = new CellStore()
         this.path = new CellStore()
-
-        if (this.start_position !== undefined) {
-            const start_cell = this.get_grid().get_cell(
-                this.start_position.x,
-                this.start_position.y
-            )
-            if (start_cell !== undefined) {
-                this.open_set.add(start_cell)
-                start_cell.stored = true
-            }
-        }
     }
 
     override is_finished(): boolean {
@@ -72,7 +58,11 @@ class AStar extends Solver {
 
     override perform_step(): void {
         super.perform_step()
-        
+
+        console.log("open_set", this.open_set.get_all())
+        console.log("closed_set", this.closed_set.get_all())
+        console.log(this.is_finished())
+
         if (this.is_finished()) {
             return
         }
@@ -93,6 +83,16 @@ class AStar extends Solver {
 
             // tentative_g_score is the distance from start to the neighbor through current
             const tentative_g_score = current_cell.g + AStar.WEIGHT_OF_EDGE
+            console.log(tentative_g_score, neighbour.g)
+            if (tentative_g_score < neighbour.g) {
+                current_cell.previous_cell = neighbour
+                neighbour.g = tentative_g_score
+                neighbour.f = tentative_g_score + this.heuristic(neighbour)
+                if (!this.open_set.has(neighbour)) {
+                    this.open_set.add(neighbour)
+                    this.updates.add(neighbour)
+                }
+            }
 
             // let is_better_path = false;
             // if (this.open_set.includes(neighbour)) {
@@ -121,6 +121,15 @@ class AStar extends Solver {
         })
     }
 
+    override set_start_position(position: IPosition): Cell | undefined {
+        const start_cell = super.set_start_position(position)
+        if (start_cell !== undefined) {
+            this.open_set.add(start_cell)
+            start_cell.stored = true
+            start_cell.g = 0
+        }
+        return start_cell
+    }
 }
 
 export default AStar

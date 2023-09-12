@@ -52,7 +52,7 @@ class Cell {
       
         // TODO try to reduce as much A* related atttributes as possible
         this._f = 0 // A* total cost
-        this._g = 0 // A* cost of the cheapest path from next node to goal
+        this._g = Number.MAX_SAFE_INTEGER // A* cost of the cheapest path from next node to goal
         this._h = 0 // A* heuristic
 
         this._is_goal = false

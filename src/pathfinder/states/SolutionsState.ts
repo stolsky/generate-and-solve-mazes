@@ -1,3 +1,7 @@
+import {
+    pop as pop_state,
+    type State
+} from "../../simulator/classes/StateStack"
 import Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
@@ -6,7 +10,6 @@ import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import { publish } from "../../simulator/Broker"
 import Solver from "../solvers/Solver"
-import { type State } from "../../simulator/classes/StateStack"
 
 class SolutionsState implements State {
 
@@ -33,8 +36,7 @@ class SolutionsState implements State {
     }
 
     constructor(grid: Grid) {
-        // TODO create start & end position
-        let positions: { start: IPosition, goal: IPosition }
+        const positions = this.find_positions(grid.width, grid.height)
 
         // TODO better setting colors
         publish("Add_legend_item", `${Cell.Color.goal.label }:${Cell.Color.goal.color}`)
@@ -46,9 +48,6 @@ class SolutionsState implements State {
             } })
             const solver = create_solver(task.get_solver_id(), grid.copy())
             if (solver !== undefined) {
-                if (positions === undefined) {
-                    positions = this.find_positions(grid.width, grid.height)
-                }
                 solver.set_start_position(positions.start)
                 solver.set_goal_position(positions.goal)
                 task.solver = solver
@@ -66,14 +65,21 @@ class SolutionsState implements State {
     }
 
     render(): void {
+        let all_finished = true
         get_all_tasks().forEach((task) => {
-            if (task.solver instanceof Solver) {
+            const solver = task.solver
+            if (solver instanceof Solver && !solver.is_finished()) {
                 task.render(
-                    task.solver.get_updates(),
+                    solver.get_updates(),
                     this.cell_size
                 )
+                all_finished = false
             }
         })
+        if (all_finished) {
+            publish("Log", "All mazes solved")
+            pop_state()
+        }
     }
 
     update(): void {

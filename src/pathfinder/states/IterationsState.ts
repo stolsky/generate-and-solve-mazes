@@ -15,6 +15,7 @@ class IterationsState implements State {
     constructor() {
         this.current_iteration = 0
         this.max_iterations = Configuration.get_property_value("iterations") as number
+        // TODO show 
     }
 
     enter(): void {
@@ -28,16 +29,17 @@ class IterationsState implements State {
     render(): void {
         // console.log("render iteration state")
         // TODO output current iteration to info box only if current iteration changes
+
     }
 
     update(): void {
-        // console.log("update iteration state")
-        this.current_iteration = this.current_iteration + 1
         if (this.current_iteration < this.max_iterations) {
+            // TODO log or show number current iter and max iter in UI
             push_state(new GeneratorsState())
         } else {
             pop_state()
         }
+        this.current_iteration = this.current_iteration + 1
     }
 }
 

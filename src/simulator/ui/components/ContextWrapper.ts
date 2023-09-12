@@ -1,12 +1,14 @@
 class RenderingContextWrapper {
 
+    private readonly TWO_PI = Math.PI * 2
+
     private readonly renderer: CanvasRenderingContext2D
 
     constructor(renderer: CanvasRenderingContext2D) {
         this.renderer = renderer
     }
 
-    fillRect(
+    fill_rect(
         x: number,
         y: number,
         width: number,
@@ -15,6 +17,19 @@ class RenderingContextWrapper {
     ): void {
         this.renderer.fillStyle = color
         this.renderer.fillRect(x, y, width, height)
+    }
+
+    fill_circle(
+        x: number,
+        y: number,
+        radius: number,
+        color: string
+    ): void {
+        this.renderer.beginPath()
+        this.renderer.arc(x, y, radius, 0, this.TWO_PI)
+
+        this.renderer.fillStyle = color
+        this.renderer.fill()
     }
 
 }
