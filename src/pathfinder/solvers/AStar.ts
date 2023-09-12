@@ -16,8 +16,6 @@ class AStar extends Solver {
     private readonly open_set: SortedCellStore
     /** list containing all completely expanded/evaluated cells */
     private readonly closed_set: CellStore
-    // TODO move path to Solver
-    private readonly path: CellStore
 
     /** Calculates a Von-Neumann neighbourhood including all cells
      * that are floor tiles and not visited.
@@ -59,10 +57,6 @@ class AStar extends Solver {
     override perform_step(): void {
         super.perform_step()
 
-        console.log("open_set", this.open_set.get_all())
-        console.log("closed_set", this.closed_set.get_all())
-        console.log(this.is_finished())
-
         if (this.is_finished()) {
             return
         }
@@ -83,7 +77,6 @@ class AStar extends Solver {
 
             // tentative_g_score is the distance from start to the neighbor through current
             const tentative_g_score = current_cell.g + AStar.WEIGHT_OF_EDGE
-            console.log(tentative_g_score, neighbour.g)
             if (tentative_g_score < neighbour.g) {
                 current_cell.previous_cell = neighbour
                 neighbour.g = tentative_g_score
