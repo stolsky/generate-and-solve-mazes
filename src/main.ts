@@ -1,16 +1,16 @@
-import init_ui from './Simulator/ui/UI'
+import init_ui from './simulator/ui/UI'
 
-import { push as push_state } from './Simulator/classes/StateStack'
-import IterationsState from './Pathfinder/states/IterationsState'
+import { push as push_state } from './simulator/classes/StateStack'
+import IterationsState from './pathfinder/states/IterationsState'
 
-import SimulatorConfig from "./Simulator/config/Configuration"
-import PathfinderConfig from './Pathfinder/config/Configuration'
+import SimulatorConfig from "./simulator/config/Configuration"
+import PathfinderConfig from './pathfinder/config/Configuration'
 
-import Task from "./Simulator/classes/Task"
-import { add as add_task } from './Simulator/classes/TaskList'
+import Task from "./simulator/classes/Task"
+import { add as add_task } from './simulator/classes/TaskList'
 
-import { Solvers } from './Pathfinder/solvers/SolverFactory'
-import { get_task_cards } from './Simulator/ui/components/content/Content'
+import { Solvers } from './pathfinder/solvers/SolverFactory'
+import { get_task_cards } from './simulator/ui/components/content/Content'
 
 // TODO add description/welcome overlay
 // TODO add config page/overlay
