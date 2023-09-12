@@ -19,6 +19,16 @@ let pause_button: IconButton
 let current_speed: Component
 let current_runtime: Component
 
+const show_play_button = (): void => {
+    pause_button.hide()
+    play_button.show()
+}
+
+const show_pause_button = (): void => {
+    play_button.hide()
+    pause_button.show()
+}
+
 const init = (autostart = false): Container => {
 
     backward_button = new IconButton(Configuration.get_property_value("controls_icon_backward") as string, () => {
@@ -28,21 +38,19 @@ const init = (autostart = false): Container => {
     })
     
     play_button = new IconButton(Configuration.get_property_value("controls_icon_play") as string, () => {
+        show_pause_button()
         start_loop()
-        play_button.hide()
-        pause_button.show()
     })
 
     pause_button = new IconButton(Configuration.get_property_value("controls_icon_pause") as string, () => {
+        show_play_button()
         stop_loop()
-        pause_button.hide()
-        play_button.show()
     })
 
     if (autostart) {
-        play_button.hide()
+        show_pause_button()
     } else {
-        pause_button.hide()
+        show_play_button()
     }
 
     forward_button = new IconButton(Configuration.get_property_value("controls_icon_forward") as string, () => {
@@ -72,5 +80,7 @@ const update_runtime = (runtime: number): void => {
 
 export default init
 export {
+    show_pause_button,
+    show_play_button,
     update_runtime
 }

@@ -3,9 +3,12 @@ import {
     render,
     update
 } from "./classes/StateStack"
+import {
+    show_play_button,
+    update_runtime
+} from "./ui/components/controls/Controls"
 import Configuration from "./config/Configuration"
 import Ticker from "./Ticker"
-import { update_runtime } from "./ui/components/controls/Controls"
 
 let runtime: number = 0
 
@@ -22,6 +25,12 @@ const ticker: Ticker = new Ticker()
 let slow_down_counter: number = 0
 const loop = (delta_time: number): void => {
 
+    if (is_empty()) {
+        // TODO use broker ??
+        stop()
+        show_play_button()
+    }
+
     const speed = speed_multiplier
     if (speed < 1 && slow_down_counter < 1 / speed) {
         slow_down_counter = slow_down_counter + 1
@@ -29,17 +38,14 @@ const loop = (delta_time: number): void => {
     }
 
     const adjusted_delta_time = speed * delta_time
-    runtime = runtime + adjusted_delta_time;
+    runtime = runtime + adjusted_delta_time
+    // TODO use broker ??
     update_runtime(runtime)
 
     // TODO how to skip the rendering of an entire State
     for (let i = 0; i < speed; i = i + 1) {
         update(delta_time)
         render()
-    }
-
-    if (is_empty()) {
-        stop()
     }
 
     // TODO refactor to avoid next line
@@ -61,6 +67,7 @@ const start = (): void => {
 
 const stop = (): void => {
     ticker.stop()
+
 }
 
 export {
