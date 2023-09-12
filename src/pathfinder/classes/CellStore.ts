@@ -34,6 +34,10 @@ class CellStore {
         return this.store.length
     }
 
+    has(cell: Cell): boolean {
+        return this.store.includes(cell)
+    }
+
     remove(index: number): Cell | undefined {
         const cell = this.store.splice(index, 1).pop()
         if (cell !== undefined) {
