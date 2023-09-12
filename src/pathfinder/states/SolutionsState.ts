@@ -40,10 +40,14 @@ class SolutionsState implements State {
 
         // TODO better setting colors
         publish("Add_legend_item", `${Cell.Color.goal.label }:${Cell.Color.goal.color}`)
+        publish("Add_legend_item", `${Cell.Color.search.label }:${Cell.Color.search.color}`)
         publish("Add_legend_item", `${Cell.Color.visited.label }:${Cell.Color.visited.color}`)
+        publish("Add_legend_item", `${Cell.Color.path.label }:${Cell.Color.path.color}`)
         get_all_tasks().forEach((task) => {
             task.set_render_options({ colors: {
                 goal: Cell.Color.goal.color,
+                path: Cell.Color.path.color,
+                search: Cell.Color.search.color,
                 visited: Cell.Color.visited.color
             } })
             const solver = create_solver(task.get_solver_id(), grid.copy())

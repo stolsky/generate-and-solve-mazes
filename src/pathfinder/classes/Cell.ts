@@ -11,20 +11,28 @@ class Cell {
             label: "floor"
         },
         goal: {
-            color: "#00FF00",
+            color: "#a4cf09",
             label: "goal"
         },
+        path: {
+            color: "#7349a2",
+            label: "path"
+        },
+        search: {
+            color: "#f39b50",
+            label: "search"
+        },
         start: {
-            color: "#FF0000",
+            color: "#f03e3e",
             label: "start"
         },
         stored: {
-            color: "#88CCFF",
+            color: "#4883d2",
             label: "stored"
         },
         visited: {
-            color: "#FFFF00",
-            label: "visited"
+            color: "#feee5e",
+            label: "expanded"
         },
         wall: {
             color: "#000000",

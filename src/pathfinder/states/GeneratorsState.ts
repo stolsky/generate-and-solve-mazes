@@ -52,10 +52,10 @@ class GeneratorsState implements State {
         publish("Log", `Start generating at ${start_position.x}:${start_position.y}`)
 
         // TODO better setting colors
-        publish("Add_legend_item", `${Cell.Color.floor.label }:${Cell.Color.floor.color}`)
-        publish("Add_legend_item", `${Cell.Color.start.label }:${Cell.Color.start.color}`)
         publish("Add_legend_item", `${Cell.Color.stored.label }:${Cell.Color.stored.color}`)
+        publish("Add_legend_item", `${Cell.Color.floor.label }:${Cell.Color.floor.color}`)
         publish("Add_legend_item", `${Cell.Color.wall.label }:${Cell.Color.wall.color}`)
+        publish("Add_legend_item", `${Cell.Color.start.label }:${Cell.Color.start.color}`)
         get_all_tasks().forEach((task) => {
             task.set_render_options({ colors: {
                 floor: Cell.Color.floor.color,
