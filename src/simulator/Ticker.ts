@@ -27,7 +27,6 @@ class Ticker {
         this.callback = null
         this.last_time = 0
         this.is_running = false
-        console.log(this)
     }
 
     start(callback: (delta_time: number) => void): void {
