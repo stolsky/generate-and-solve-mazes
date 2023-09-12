@@ -71,7 +71,7 @@ class Task {
             this.renderer.fill_circle(
                 cell.x * size + half_size,
                 cell.y * size + half_size,
-                half_size - 1,
+                half_size - 2,
                 stroke_color
             )
             
