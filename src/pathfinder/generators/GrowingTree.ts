@@ -7,6 +7,7 @@ import Generator from "./Generator"
 import Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Store from "../classes/CellStore"
+import { shuffle } from "../utilities"
 
 // TODO figure out to show search (formerly known as stored) can be visualized/set
 
@@ -79,7 +80,7 @@ class GrowingTree extends Generator {
                 this.updates.add(removed_cell)
             }
         } else {
-            Generator.shuffle(unvisited_neighbours)
+            shuffle(unvisited_neighbours)
             next_cell = unvisited_neighbours[0]
         }
         return next_cell

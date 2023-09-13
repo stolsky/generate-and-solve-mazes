@@ -4,9 +4,9 @@ import {
 } from "../../simulator/classes/StateStack"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
+import { find_positions_from_sectors } from "../utilities"
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import type Grid from "../classes/Grid"
-import type IPosition from "../classes/IPosition"
 import Solver from "../solvers/Solver"
 
 class SolutionsState implements State {
@@ -14,29 +14,8 @@ class SolutionsState implements State {
     private runtime: number
     private readonly cell_size: number
 
-    private find_start_position(width: number, height: number): IPosition {
-        // start_pos = solver.find_random_position()
-        return { x: 1, y: 1 } 
-    }
-
-    private find_goal_position(width: number, height: number): IPosition {
-        // goal_pos = solver.find_random_position()
-        return { x: width - 2, y: height - 2 }
-    }
-
-    // TODO select correct region, etc..
-    private find_positions(width: number, height: number): {
-        start: IPosition,
-        goal: IPosition
-    } {
-        return {
-            start: this.find_start_position(width, height),
-            goal: this.find_goal_position(width, height)
-        }
-    }
-
     constructor(grid: Grid) {
-        const positions = this.find_positions(grid.width, grid.height)
+        const positions = find_positions_from_sectors(grid.width, grid.height)
         get_all_tasks().forEach((task) => {
             const solver = create_solver(task.get_solver_id(), grid.clean_copy())
             if (solver !== undefined) {

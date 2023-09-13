@@ -1,20 +1,9 @@
 import { MainType, SubType } from "../classes/CellTypes"
 import type Cell from "../classes/Cell"
 import type IPosition from "../classes/IPosition"
-import random from "../random/random"
 import Worker from "../classes/Worker"
 
 class Generator extends Worker {
-
-    /** Shuffle an array using the Durstenfeld shuffle algorithm.
-     * The array is shuffled in place.
-     */
-    protected static shuffle (cells: Cell[]): void {
-        for (let i = cells.length - 1; i > 0; i--) {
-            const j = Math.floor(random() * (i + 1));
-            [cells[i], cells[j]] = [cells[j], cells[i]];
-        }
-    }
 
     private update_position(x: number, y: number, type: number): void {
         const cell = this.get_grid().get_cell(x, y)

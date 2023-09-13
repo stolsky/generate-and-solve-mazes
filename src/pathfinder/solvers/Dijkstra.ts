@@ -30,7 +30,6 @@ class Dijkstra extends Solver {
         }
 
         const current_cell = this.store.remove(0) as Cell
-        console.log(current_cell)
         if (current_cell.type === MainType.GOAL) {
             this.store.clear()
             this.construct_path(current_cell)

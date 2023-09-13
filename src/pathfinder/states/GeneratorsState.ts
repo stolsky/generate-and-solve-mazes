@@ -20,7 +20,6 @@ import SolutionsState from "./SolutionsState"
 
 class GeneratorsState implements State {
 
-    // TODO test if these readonlies works
     private readonly seed: string
     private readonly generator: Generator
     private readonly cell_size: number
@@ -47,7 +46,7 @@ class GeneratorsState implements State {
         this.cell_size = Configuration.get_property_value("grid_cell_size") as number
         this.runtime = 0
 
-        // TODO clear canvas
+        get_all_tasks().forEach((task) => { task.reset() })
 
         // check which generator is to be used
         this.generator = new GrowingTree(new Grid(width, height))
@@ -55,7 +54,7 @@ class GeneratorsState implements State {
         // TODO refactor to method
         this.seed = Math.floor(random(0, Date.now())).toString(10)
         // TODO DEVELOPMENT ONLY
-        this.seed = "739905356692"
+        // this.seed = "739905356692"
         // initialize pseudo random number generator with seed
         set_seed(this.seed)
         publish("Log", `Seed ${this.seed}`)

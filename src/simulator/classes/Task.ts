@@ -67,6 +67,13 @@ class Task {
 
     set solver(solver: Solver) {
         this._solver = solver
+        
+    }
+
+    reset():void {
+        this.renderer.clear()
+        this.is_finished = false
+        this._solver = undefined
     }
 
     get_solver_id(): number {
@@ -83,10 +90,6 @@ class Task {
                 size,
                 color
             ) 
-            
-            // TODO how to connect colors and objects
-            // TODO how to be sure the following exist -> how the other States know which to set
-            
         })
     }
 

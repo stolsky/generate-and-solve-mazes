@@ -8,6 +8,11 @@ class ContextWrapper {
         this.renderer = renderer
     }
 
+    clear(): void {
+        const { width, height } = this.renderer.canvas
+        this.renderer.clearRect(0, 0, width, height)
+    }
+
     fill_rect(
         x: number,
         y: number,

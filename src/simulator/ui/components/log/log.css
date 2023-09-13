@@ -3,6 +3,10 @@
 
 .Log .Text {
     overflow: scroll;
+    max-height: 30vh;
+    background-color: #EEEEEE;
+    padding-inline: 0.5rem;
+    font-size: 0.8rem;
 }
 
 .Log .Text .Message {
