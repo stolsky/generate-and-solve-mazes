@@ -19,11 +19,9 @@ class Cell {
         this.x = x
         this.y = y
       
-        // TODO try to reduce as much A* related atttributes as possible
-        this._f = 0 // A* total cost
+        this._f = 0 // Dijkstra, A* total cost
         this._g = Number.MAX_SAFE_INTEGER // A* cost of the cheapest path from next node to goal
-
-        this._predecessor = undefined // A*
+        this._predecessor = undefined
     }
 
     get f(): number {
