@@ -26,9 +26,16 @@ class AStar extends Solver {
      * for other heuristics visit - https://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
      */
     private heuristic (start: Cell): number {
-        const goal_x = this.goal_position?.x ?? 0
-        const goal_y = this.goal_position?.y ?? 0
-        return Math.abs(start.x - goal_x) + Math.abs(start.y - goal_y)
+        return Solver.manhatten_distance(
+            {
+                x: start.x,
+                y: start.y
+            },
+            {
+                x: this.goal_position?.x ?? 0,
+                y: this.goal_position?.y ?? 0
+            }
+        )
     }
 
     constructor(grid: Grid) {

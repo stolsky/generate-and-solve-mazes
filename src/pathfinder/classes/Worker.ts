@@ -12,6 +12,10 @@ class Worker {
     protected start_position: IPosition | undefined
     protected goal_position: IPosition | undefined
 
+    static manhatten_distance (start: IPosition, goal: IPosition): number {
+        return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y)
+    }
+
     constructor(grid: Grid) {
         this.grid = grid
         this.updates = new Updates()
