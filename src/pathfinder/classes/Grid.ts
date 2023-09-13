@@ -51,11 +51,15 @@ class Grid {
         }
     }
 
-    copy(): Grid {
+    clean_copy(): Grid {
         const copy = new Grid(this.width, this.height)
-        this.grid.forEach((row, index) => {
-            copy.grid[index] = [...row]
-        })
+        for (let x = 0; x < this.width; x = x + 1) {
+            copy.grid[x] = [];
+            for (let y = 0; y < this.height; y = y + 1) {
+                const old_cell = this.grid[x][y]
+                copy.grid[x][y] = new Cell(x, y, old_cell.type)
+            }
+        }
         return copy
     }
     
@@ -70,7 +74,7 @@ class Grid {
         for (let x = 0; x < this.width; x = x + 1) {
             this.grid[x] = [];
             for (let y = 0; y < this.height; y = y + 1) {
-                this.grid[x][y] = new Cell(x, y, type);
+                this.grid[x][y] = new Cell(x, y, type)
             }
         }
     }

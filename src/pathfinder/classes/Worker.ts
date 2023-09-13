@@ -1,12 +1,13 @@
 import type Cell from "./Cell"
 import type Grid from "./Grid"
 import type IPosition from "./IPosition"
+import { MainType } from "./CellTypes"
 import random from "../random/random"
 import Updates from "./Updates"
 
 class Worker {
 
-    protected grid: Grid
+    private readonly grid: Grid
     protected updates: Updates
     protected start_position: IPosition | undefined
     protected goal_position: IPosition | undefined
@@ -47,7 +48,7 @@ class Worker {
             this.updates.add(cell)
             // TODO only difference
             this.start_position = { x, y }
-            cell.is_start = true
+            cell.type = MainType.START
         }
         return cell
     }
@@ -60,7 +61,7 @@ class Worker {
             this.updates.add(cell)
             // TODO only difference
             this.goal_position = { x, y }
-            cell.is_goal = true
+            cell.type = MainType.GOAL
         }
         return cell
     }

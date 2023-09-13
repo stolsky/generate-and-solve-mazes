@@ -1,8 +1,14 @@
-import Cell from "../classes/Cell"
+import {
+    MainType,
+    SubType
+} from "../classes/CellTypes"
+import type Cell from "../classes/Cell"
 import Generator from "./Generator"
 import Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Store from "../classes/CellStore"
+
+// TODO figure out to show search (formerly known as stored) can be visualized/set
 
 class GrowingTree extends Generator {
 
@@ -40,20 +46,20 @@ class GrowingTree extends Generator {
         const look_ahead = Grid.calculate_look_ahead(x, y)
         const neighbours: Cell[] = [];
         directions.forEach((direction, index) => {
-            const neighbour = this.grid.get_cell(
+            const neighbour = this.get_grid().get_cell(
                 direction.x,
                 direction.y
             )
-            const next_neighbour = this.grid.get_cell(
+            const next_neighbour = this.get_grid().get_cell(
                 look_ahead[index].x,
                 look_ahead[index].y
             )
-            if (neighbour!== undefined && !neighbour.visited) {
-                if (next_neighbour!== undefined && !next_neighbour.visited) {
-                    neighbours.push(neighbour);
+            if (neighbour!== undefined && neighbour.sub_type !== SubType.EXPANDED) {
+                if (next_neighbour!== undefined && next_neighbour.sub_type !== SubType.EXPANDED) {
+                    neighbours.push(neighbour)
                 } else {
-                    neighbour.type = Cell.Type.WALL
-                    neighbour.visited = true
+                    neighbour.type = MainType.WALL
+                    neighbour.sub_type = SubType.EXPANDED
                 }
             }
         })
@@ -65,14 +71,12 @@ class GrowingTree extends Generator {
             cell.x,
             cell.y
         )
-        let next_cell;
+        let next_cell
         if (unvisited_neighbours.length === 0) {
             const removed_cell = this.store.remove(index)
-            if (removed_cell!== undefined) {
+            if (removed_cell !== undefined) {
+                // removed_cell.sub_type = SubType.EXPANDED
                 this.updates.add(removed_cell)
-                if (removed_cell.is_start) {
-                    removed_cell.is_start = false
-                }
             }
         } else {
             Generator.shuffle(unvisited_neighbours)
@@ -88,7 +92,7 @@ class GrowingTree extends Generator {
 
     constructor(grid: Grid) {
         super(grid)
-        this.grid.init(Cell.Type.WALL)
+        this.get_grid().init(MainType.WALL)
         this.store = new Store()
     }
 
@@ -121,8 +125,9 @@ class GrowingTree extends Generator {
         
         const start_cell = super.set_start_position(position)
         if (start_cell !== undefined) {
-            start_cell.type = Cell.Type.FLOOR
-            start_cell.visited = true
+            start_cell.type = MainType.START
+            start_cell.sub_type = SubType.EXPANDED
+            // start_cell.sub_type = SubType.SEARCH
             this.store.add(start_cell)
         }
         return start_cell

@@ -1,4 +1,4 @@
-class RenderingContextWrapper {
+class ContextWrapper {
 
     private readonly TWO_PI = Math.PI * 2
 
@@ -34,4 +34,4 @@ class RenderingContextWrapper {
 
 }
 
-export default RenderingContextWrapper
+export default ContextWrapper

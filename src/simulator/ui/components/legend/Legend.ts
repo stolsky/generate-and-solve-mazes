@@ -2,34 +2,19 @@ import "./legend.css"
 
 import Component from "../Component"
 import Container from "../Container"
-import { subscribe } from "../../../Broker"
 
-let items: Container
-
-const add_item = (name: string, color: string): void => {
-    items.append_child(new Container("Item").append(
-        new Component("span", "Tile").set_background_color(color), 
-        new Component("span", "Label").set_content(name)
-    ))
+interface LegendOptions {
+    colors: Array<{ color: string, label: string }>
 }
 
-const update = (message: string): void => {
-    if (message.length > 0 && message.includes(":")) {
-        const [key, value] = message.split(":")
-        // TODO add if same key and value
-        // TODO replace if same key and different value
-        add_item(key, value)
-    }
-}
+const create_item = (color: string, label: string): Container => new Container("Item").append(
+    new Component("span", "Tile").set_background_color(color), 
+    new Component("span", "Label").set_content(label)
+)
 
-const init = (): Container => {
-
-    subscribe(
-        "Add_legend_item",
-        (message: string) => { update(message) }
-    )
-
-    items = new Container("Items")
+const init = (options: LegendOptions): Container => {
+    const items = new Container("Items")
+    options.colors.forEach((color) => items.append_child(create_item(color.color, color.label)))
     return new Container("Legend").append(
         new Component("h3", "Title").set_content("Legend"),
         items
@@ -37,3 +22,6 @@ const init = (): Container => {
 }
 
 export default init
+export {
+    type LegendOptions
+}

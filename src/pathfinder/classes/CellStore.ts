@@ -11,7 +11,6 @@ class CellStore {
     add(cell: Cell): boolean {
         if (this.store.find((stored) => stored.x === cell.x
         && stored.y === cell.y) === undefined) {
-            cell.stored = true
             this.store.push(cell)
             return true
         }
@@ -39,11 +38,7 @@ class CellStore {
     }
 
     remove(index: number): Cell | undefined {
-        const cell = this.store.splice(index, 1).pop()
-        if (cell !== undefined) {
-            cell.stored = false
-        }
-        return cell
+        return this.store.splice(index, 1).pop()
     }
 
 }

@@ -1,10 +1,14 @@
 import {
+    MainType,
+    SubType
+} from "../classes/CellTypes"
+import {
     pop as pop_state,
     push as push_state,
     type State
 } from "../../simulator/classes/StateStack"
 import random, { set_seed } from "../random/random"
-import Cell from "../classes/Cell"
+import type Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import { format_time } from "../../simulator/ui/components/utilities"
 import type Generator from "../generators/Generator"
@@ -22,12 +26,19 @@ class GeneratorsState implements State {
     private readonly cell_size: number
     private runtime: number
 
-    private reset_generating_variables(): void {
+    // TODO necessary with clean_copy method
+    private reset_generating_variables(): Cell[] {
+        const updates: Cell[] = []
         this.generator.get_grid().each((cell) => {
-            cell.is_start = false
-            cell.stored = false
-            cell.visited = false
+            if (cell.type === MainType.START || cell.type === MainType.GOAL) {
+                cell.type = MainType.FLOOR
+            }
+            cell.sub_type = SubType.NONE
+            cell.sub_type = SubType.NONE
+            updates.push(cell)
         })
+
+        return updates
     }
 
     constructor() {
@@ -43,6 +54,8 @@ class GeneratorsState implements State {
         
         // TODO refactor to method
         this.seed = Math.floor(random(0, Date.now())).toString(10)
+        // TODO DEVELOPMENT ONLY
+        this.seed = "739905356692"
         // initialize pseudo random number generator with seed
         set_seed(this.seed)
         publish("Log", `Seed ${this.seed}`)
@@ -50,20 +63,6 @@ class GeneratorsState implements State {
         const start_position = this.generator.find_random_position()
         this.generator.set_start_position(start_position)
         publish("Log", `Start generating at ${start_position.x}:${start_position.y}`)
-
-        // TODO better setting colors
-        publish("Add_legend_item", `${Cell.Color.stored.label }:${Cell.Color.stored.color}`)
-        publish("Add_legend_item", `${Cell.Color.floor.label }:${Cell.Color.floor.color}`)
-        publish("Add_legend_item", `${Cell.Color.wall.label }:${Cell.Color.wall.color}`)
-        publish("Add_legend_item", `${Cell.Color.start.label }:${Cell.Color.start.color}`)
-        get_all_tasks().forEach((task) => {
-            task.set_render_options({ colors: {
-                floor: Cell.Color.floor.color,
-                start: Cell.Color.start.color,
-                stored: Cell.Color.stored.color,
-                wall: Cell.Color.wall.color,
-            }
-        })})
     }
 
     enter(): void {
@@ -85,15 +84,22 @@ class GeneratorsState implements State {
         // TODO move the following code -> nothing to do with rendering
         if (this.generator.is_finished()) {
             publish("Log", `Maze generated in ${format_time(this.runtime)}`)
+            const updates = this.reset_generating_variables()
+            // TODO refactor
+            get_all_tasks().forEach((task) => {
+                task.render(
+                    updates,
+                    this.cell_size
+                )
+            })
             pop_state()
-            this.reset_generating_variables()
-            push_state(new SolutionsState(this.generator.get_grid().copy()))
+            push_state(new SolutionsState(this.generator.get_grid().clean_copy()))
         }
     }
 
     update(delta_time: number): void {
-        this.generator.perform_step()
         this.runtime = this.runtime + delta_time
+        this.generator.perform_step()
     }
 }
 

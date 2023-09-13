@@ -1,6 +1,5 @@
 import type Cell from "./Cell";
 
-// TODO check if can be replaced with cell store
 class Updates {
 
     private updates: Cell[]

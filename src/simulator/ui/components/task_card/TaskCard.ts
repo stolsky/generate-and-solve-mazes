@@ -2,7 +2,7 @@ import "./taskcard.css"
 
 import Component from "../Component";
 import Container from "../Container";
-import RenderingContextWrapper from "../ContextWrapper";
+import ContextWrapper from "../ContextWrapper";
 
 class TaskCard extends Container {
 
@@ -29,9 +29,9 @@ class TaskCard extends Container {
             .append_child(this.position)
     }
 
-    get_context(): RenderingContextWrapper {
+    get_context(): ContextWrapper {
         const canvas = this.canvas.get_html_element() as HTMLCanvasElement
-        return new RenderingContextWrapper(canvas.getContext("2d"))
+        return new ContextWrapper(canvas.getContext("2d") as CanvasRenderingContext2D)
     }
 
     set_position(position: number): this {

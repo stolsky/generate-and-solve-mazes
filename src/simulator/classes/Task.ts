@@ -1,21 +1,64 @@
-import Cell from "../../pathfinder/classes/Cell"
-import type RenderingContextWrapper from "../ui/components/ContextWrapper"
+import {
+    MainType,
+    SubType,
+    TypeColor
+} from "../../pathfinder/classes/CellTypes"
+import type Cell from "../../pathfinder/classes/Cell"
+import type ContextWrapper from "../ui/components/ContextWrapper"
+import { format_time } from "../ui/components/utilities"
+import { get_solver_info_by_id } from "../../pathfinder/solvers/SolverFactory"
+import { publish } from "../Broker"
 import type Solver from "../../pathfinder/solvers/Solver"
-
-type RenderOptions = Record<string, Record<string, string>>;
 
 // TODO create PathfinderTask extend Task
 class Task {
 
-    private options: RenderOptions
-    private readonly renderer: RenderingContextWrapper
+    private readonly renderer: ContextWrapper
     private readonly solver_id: number
     private _solver: Solver | undefined
+    private _is_finished: boolean
 
-    constructor(renderer: RenderingContextWrapper, solver_id: number) {
-        this.options = { colors: {} }
+    private get_color(cell: Cell): string {
+        let color = ""
+        if (cell.type === MainType.WALL) {
+            color = TypeColor.wall.color
+        } else if (cell.type === MainType.START) {
+            color = TypeColor.start.color
+        } else if (cell.type === MainType.GOAL) {
+            color = TypeColor.goal.color
+        } else {
+            color = this.get_sub_color(cell.sub_type)
+            if (color.length === 0) {
+                color = TypeColor.floor.color
+            }
+        }  
+        return color
+    }
+
+    private get_sub_color(type: SubType): string {
+        let color = ""
+        if (type === SubType.EXPANDED) {
+            color = TypeColor.expanded.color
+        } else if (type === SubType.SEARCH) {
+            color = TypeColor.search.color
+        } else if (type === SubType.PATH) {
+            color = TypeColor.path.color
+        }
+        return color
+    }
+
+    constructor(renderer: ContextWrapper, solver_id: number) {
         this.renderer = renderer
         this.solver_id = solver_id
+        this._is_finished = false
+    }
+
+    get is_finished(): boolean {
+        return this._is_finished
+    }
+
+    set is_finished(is_finished: boolean) {
+        this._is_finished = is_finished
     }
 
     get solver(): Solver | undefined {
@@ -32,57 +75,25 @@ class Task {
 
     render(updates: Cell[], size: number): void {
         updates.forEach((cell) => {
-
-            let fill_color = ""
-            let stroke_color = ""
-            
-            // TODO how to connect colors and objects
-            // TODO how to be sure the following exist -> how the other States know which to set
-            const colors = this.options.colors
-            if (cell.type === Cell.Type.FLOOR) {
-                if (colors.start !== undefined && cell.is_start) {
-                    fill_color = colors.start
-                } else if (colors.goal !== undefined && cell.is_goal) {
-                    fill_color = colors.goal
-                } else if (colors.visited !== undefined && cell.visited) {
-                    fill_color = colors.visited
-                } else if (colors.floor !== undefined) {
-                    fill_color = colors.floor
-                }
-            } else if (colors.wall !== undefined && cell.type === Cell.Type.WALL) {
-                fill_color = colors.wall
-            }
-    
-            if (colors.stored !== undefined && cell.stored) {
-                stroke_color = colors.stored
-            } else {
-                stroke_color = fill_color
-            }
-        
+            const color = this.get_color(cell)
             this.renderer.fill_rect(
                 cell.x * size,
                 cell.y * size,
                 size,
                 size,
-                fill_color
-            )
-
-            const half_size = size >>> 1
-            this.renderer.fill_circle(
-                cell.x * size + half_size,
-                cell.y * size + half_size,
-                half_size - 2,
-                stroke_color
-            )
+                color
+            ) 
+            
+            // TODO how to connect colors and objects
+            // TODO how to be sure the following exist -> how the other States know which to set
             
         })
     }
 
-    set_render_options(options: RenderOptions): void {
-        Object.keys(options).forEach((key) => {
-            // merge options
-            this.options[key] = { ...this.options[key], ...options[key] }
-        })
+    send_results(runtime: number): void {
+        const short_name = get_solver_info_by_id(this.solver_id)?.short
+        const time_taken = format_time(runtime)
+        publish("Log", `${short_name} finished after ${time_taken} seconds.`)
     }
 
 }

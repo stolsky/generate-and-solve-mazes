@@ -1,58 +1,19 @@
+import { MainType, SubType } from "./CellTypes"
+
 class Cell {
 
-    static Type = {
-        FLOOR: 0,
-        WALL: 1
-    } as const
-
-    static Color = {
-        floor: {
-            color: "#FFFFFF",
-            label: "floor"
-        },
-        goal: {
-            color: "#a4cf09",
-            label: "goal"
-        },
-        path: {
-            color: "#7349a2",
-            label: "path"
-        },
-        search: {
-            color: "#f39b50",
-            label: "search"
-        },
-        start: {
-            color: "#f03e3e",
-            label: "start"
-        },
-        stored: {
-            color: "#4883d2",
-            label: "stored"
-        },
-        visited: {
-            color: "#feee5e",
-            label: "expanded"
-        },
-        wall: {
-            color: "#000000",
-            label: "wall"
-        }
-    } as const
-
-    private _f: number
-    private _g: number
-    private _h: number
-    private _is_goal: boolean
-    private _is_start: boolean
-    private _previous_cell: Cell | null
-    private _stored: boolean
-    private _type: number = -1
-    private _visited: boolean
     private _x: number = -1
     private _y: number = -1
+    
+    private _f: number
+    private _g: number
+
+    private _type: MainType = MainType.NONE
+    private _sub_type: SubType = SubType.NONE
+
+    private _predecessor: Cell | undefined
   
-    constructor (x: number, y: number, type: number) {
+    constructor (x: number, y: number, type: MainType) {
 
         this.type = type
         this.x = x
@@ -61,13 +22,8 @@ class Cell {
         // TODO try to reduce as much A* related atttributes as possible
         this._f = 0 // A* total cost
         this._g = Number.MAX_SAFE_INTEGER // A* cost of the cheapest path from next node to goal
-        this._h = 0 // A* heuristic
 
-        this._is_goal = false
-        this._is_start = false
-        this._previous_cell = null // A*
-        this._stored = false
-        this._visited = false
+        this._predecessor = undefined // A*
     }
 
     get f(): number {
@@ -86,62 +42,28 @@ class Cell {
         this._g = g
     }
 
-    get h(): number {
-        return this._h
+    get predecessor(): Cell | undefined {
+        return this._predecessor
     }
 
-    set h(h: number) {
-        this._h = h
+    set predecessor(cell: Cell) {
+        this._predecessor = cell
     }
 
-    get is_goal(): boolean {
-        return this._is_goal
+    get sub_type(): SubType {
+        return this._sub_type
     }
 
-    set is_goal(is_end: boolean) {
-        this._is_goal = is_end
-    }
-
-    get is_start(): boolean {
-        return this._is_start
-    }
-
-    set is_start(is_start: boolean) {
-        this._is_start = is_start
-    }
-
-    get previous_cell(): Cell | null {
-        return this._previous_cell
-    }
-
-    set previous_cell(cell: Cell) {
-        this._previous_cell = cell
-    }
-
-    get stored(): boolean {
-        return this._stored
-    }
-
-    set stored(stored: boolean) {
-        this._stored = stored
+    set sub_type(type: SubType) {
+        this._sub_type = type
     }
     
-    get type(): number {
+    get type(): MainType {
         return this._type
     }
 
-    set type(type: number) {
-        if (type === Cell.Type.FLOOR || type === Cell.Type.WALL) {
-            this._type = type
-        }
-    }
-
-    get visited(): boolean {
-        return this._visited
-    }
-
-    set visited(visited: boolean) {
-        this._visited = visited
+    set type(type: MainType) {
+        this._type = type
     }
 
     get x(): number {

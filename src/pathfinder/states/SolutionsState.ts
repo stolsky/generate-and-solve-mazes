@@ -2,17 +2,16 @@ import {
     pop as pop_state,
     type State
 } from "../../simulator/classes/StateStack"
-import Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
-import { publish } from "../../simulator/Broker"
 import Solver from "../solvers/Solver"
 
 class SolutionsState implements State {
 
+    private runtime: number
     private readonly cell_size: number
 
     private find_start_position(width: number, height: number): IPosition {
@@ -25,6 +24,7 @@ class SolutionsState implements State {
         return { x: width - 2, y: height - 2 }
     }
 
+    // TODO select correct region, etc..
     private find_positions(width: number, height: number): {
         start: IPosition,
         goal: IPosition
@@ -37,26 +37,15 @@ class SolutionsState implements State {
 
     constructor(grid: Grid) {
         const positions = this.find_positions(grid.width, grid.height)
-
-        // TODO better setting colors
-        publish("Add_legend_item", `${Cell.Color.goal.label }:${Cell.Color.goal.color}`)
-        publish("Add_legend_item", `${Cell.Color.search.label }:${Cell.Color.search.color}`)
-        publish("Add_legend_item", `${Cell.Color.visited.label }:${Cell.Color.visited.color}`)
-        publish("Add_legend_item", `${Cell.Color.path.label }:${Cell.Color.path.color}`)
         get_all_tasks().forEach((task) => {
-            task.set_render_options({ colors: {
-                goal: Cell.Color.goal.color,
-                path: Cell.Color.path.color,
-                search: Cell.Color.search.color,
-                visited: Cell.Color.visited.color
-            } })
-            const solver = create_solver(task.get_solver_id(), grid.copy())
+            const solver = create_solver(task.get_solver_id(), grid.clean_copy())
             if (solver !== undefined) {
                 solver.set_start_position(positions.start)
                 solver.set_goal_position(positions.goal)
                 task.solver = solver
             }
         })
+        this.runtime = 0
         this.cell_size = Configuration.get_property_value("grid_cell_size") as number
     }
 
@@ -71,22 +60,30 @@ class SolutionsState implements State {
     render(): void {
         let all_finished = true
         get_all_tasks().forEach((task) => {
+            if (task.is_finished) {
+                return
+            }
             const solver = task.solver
-            if (solver instanceof Solver && !solver.is_finished()) {
+            if (solver instanceof Solver) {
                 task.render(
                     solver.get_updates(),
                     this.cell_size
                 )
-                all_finished = false
+                if (solver.is_finished()) {
+                    task.send_results(this.runtime)
+                    task.is_finished = true
+                } else {
+                    all_finished = false
+                }
             }
         })
         if (all_finished) {
-            publish("Log", "All mazes solved")
             pop_state()
         }
     }
 
-    update(): void {
+    update(delta_time: number): void {
+        this.runtime = this.runtime + delta_time
         get_all_tasks().forEach((task) => {
             if (task.solver instanceof Solver) {
                 task.solver.perform_step()
