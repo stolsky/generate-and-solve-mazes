@@ -48,8 +48,10 @@ const loop = (delta_time: number): void => {
         render()
     }
 
-    // TODO refactor to avoid next line
-    slow_down_counter = 0
+    if (speed < 1) {
+        slow_down_counter = 0
+    }
+    
 }
 
 const get_speed_multiplier = (): number => speed_multiplier
