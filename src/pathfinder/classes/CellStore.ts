@@ -8,7 +8,7 @@ class CellStore {
         this.store = []
     }
 
-    add(cell: Cell): boolean {
+    add_unique(cell: Cell): boolean {
         if (this.store.find((stored) => stored.x === cell.x
         && stored.y === cell.y) === undefined) {
             this.store.push(cell)
