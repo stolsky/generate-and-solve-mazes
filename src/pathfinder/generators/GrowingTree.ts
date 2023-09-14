@@ -3,17 +3,15 @@ import {
     SubType
 } from "../classes/CellTypes"
 import type Cell from "../classes/Cell"
+import CellStore from "../classes/CellStore"
 import Generator from "./Generator"
 import Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
-import Store from "../classes/CellStore"
 import { shuffle } from "../utilities"
-
-// TODO figure out to show search (formerly known as stored) can be visualized/set
 
 class GrowingTree extends Generator {
 
-    private readonly store: Store
+    private readonly store: CellStore
 
     private add_cell_to_maze(current_cell: Cell, next_cell: Cell): void {
         const passage = this.carve_passage(
@@ -26,7 +24,10 @@ class GrowingTree extends Generator {
         )
         passage.forEach((cell, index) => {
             if (index === 0 || index === passage.length - 1) {
-                this.store.add(cell)
+                cell.sub_type = SubType.SEARCH
+                this.store.add_unique(cell)
+            } else {
+                cell.sub_type = SubType.EXPANDED
             }
             this.updates.add(cell)
         })
@@ -56,7 +57,10 @@ class GrowingTree extends Generator {
                 look_ahead[index].y
             )
             if (neighbour!== undefined && neighbour.sub_type !== SubType.EXPANDED) {
-                if (next_neighbour!== undefined && next_neighbour.sub_type !== SubType.EXPANDED) {
+                if (next_neighbour!== undefined
+                    && next_neighbour.sub_type !== SubType.SEARCH
+                    && next_neighbour.sub_type !== SubType.EXPANDED
+                ) {
                     neighbours.push(neighbour)
                 } else {
                     neighbour.type = MainType.WALL
@@ -76,7 +80,7 @@ class GrowingTree extends Generator {
         if (unvisited_neighbours.length === 0) {
             const removed_cell = this.store.remove(index)
             if (removed_cell !== undefined) {
-                // removed_cell.sub_type = SubType.EXPANDED
+                removed_cell.sub_type = SubType.EXPANDED
                 this.updates.add(removed_cell)
             }
         } else {
@@ -94,7 +98,7 @@ class GrowingTree extends Generator {
     constructor(grid: Grid) {
         super(grid)
         this.get_grid().init(MainType.WALL)
-        this.store = new Store()
+        this.store = new CellStore()
     }
 
     override is_finished(): boolean {
@@ -102,7 +106,6 @@ class GrowingTree extends Generator {
     }
 
     override perform_step(): void {
-        super.perform_step()
         const { cell, index } = this.select_current_cell()
         // if current cell is undefined than store must be empty and algorithm is finished
         if (cell!== undefined) {
@@ -127,9 +130,9 @@ class GrowingTree extends Generator {
         const start_cell = super.set_start_position(position)
         if (start_cell !== undefined) {
             start_cell.type = MainType.START
-            start_cell.sub_type = SubType.EXPANDED
-            // start_cell.sub_type = SubType.SEARCH
-            this.store.add(start_cell)
+            // start_cell.sub_type = SubType.EXPANDED
+            start_cell.sub_type = SubType.SEARCH
+            this.store.add_unique(start_cell)
         }
         return start_cell
     }
