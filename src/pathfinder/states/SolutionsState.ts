@@ -1,11 +1,14 @@
 import {
+    find_positions_from_sectors,
+    shuffle
+} from "../utilities"
+import {
     pop as pop_state,
     type State
 } from "../../simulator/classes/StateStack"
 import Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
-import { find_positions_from_sectors } from "../utilities"
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
@@ -16,6 +19,7 @@ const validate_position = (position: IPosition, grid: Grid): IPosition => {
     let cell = grid.get_cell(position.x, position.y)
     if (cell instanceof Cell && cell.type === MainType.WALL) {
         const neighbours = grid.get_moore_neighbourhood(cell)
+        shuffle(neighbours)
         // if maze was generated correctly there must be a floor tile
         // in every moore neighbourhood
         cell = neighbours.filter((neighbour) => neighbour.type === MainType.FLOOR).pop()
