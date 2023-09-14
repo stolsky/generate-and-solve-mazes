@@ -12,23 +12,23 @@ describe("Test sorted cell store class", () => {
 
     const cell1 = new Cell(0, 0, MainType.FLOOR)
     cell1.f = 3
-    store.add(cell1)
+    store.add_unique(cell1)
 
     const cell2 = new Cell(1, 0, MainType.FLOOR)
     cell2.f = 5
-    store.add(cell2)
+    store.add_unique(cell2)
 
     const cell3 = new Cell(2, 0, MainType.FLOOR)
     cell3.f = 1
-    store.add(cell3)
+    store.add_unique(cell3)
 
     const cell4 = new Cell(3, 0, MainType.FLOOR)
     cell4.f = 4
-    store.add(cell4)
+    store.add_unique(cell4)
 
     const cell5 = new Cell(4, 0, MainType.FLOOR)
     cell5.f = 2
-    store.add(cell5)
+    store.add_unique(cell5)
 
     it("Add", () => {
     
