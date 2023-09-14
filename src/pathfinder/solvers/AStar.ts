@@ -62,9 +62,8 @@ class AStar extends Solver {
             return
         }
 
-        current_cell.sub_type = SubType.EXPANDED
+        this.update_as_expanded(current_cell)
         this.closed_set.add_unique(current_cell)
-        this.updates.add(current_cell)
 
         this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
 

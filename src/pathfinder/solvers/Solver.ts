@@ -16,7 +16,7 @@ class Solver extends Worker {
                 && neighbour.sub_type !== SubType.EXPANDED)
     }
 
-    construct_path(goal: Cell): void {
+    construct_path (goal: Cell): void {
         let temp = goal
         temp.sub_type = SubType.PATH
         this.updates.add(temp)

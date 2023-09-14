@@ -1,7 +1,7 @@
 import type Cell from "./Cell"
 import type Grid from "./Grid"
 import type IPosition from "./IPosition"
-import { MainType } from "./CellTypes"
+import { MainType, SubType } from "./CellTypes"
 import random from "../random/random"
 import Updates from "./Updates"
 
@@ -12,6 +12,8 @@ class Worker {
     protected start_position: IPosition | undefined
     protected goal_position: IPosition | undefined
 
+    private count_expanded_cells: number
+
     static manhatten_distance (start: IPosition, goal: IPosition): number {
         return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y)
     }
@@ -19,6 +21,13 @@ class Worker {
     constructor(grid: Grid) {
         this.grid = grid
         this.updates = new Updates()
+        this.count_expanded_cells = 0
+    }
+
+    protected update_as_expanded (cell: Cell): void {
+        this.count_expanded_cells = this.count_expanded_cells + 1
+        cell.sub_type = SubType.EXPANDED
+        this.updates.add(cell)
     }
 
     // TODO make static and make use of "from" and "to"
