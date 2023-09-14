@@ -3,7 +3,7 @@
 
 .Log .Text {
     overflow: scroll;
-    max-height: 30vh;
+    height: 20vh;
     background-color: #EEEEEE;
     padding-inline: 0.5rem;
     font-size: 0.8rem;

@@ -17,37 +17,37 @@ enum SubType {
 const TypeColor = {
     expanded: {
         color: "#feee5e",
-        label: "expanded",
+        label: "Expanded",
         type: SubType.EXPANDED
     },
     floor: {
         color: "#FFFFFF",
-        label: "floor",
+        label: "Floor",
         type: MainType.FLOOR
     },
     goal: {
         color: "#a4cf09",
-        label: "goal",
+        label: "Goal",
         type: MainType.GOAL
     },
     path: {
         color: "#7349a2",
-        label: "path",
+        label: "Path",
         type: SubType.PATH
     },
     search: {
         color: "#f39b50",
-        label: "search",
+        label: "Search",
         type: SubType.SEARCH
     },
     start: {
         color: "#f03e3e",
-        label: "start",
+        label: "Start",
         type: MainType.START
     },
     wall: {
         color: "#000000",
-        label: "wall",
+        label: "Wall",
         type: MainType.WALL
     }
 } as const
