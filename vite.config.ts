@@ -15,6 +15,7 @@ export default defineConfig({
         globals: true,
         coverage: {
             all: true,
+            enabled: true,
             include: ["src/**/*.ts"],
             provider: 'istanbul',
             reporter: ['text', 'json', 'html']
