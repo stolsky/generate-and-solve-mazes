@@ -3,11 +3,22 @@ import type IPosition from "./IPosition"
 
 class Grid {
 
-    static calculate_directions = (x: number, y: number): IPosition[] => [
+    static calculate_von_neumann_directions = (x: number, y: number): IPosition[] => [
         { x, y: y - 1},  // north
         { x: x + 1, y }, // east
         { x, y: y + 1},  // south
         { x: x - 1, y}   // west
+    ]
+
+    static calculate_moore_directions = (x: number, y: number): IPosition[] => [
+        { x, y: y - 1},  // north
+        { x: x + 1, y: y - 1},  // north east
+        { x: x + 1, y }, // east
+        { x: x + 1, y: y + 1},  // south east
+        { x, y: y + 1},  // south
+        { x: x - 1, y: y + 1},  // south west
+        { x: x - 1, y},   // west
+        { x: x - 1, y: y - 1},  // north west
     ]
 
     static calculate_look_ahead = (x: number, y: number): IPosition[] => [
@@ -21,8 +32,19 @@ class Grid {
     private _height: number = 0
     private grid: Cell[][]
 
-    private is_inside(x: number, y: number): boolean {
+    private is_inside (x: number, y: number): boolean {
         return x > -1 && x < this.width && y > -1 && y < this.height
+    }
+
+    private get_neighbourhood_from_directions (directions: IPosition[]): Cell[] {
+        const neighbours: Cell[] = []
+        directions.forEach((direction) => {
+            const neighbour = this.get_cell(direction.x, direction.y)
+            if (neighbour !== undefined) {
+                neighbours.push(neighbour)
+            }
+        })
+        return neighbours
     }
 
     constructor(width: number, height: number) {
@@ -68,6 +90,18 @@ class Grid {
             return this.grid[x][y]
         }
         return undefined
+    }
+
+    get_moore_neighbourhood (cell: Cell): Cell[] {
+        return this.get_neighbourhood_from_directions(
+            Grid.calculate_moore_directions(cell.x, cell.y)
+        )
+    }
+
+    get_von_neumann_neighbourhood (cell: Cell): Cell[] {
+        return this.get_neighbourhood_from_directions(
+            Grid.calculate_von_neumann_directions(cell.x, cell.y)
+        )
     }
 
     init(type: number): void {

@@ -43,7 +43,7 @@ class GrowingTree extends Generator {
     }
 
     private find_unvisited_neighbours(x: number, y: number): Cell[] {
-        const directions = Grid.calculate_directions(x, y)
+        const directions = Grid.calculate_von_neumann_directions(x, y)
         const look_ahead = Grid.calculate_look_ahead(x, y)
         const neighbours: Cell[] = [];
         directions.forEach((direction, index) => {

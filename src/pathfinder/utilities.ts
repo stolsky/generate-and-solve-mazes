@@ -81,10 +81,8 @@ const find_positions_from_sectors = (width: number, height: number): {
     start: IPosition,
     goal: IPosition
 } => {
-
     const sectors = create_sectors(width, height)
     shuffle(sectors)
-
     return {
         start: find_random_position_in_sector(sectors.pop())
             ?? { x: 1, y: 1 },
