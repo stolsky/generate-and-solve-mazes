@@ -4,28 +4,29 @@ import {
     it
 } from 'vitest'
 import Cell from '../../src/pathfinder/classes/Cell'
+import { MainType } from '../../src/pathfinder/classes/CellTypes'
 import SortedCellStore from '../../src/pathfinder/classes/SortedCellStore'
 
 describe("Test sorted cell store class", () => {
     const store = new SortedCellStore()
 
-    const cell1 = new Cell(0, 0, Cell.Type.FLOOR)
+    const cell1 = new Cell(0, 0, MainType.FLOOR)
     cell1.f = 3
     store.add(cell1)
 
-    const cell2 = new Cell(1, 0, Cell.Type.FLOOR)
+    const cell2 = new Cell(1, 0, MainType.FLOOR)
     cell2.f = 5
     store.add(cell2)
 
-    const cell3 = new Cell(2, 0, Cell.Type.FLOOR)
+    const cell3 = new Cell(2, 0, MainType.FLOOR)
     cell3.f = 1
     store.add(cell3)
 
-    const cell4 = new Cell(3, 0, Cell.Type.FLOOR)
+    const cell4 = new Cell(3, 0, MainType.FLOOR)
     cell4.f = 4
     store.add(cell4)
 
-    const cell5 = new Cell(4, 0, Cell.Type.FLOOR)
+    const cell5 = new Cell(4, 0, MainType.FLOOR)
     cell5.f = 2
     store.add(cell5)
 

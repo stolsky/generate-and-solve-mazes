@@ -5,12 +5,13 @@ import {
 } from 'vitest'
 import Cell from '../../src/pathfinder/classes/Cell'
 import Grid from '../../src/pathfinder/classes/Grid'
+import { MainType } from '../../src/pathfinder/classes/CellTypes'
 
 describe("Test grid class", () => {
 
     it("Get cell", () => {
         const grid = new Grid(20, 20)
-        grid.init(Cell.Type.FLOOR)
+        grid.init(MainType.FLOOR)
         const first_cell = grid.get_cell(0, 0)
         expect(first_cell).to.be.instanceOf(Cell)
         const last_cell = grid.get_cell(19, 19)
