@@ -1,12 +1,11 @@
-import { publish } from "../../simulator/Broker"
 import {
     pop as pop_state,
     push as push_state,
     type State
 } from "../../simulator/classes/StateStack"
-
 import Configuration from "../config/Configuration"
 import GeneratorsState from "./GeneratorsState"
+import { publish } from "../../simulator/Broker"
 
 class IterationsState implements State {
 
