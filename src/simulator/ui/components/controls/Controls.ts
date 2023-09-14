@@ -31,11 +31,19 @@ const show_pause_button = (): void => {
 
 const init = (autostart = false): Container => {
 
-    backward_button = new IconButton(Configuration.get_property_value("controls_icon_backward") as string, () => {
-        const old_speed = get_speed_multiplier()
-        set_speed_multiplier(old_speed * 0.5)
-        current_speed.set_content(get_speed_multiplier().toString(10) + "x")
-    })
+    backward_button = new IconButton(
+        Configuration.get_property_value("controls_icon_backward") as string,
+        () => {
+            const old_speed = get_speed_multiplier()
+            set_speed_multiplier(old_speed * 0.5)
+
+            const speed = get_speed_multiplier()
+            // if (speed === Configuration.get_property_value("speed_multiplier_min") as number) {
+            //     backward_button.disable()
+            // }
+            current_speed.set_content(speed.toString(10) + "x")
+        }
+    )
     
     play_button = new IconButton(Configuration.get_property_value("controls_icon_play") as string, () => {
         show_pause_button()
@@ -53,11 +61,19 @@ const init = (autostart = false): Container => {
         show_play_button()
     }
 
-    forward_button = new IconButton(Configuration.get_property_value("controls_icon_forward") as string, () => {
-        const old_speed = get_speed_multiplier()
-        set_speed_multiplier(old_speed * 2)
-        current_speed.set_content(get_speed_multiplier().toString(10) + "x")
-    })
+    forward_button = new IconButton(
+        Configuration.get_property_value("controls_icon_forward") as string,
+        () => {
+            const old_speed = get_speed_multiplier()
+            set_speed_multiplier(old_speed * 2)
+
+            const speed = get_speed_multiplier()
+            // if (speed === Configuration.get_property_value("speed_multiplier_max") as number) {
+            //     forward_button.disable()
+            // }
+            current_speed.set_content(speed.toString(10) + "x")
+        }
+    )
 
     current_speed = new Component("p", "Speed")
         .set_content(get_speed_multiplier().toString(10) + "x")
