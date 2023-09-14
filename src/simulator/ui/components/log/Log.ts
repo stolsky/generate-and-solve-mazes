@@ -10,6 +10,8 @@ const update = (message: string): void => {
     const new_message = new Component("p", "Message")
     new_message.set_content(message)
     text_output.append_child(new_message)
+    const elem = text_output.get_html_element()
+    elem.scrollTop = elem.scrollHeight
 }
 
 const init = (): Container => {

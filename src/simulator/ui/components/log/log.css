@@ -2,7 +2,7 @@
 }
 
 .Log .Text {
-    overflow: scroll;
+    overflow: auto;
     height: 20vh;
     background-color: #EEEEEE;
     padding-inline: 0.5rem;
@@ -11,5 +11,5 @@
 
 .Log .Text .Message {
     margin: 0;
-    padding-block: 0.5rem;
+    padding-block: 0.2rem;
 }
