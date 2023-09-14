@@ -50,6 +50,7 @@ class GeneratorsState implements State {
 
         // check which generator is to be used
         this.generator = new GrowingTree(new Grid(width, height))
+        // this.generator = new EmptyMaze(new Grid(width, height))
         
         // TODO refactor to method
         this.seed = Math.floor(random(0, Date.now())).toString(10)
