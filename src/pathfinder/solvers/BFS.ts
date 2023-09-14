@@ -23,7 +23,6 @@ class BFS extends Solver {
     }
 
     override perform_step(): void {
-        super.perform_step()
 
         if (this.is_finished()) {
             return
@@ -42,7 +41,7 @@ class BFS extends Solver {
         this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
             neighbour.sub_type = SubType.SEARCH
             neighbour.predecessor = current_cell
-            this.queue.add(neighbour)
+            this.queue.add_unique(neighbour)
             this.updates.add(neighbour)
         })
 
@@ -51,7 +50,7 @@ class BFS extends Solver {
     override set_start_position(position: IPosition): Cell | undefined {
         const start_cell = super.set_start_position(position)
         if (start_cell !== undefined) {
-            this.queue.add(start_cell)
+            this.queue.add_unique(start_cell)
         }
         return start_cell
     }

@@ -49,7 +49,6 @@ class AStar extends Solver {
     }
 
     override perform_step(): void {
-        super.perform_step()
 
         if (this.is_finished()) {
             return
@@ -64,7 +63,7 @@ class AStar extends Solver {
         }
 
         current_cell.sub_type = SubType.EXPANDED
-        this.closed_set.add(current_cell)
+        this.closed_set.add_unique(current_cell)
         this.updates.add(current_cell)
 
         this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
@@ -76,7 +75,7 @@ class AStar extends Solver {
                 neighbour.g = tentative_g_score
                 neighbour.f = tentative_g_score + this.heuristic(neighbour)
                 neighbour.sub_type = SubType.SEARCH
-                this.open_set.add(neighbour)
+                this.open_set.add_unique(neighbour)
                 this.updates.add(neighbour)
             }
 
@@ -86,7 +85,7 @@ class AStar extends Solver {
     override set_start_position(position: IPosition): Cell | undefined {
         const start_cell = super.set_start_position(position)
         if (start_cell !== undefined) {
-            this.open_set.add(start_cell)
+            this.open_set.add_unique(start_cell)
             start_cell.g = 0
         }
         return start_cell

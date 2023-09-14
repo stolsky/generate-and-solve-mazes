@@ -23,7 +23,6 @@ class Dijkstra extends Solver {
     }
 
     override perform_step(): void {
-        super.perform_step()
 
         if (this.is_finished()) {
             return
@@ -43,17 +42,16 @@ class Dijkstra extends Solver {
             neighbour.f = current_cell.f + Solver.WEIGHT_OF_EDGE
             neighbour.sub_type = SubType.SEARCH
             neighbour.predecessor = current_cell
-            this.store.add(neighbour)
+            this.store.add_unique(neighbour)
             this.updates.add(neighbour)
         })
-
     }
 
     override set_start_position(position: IPosition): Cell | undefined {
         const start_cell = super.set_start_position(position)
         if (start_cell !== undefined) {
             start_cell.f = 0
-            this.store.add(start_cell)
+            this.store.add_unique(start_cell)
         }
         return start_cell
     }

@@ -23,7 +23,6 @@ class DFS extends Solver {
     }
 
     override perform_step(): void {
-        super.perform_step()
 
         if (this.is_finished()) {
             return
@@ -42,7 +41,7 @@ class DFS extends Solver {
         this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
             neighbour.sub_type = SubType.SEARCH
             neighbour.predecessor = current_cell
-            this.stack.add(neighbour)
+            this.stack.add_unique(neighbour)
             this.updates.add(neighbour)
         })
 
@@ -51,7 +50,7 @@ class DFS extends Solver {
     override set_start_position(position: IPosition): Cell | undefined {
         const start_cell = super.set_start_position(position)
         if (start_cell !== undefined) {
-            this.stack.add(start_cell)
+            this.stack.add_unique(start_cell)
         }
         return start_cell
     }
