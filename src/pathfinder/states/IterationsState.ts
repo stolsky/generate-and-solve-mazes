@@ -1,3 +1,4 @@
+import { publish } from "../../simulator/Broker"
 import {
     pop as pop_state,
     push as push_state,
@@ -15,7 +16,6 @@ class IterationsState implements State {
     constructor() {
         this.current_iteration = 0
         this.max_iterations = Configuration.get_property_value("iterations") as number
-        // TODO show 
     }
 
     enter(): void {
@@ -28,13 +28,15 @@ class IterationsState implements State {
 
     render(): void {
         // console.log("render iteration state")
-        // TODO output current iteration to info box only if current iteration changes
 
     }
 
     update(): void {
         if (this.current_iteration < this.max_iterations) {
-            // TODO log or show number current iter and max iter in UI
+            publish(
+                "Log",
+                `Processing iteration ${this.current_iteration + 1} of ${this.max_iterations}`
+            )
             push_state(new GeneratorsState())
         } else {
             pop_state()
