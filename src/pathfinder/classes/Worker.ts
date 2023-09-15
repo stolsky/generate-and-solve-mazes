@@ -15,7 +15,7 @@ class Worker {
     protected start_position: IPosition | undefined
     protected goal_position: IPosition | undefined
 
-    private count_expanded_cells: number
+    private _expanded_cells_count: number
 
     static euclidean_distance (start: IPosition, goal: IPosition): number {
         return Math.sqrt((goal.x - start.x) ** 2 + (goal.y - start.y) ** 2)
@@ -28,13 +28,17 @@ class Worker {
     constructor(grid: Grid) {
         this.grid = grid
         this.updates = new Updates()
-        this.count_expanded_cells = 0
+        this._expanded_cells_count = 0
     }
 
     protected update_as_expanded (cell: Cell): void {
-        this.count_expanded_cells = this.count_expanded_cells + 1
+        this._expanded_cells_count = this._expanded_cells_count + 1
         cell.sub_type = SubType.EXPANDED
         this.updates.add(cell)
+    }
+
+    get expanded_cells_count (): number {
+        return this._expanded_cells_count
     }
 
     // TODO make static and make use of "from" and "to"
