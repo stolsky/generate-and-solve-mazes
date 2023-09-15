@@ -5,6 +5,11 @@
         "type": "number"
     },
     {
+        "key": "generator_id",
+        "value": 1,
+        "type": "number"
+    },
+    {
         "key": "grid_cell_size",
         "value": 10,
         "type": "number"

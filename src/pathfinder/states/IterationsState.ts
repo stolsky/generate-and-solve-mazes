@@ -36,7 +36,7 @@ class IterationsState implements State {
                 "Log",
                 `Processing iteration ${this.current_iteration + 1} of ${this.max_iterations}`
             )
-            push_state(new GeneratorsState())
+            push_state(new GeneratorsState(Configuration.get_property_value("generator_id") as number))
         } else {
             pop_state()
         }
