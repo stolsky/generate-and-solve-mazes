@@ -94,9 +94,11 @@ class Task {
     }
 
     send_results(runtime: number): void {
-        const short_name = get_solver_info_by_id(this.solver_id)?.short
+        const id = get_solver_info_by_id(this.solver_id)?.id 
         const time_taken = format_time(runtime)
-        publish("Log", `${short_name} finished after ${time_taken} seconds.`)
+        const path_length = this.solver?.path_length ?? 0
+        const expanded_cells = this.solver?.expanded_cells_count ?? 0
+        publish("Results", `${id}/${path_length}/${expanded_cells}/${time_taken}`)
     }
 
 }
