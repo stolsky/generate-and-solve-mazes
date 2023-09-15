@@ -19,7 +19,7 @@ class EmptyMaze extends Generator {
                 if (cell!== undefined) {
                     cell.type = MainType.FLOOR
                     const grid = this.get_grid()
-                    grid.get_von_neumann_neighbourhood(cell).forEach((neighbour) => {
+                    grid.get_adjacent_neighbours(cell).forEach((neighbour) => {
                         if (neighbour.type === MainType.WALL
                             && neighbour.x > 0 && neighbour.x < grid.width - 1
                             && neighbour.y > 0 && neighbour.y < grid.height - 1

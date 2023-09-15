@@ -90,7 +90,12 @@ class Grid {
         )
     }
 
-    get_von_neumann_neighbourhood (cell: Cell): Cell[] {
+
+    /** This algorithm finds all direct neighbors of a cell, i.e. all neighbors that have a boundary to this cell.
+     * 
+     * In a rectangular grid it is called Von Neumann neighbourhood.
+     */
+    get_adjacent_neighbours (cell: Cell): Cell[] {
         return this.get_neighbourhood_from_directions(
             Grid.calculate_von_neumann_directions(cell.x, cell.y)
         )

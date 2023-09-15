@@ -18,7 +18,7 @@ class Dijkstra extends Solver {
     override perform_step(): void {
         const current_cell = this.get_next_cell(0)
         if (current_cell !== undefined) {
-            this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
+            this.get_adjacent_neighbours(current_cell).forEach((neighbour) => {
                 neighbour.f = current_cell.f + Solver.WEIGHT_OF_EDGE
                 neighbour.sub_type = SubType.SEARCH
                 neighbour.predecessor = current_cell

@@ -18,29 +18,24 @@ class Solver extends Worker {
     /** Calculates a Von-Neumann neighbourhood including all cells
      * that are floor tiles and not expanded.
      */
-    protected get_von_neumann_neighbourhood (cell: Cell): Cell[] {
+    protected get_adjacent_neighbours (cell: Cell): Cell[] {
         return this.get_grid()
-            .get_von_neumann_neighbourhood(cell)
+            .get_adjacent_neighbours(cell)
             .filter((neighbour) => neighbour.type !== MainType.WALL
                 && neighbour.sub_type !== SubType.EXPANDED)
     }
 
     protected get_next_cell (index: number): Cell | undefined {
-
         if (this.is_finished()) {
             return undefined
         }
-
-        // open_set is a sorted cell store, which is sorted from lowest to highest
         const current_cell = this.store.remove(index) as Cell
         if (current_cell.type === MainType.GOAL) {
             this.store.clear()
             this.construct_path(current_cell)
             return undefined
         }
-
         this.update_as_expanded(current_cell)
-
         return current_cell
     }
 
