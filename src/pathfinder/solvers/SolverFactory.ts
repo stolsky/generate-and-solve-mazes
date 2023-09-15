@@ -1,5 +1,6 @@
 import AStar from "./AStar"
 import BFS from "./BFS"
+import CellStore from "../classes/CellStore"
 import DFS from "./DFS"
 import Dijkstra from "./Dijkstra"
 import Grid from "../classes/Grid"
@@ -32,7 +33,7 @@ const create_solver = (id: number, grid: Grid): Solver => {
     if (id === SolverInfo.Dijkstra.id) {
         return new Dijkstra(grid)
     }
-    return new Solver(new Grid(0, 0))
+    return new Solver(new Grid(0, 0), new CellStore())
 }
 
 const get_solver_info_by_id = (id: number): SolverInfoType =>
