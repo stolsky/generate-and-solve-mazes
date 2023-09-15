@@ -16,6 +16,11 @@ class Container extends Component {
         return this
     }
 
+    scroll_to_bottom (): void {
+        const elem = this.get_html_element()
+        elem.scrollTop = elem.scrollHeight
+    }
+
 }
 
 export default Container
