@@ -28,9 +28,9 @@ class Grid {
         { x: x - 2, y}   // west
     ]
 
-    private _width: number = 0
-    private _height: number = 0
-    private grid: Cell[][]
+    private readonly _width: number
+    private readonly _height: number
+    private cells: Cell[]
 
     private is_inside (x: number, y: number): boolean {
         return x > -1 && x < this.width && y > -1 && y < this.height
@@ -47,47 +47,39 @@ class Grid {
         return neighbours
     }
 
+    private hash_index (x: number, y: number): number {
+        return x * this.height + y
+    }
+
     constructor(width: number, height: number) {
-        this.width = width;
-        this.height = height;
-        this.grid = []
+        this._width = width;
+        this._height = height;
+        this.cells = []
     }
 
     get height(): number {
         return this._height
     }
 
-    set height(height: number) {
-        if (height > 0 && Number.isInteger(height)) {
-            this._height = height
-        }
-    }
-
     get width(): number {
         return this._width
-    }
-
-    set width(width: number) {
-        if (width > 0 && Number.isInteger(width)) {
-            this._width = width
-        }
     }
 
     clean_copy(): Grid {
         const copy = new Grid(this.width, this.height)
         for (let x = 0; x < this.width; x = x + 1) {
-            copy.grid[x] = [];
             for (let y = 0; y < this.height; y = y + 1) {
-                const old_cell = this.grid[x][y]
-                copy.grid[x][y] = new Cell(x, y, old_cell.type)
+                const index = this.hash_index(x, y)
+                const old_cell = this.cells[index]
+                copy.cells[index] = new Cell(x, y, old_cell.type)
             }
         }
         return copy
     }
-    
+
     get_cell(x: number, y: number): Cell | undefined {
         if (this.is_inside(x, y)) {
-            return this.grid[x][y]
+            return this.cells[this.hash_index(x, y)]
         }
         return undefined
     }
@@ -106,18 +98,15 @@ class Grid {
 
     init(type: number): void {
         for (let x = 0; x < this.width; x = x + 1) {
-            this.grid[x] = [];
             for (let y = 0; y < this.height; y = y + 1) {
-                this.grid[x][y] = new Cell(x, y, type)
+                this.cells[this.hash_index(x, y)] = new Cell(x, y, type)
             }
         }
     }
 
     each(callback: (cell: Cell) => void): void {
-        this.grid.forEach((row) => {
-            row.forEach((cell) => {
-                callback(cell)
-            })
+        this.cells.forEach((cell) => {
+            callback(cell)
         })
     }
 
