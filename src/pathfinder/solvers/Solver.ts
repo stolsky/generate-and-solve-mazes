@@ -9,10 +9,12 @@ class Solver extends Worker {
     protected static WEIGHT_OF_EDGE = 1
 
     protected readonly store: CellStore
+    private _path_length: number
 
     constructor(grid: Grid, store: CellStore) {
         super(grid)
         this.store = store
+        this._path_length = 0
     }
 
     /** Calculates a Von-Neumann neighbourhood including all cells
@@ -49,10 +51,15 @@ class Solver extends Worker {
             this.updates.add(previous_cell)
             temp = previous_cell
         }
+        this._path_length = this.updates.get_all().length
     }
 
     override is_finished(): boolean {
         return this.store.get_size() === 0
+    }
+
+    get path_length (): number {
+        return this._path_length
     }
 
 }
