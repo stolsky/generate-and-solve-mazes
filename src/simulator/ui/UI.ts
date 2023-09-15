@@ -18,7 +18,7 @@ const init = (
 ): void => {
     const layout = new Container("Layout").append(
         init_content(content_options),
-        new Container("Results").append(
+        new Container("Information").append(
             init_table(table_options),
             init_log(),
             init_legend(legend_options)

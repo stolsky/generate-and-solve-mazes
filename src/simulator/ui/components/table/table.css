@@ -1,0 +1,9 @@
+.Results {
+
+    .Table {
+        
+        td:not(:first-child) {
+            text-align: center;
+        }
+    }
+}

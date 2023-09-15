@@ -14,8 +14,6 @@ interface TableOptions {
     rows: Identifier[]
 }
 
-let content: Container
-
 const update = (message: string): void => {
 
     // reorder if necessary
@@ -53,21 +51,19 @@ const create_body = (items: Identifier[], width: number): Container => {
 }
 
 const init = (table_options: TableOptions): Container => {
-    subscribe("Result", update)
-
-    content = new Container("Table")
-
-    content.append(
-        create_header(table_options.columns),
-        create_body(
-            table_options.rows,
-            table_options.columns.length
-        )
-    )
-
-    return new Container("Table").append(
-        new Component("Title", "h3").set_content("Results"),
-        content
+    subscribe("Results", update)
+    return new Container("Results")
+        .append(
+            new Component("Title", "h3")
+                .set_content("Results"),
+            new Container("Table")
+                .append(
+                create_header(table_options.columns),
+                create_body(
+                    table_options.rows,
+                    table_options.columns.length
+                )
+            )
     )
 }
 

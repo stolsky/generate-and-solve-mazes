@@ -9,7 +9,7 @@ body {
 .Layout {
     display: grid;
     grid-template-areas:
-        "content results"
+        "content information"
         "content controls";
     grid-template-columns: 80% 20%;
     grid-template-rows: 90% 10%;
@@ -29,21 +29,25 @@ body {
     gap: var(--gap);
 }
 
-.Layout > .Results {
-    grid-area: results;
+.Layout > .Information {
+    grid-area: information;
     padding-inline: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-.Layout > .Results > div {
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #000000;
-}
-.Layout > .Results > div:last-child {
-    border: none;
-}
-.Layout > .Results h3 {
-    margin: 0;
-    padding-block: 1rem;
+
+    > div {
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #000000;
+
+        h3 {
+            margin: 0;
+            padding-block: 1rem;
+        }
+    }
+
+    > div:last-child {
+        border: none;
+    }
+
 }
