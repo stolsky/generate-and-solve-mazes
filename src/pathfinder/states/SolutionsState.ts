@@ -13,7 +13,6 @@ import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import { MainType } from "../classes/CellTypes"
-import { publish } from "../../simulator/Broker"
 import Solver from "../solvers/Solver"
 
 const validate_position = (position: IPosition, grid: Grid): IPosition => {
@@ -110,7 +109,6 @@ class SolutionsState implements State {
         this.runtime = this.runtime + delta_time
         if (this.is_finished) {
             if (this.runtime - this.finished_timestamp > this.delay_after_finished) {
-                publish("Log", "%SEPERATOR%")
                 pop_state()
             }
         } else {
