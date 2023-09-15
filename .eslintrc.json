@@ -21,6 +21,10 @@
               "selector": "variable",
               "format": [ "PascalCase", "snake_case", "UPPER_CASE"]
             }
+        ],
+        "max-depth": [
+            "error",
+            { "max": 3 }
         ]
     }
 }
