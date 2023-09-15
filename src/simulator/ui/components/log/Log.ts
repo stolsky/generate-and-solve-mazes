@@ -9,9 +9,9 @@ let text_output: Container
 const update = (message: string): void => {
     let text_message
     if (message === "%SEPERATOR%") {
-        text_message = new Component("p", "Seperator")
+        text_message = new Component("Seperator")
     } else {
-        text_message = new Component("p", "Message")
+        text_message = new Component("Message")
         text_message.set_content(message)
     }
     
@@ -27,7 +27,7 @@ const init = (): Container => {
     subscribe("Log", update)
 
     return new Container("Log").append(
-        new Component("h3", "Title").set_content("Log"),
+        new Component("Title", "h3").set_content("Log"),
         text_output
     )
 }

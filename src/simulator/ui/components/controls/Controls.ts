@@ -75,9 +75,9 @@ const init = (autostart = false): Container => {
         }
     )
 
-    current_speed = new Component("p", "Speed")
+    current_speed = new Component("Speed")
         .set_content(get_speed_multiplier().toString(10) + "x")
-    current_runtime = new Component("p", "Runtime")
+    current_runtime = new Component("Runtime")
         .set_content("00:00.00")
 
     return new Container("Controls").append(

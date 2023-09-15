@@ -8,15 +8,15 @@ interface LegendOptions {
 }
 
 const create_item = (color: string, label: string): Container => new Container("Item").append(
-    new Component("span", "Tile").set_background_color(color), 
-    new Component("span", "Label").set_content(label)
+    new Component("Tile").set_background_color(color), 
+    new Component("Label").set_content(label)
 )
 
 const init = (options: LegendOptions): Container => {
     const items = new Container("Items")
     options.colors.forEach((color) => items.append_child(create_item(color.color, color.label)))
     return new Container("Legend").append(
-        new Component("h3", "Title").set_content("Legend"),
+        new Component("Title", "h3").set_content("Legend"),
         items
     )
 }

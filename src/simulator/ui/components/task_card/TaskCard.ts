@@ -11,7 +11,7 @@ class TaskCard extends Container {
     private readonly position: Component
 
     private create_canvas(width: number, height: number): Component {
-        const canvas = new Component("canvas", "Canvas")
+        const canvas = new Component("Canvas", "canvas")
         const element = canvas.get_html_element() as HTMLCanvasElement
         element.width = width
         element.height = height
@@ -20,9 +20,9 @@ class TaskCard extends Container {
 
     constructor(canvas_width: number, canvas_height: number) {
         super("TaskCard")
-        this.title = new Component("h3", "Title")
+        this.title = new Component("Title", "h3")
         this.canvas = this.create_canvas(canvas_width, canvas_height)
-        this.position = new Component("p", "Position")
+        this.position = new Component("Position")
 
         this.append_child(this.title)
             .append_child(this.canvas)

@@ -4,7 +4,7 @@ class Component {
 
     private readonly html_element: HTMLElement
 
-    constructor(tag_name: string, class_name: string) {
+    constructor(class_name: string, tag_name = "span") {
         this.html_element = create(tag_name, class_name)
     }
 

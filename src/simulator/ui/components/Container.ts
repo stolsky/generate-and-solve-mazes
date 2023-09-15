@@ -2,8 +2,8 @@ import Component from "./Component"
 
 class Container extends Component {
 
-    constructor(class_name: string) {
-        super("div", class_name)
+    constructor(class_name: string, tag_name = "div") {
+        super(class_name, tag_name)
     }
 
     append(...children: Array<Component | Container>): this {
