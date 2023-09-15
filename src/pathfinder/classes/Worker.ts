@@ -17,6 +17,10 @@ class Worker {
 
     private count_expanded_cells: number
 
+    static euclidean_distance (start: IPosition, goal: IPosition): number {
+        return Math.sqrt((goal.x - start.x) ** 2 + (goal.y - start.y) ** 2)
+    }
+    
     static manhatten_distance (start: IPosition, goal: IPosition): number {
         return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y)
     }
