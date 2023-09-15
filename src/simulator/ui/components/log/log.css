@@ -5,16 +5,9 @@
     overflow: auto;
     height: 20vh;
     background-color: #EEEEEE;
-    padding-inline: 0.5rem;
+    padding: 0.2rem 0.4rem;
     font-size: 0.8rem;
-
-    .Message {
-        margin: 0;
-        padding-block: 0.2rem;
-    }
-
-    .Seperator {
-        border-top: 1px solid #888888;
-        margin-block: 0.2rem;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
