@@ -1,7 +1,10 @@
+import {
+    MainType,
+    SubType
+} from "./CellTypes"
 import type Cell from "./Cell"
 import type Grid from "./Grid"
 import type IPosition from "./IPosition"
-import { MainType, SubType } from "./CellTypes"
 import random from "../random/random"
 import Updates from "./Updates"
 
@@ -32,8 +35,8 @@ class Worker {
 
     // TODO make static and make use of "from" and "to"
     find_random_position(from?: number, to?: number): IPosition {
-        const x = Math.floor(random(1, this.grid.width - 2))
-        const y = Math.floor(random(1, this.grid.height - 2))
+        const x = Math.floor(random(1, this.get_grid().width - 2))
+        const y = Math.floor(random(1, this.get_grid().height - 2))
         return { x, y }
     }
 
