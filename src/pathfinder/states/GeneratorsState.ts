@@ -7,14 +7,15 @@ import {
     push as push_state,
     type State
 } from "../../simulator/classes/StateStack"
-import random, { set_seed } from "../random/random"
+import random,
+    { set_seed } from "../random/random"
 import type Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
+import create_generator from "../generators/GeneratorFactory"
 import { format_time } from "../../simulator/ui/components/utilities"
 import type Generator from "../generators/Generator"
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import Grid from "../classes/Grid"
-import GrowingTree from "../generators/GrowingTree"
 import { publish } from "../../simulator/Broker"
 import SolutionsState from "./SolutionsState"
 
@@ -40,7 +41,7 @@ class GeneratorsState implements State {
         return updates
     }
 
-    constructor() {
+    constructor(generator_id: number) {
         const width = Configuration.get_property_value("grid_width") as number
         const height = Configuration.get_property_value("grid_height") as number
         this.cell_size = Configuration.get_property_value("grid_cell_size") as number
@@ -48,9 +49,7 @@ class GeneratorsState implements State {
 
         get_all_tasks().forEach((task) => { task.reset() })
 
-        // check which generator is to be used
-        this.generator = new GrowingTree(new Grid(width, height))
-        // this.generator = new EmptyMaze(new Grid(width, height))
+        this.generator = create_generator(generator_id, new Grid(width, height))
         
         // TODO refactor to method
         this.seed = Math.floor(random(0, Date.now())).toString(10)

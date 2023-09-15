@@ -59,11 +59,9 @@ class SolutionsState implements State {
         const { start, goal } = find_initial_positions(grid)
         get_all_tasks().forEach((task) => {
             const solver = create_solver(task.get_solver_id(), grid.clean_copy())
-            if (solver !== undefined) {
-                solver.set_start_position(start)
-                solver.set_goal_position(goal)
-                task.solver = solver
-            }
+            solver.set_start_position(start)
+            solver.set_goal_position(goal)
+            task.solver = solver
         })
         this.runtime = 0
         this.cell_size = Configuration.get_property_value("grid_cell_size") as number

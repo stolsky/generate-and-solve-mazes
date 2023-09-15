@@ -2,8 +2,8 @@ import AStar from "./AStar"
 import BFS from "./BFS"
 import DFS from "./DFS"
 import Dijkstra from "./Dijkstra"
-import type Grid from "../classes/Grid"
-import type Solver from "./Solver"
+import Grid from "../classes/Grid"
+import Solver from "./Solver"
 
 interface SolverInfoType {
     id: number,
@@ -17,9 +17,9 @@ const SolverInfo = {
     Dijkstra: { id: 3, full: "Dijkstra's algorithm", short: "Dijkstra"},
     AStar: { id: 4, full: "A* search", short: "A*"}
 } as const
-const NoSolver = { id: -1, full: "Requested algorithm not existing", short: "Error" }
+const NoSolverInfo = { id: -1, full: "Requested solver information not found", short: "Error" }
 
-const create_solver = (id: number, grid: Grid): Solver | undefined => {
+const create_solver = (id: number, grid: Grid): Solver => {
     if (id === SolverInfo.AStar.id) {
         return new AStar(grid)
     }
@@ -32,11 +32,11 @@ const create_solver = (id: number, grid: Grid): Solver | undefined => {
     if (id === SolverInfo.Dijkstra.id) {
         return new Dijkstra(grid)
     }
-    return undefined
+    return new Solver(new Grid(0, 0))
 }
 
 const get_solver_info_by_id = (id: number): SolverInfoType =>
-    Object.values(SolverInfo).find((solver) => solver.id === id) ?? NoSolver
+    Object.values(SolverInfo).find((solver) => solver.id === id) ?? NoSolverInfo
 
 export default create_solver
 export {
