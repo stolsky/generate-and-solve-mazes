@@ -1,9 +1,9 @@
-import { MainType, SubType } from "../classes/CellTypes"
 import type Cell from "../classes/Cell"
 import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Solver from "./Solver"
 import SortedCellStore from "../classes/SortedCellStore"
+import { SubType } from "../classes/CellTypes"
 
 /** Implementation of the Dijkstra algorithm
  * 
@@ -11,39 +11,21 @@ import SortedCellStore from "../classes/SortedCellStore"
  */
 class Dijkstra extends Solver {
 
-    private readonly store: SortedCellStore
-
     constructor(grid: Grid) {
-        super(grid)
-        this.store = new SortedCellStore()
-    }
-
-    override is_finished(): boolean {
-        return this.store.get_size() === 0
+        super(grid, new SortedCellStore())
     }
 
     override perform_step(): void {
-
-        if (this.is_finished()) {
-            return
+        const current_cell = this.get_next_cell(0)
+        if (current_cell !== undefined) {
+            this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
+                neighbour.f = current_cell.f + Solver.WEIGHT_OF_EDGE
+                neighbour.sub_type = SubType.SEARCH
+                neighbour.predecessor = current_cell
+                this.store.add_unique(neighbour)
+                this.updates.add(neighbour)
+            })
         }
-
-        const current_cell = this.store.remove(0) as Cell
-        if (current_cell.type === MainType.GOAL) {
-            this.store.clear()
-            this.construct_path(current_cell)
-            return
-        }
-        
-        this.update_as_expanded(current_cell)
-
-        this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
-            neighbour.f = current_cell.f + Solver.WEIGHT_OF_EDGE
-            neighbour.sub_type = SubType.SEARCH
-            neighbour.predecessor = current_cell
-            this.store.add_unique(neighbour)
-            this.updates.add(neighbour)
-        })
     }
 
     override set_start_position(position: IPosition): Cell | undefined {

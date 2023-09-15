@@ -1,9 +1,9 @@
-import { MainType, SubType } from "../classes/CellTypes"
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Solver from "./Solver"
+import { SubType } from "../classes/CellTypes"
 
 /** Implementation of the Depth-first search algorithm
  * 
@@ -11,45 +11,27 @@ import Solver from "./Solver"
  */
 class DFS extends Solver {
 
-    private readonly stack: CellStore
-
     constructor(grid: Grid) {
-        super(grid)
-        this.stack = new CellStore()
-    }
-
-    override is_finished(): boolean {
-        return this.stack.get_size() === 0
+        // behaves as a stack
+        super(grid, new CellStore())
     }
 
     override perform_step(): void {
-
-        if (this.is_finished()) {
-            return
+        const current_cell = this.get_next_cell(-1)
+        if (current_cell !== undefined) {
+            this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
+                neighbour.sub_type = SubType.SEARCH
+                neighbour.predecessor = current_cell
+                this.store.add_unique(neighbour)
+                this.updates.add(neighbour)
+            })
         }
-
-        const current_cell = this.stack.remove(-1) as Cell
-        if (current_cell.type === MainType.GOAL) {
-            this.stack.clear()
-            this.construct_path(current_cell)
-            return
-        }
-        
-        this.update_as_expanded(current_cell)
-
-        this.get_von_neumann_neighbourhood(current_cell).forEach((neighbour) => {
-            neighbour.sub_type = SubType.SEARCH
-            neighbour.predecessor = current_cell
-            this.stack.add_unique(neighbour)
-            this.updates.add(neighbour)
-        })
-
     }
 
     override set_start_position(position: IPosition): Cell | undefined {
         const start_cell = super.set_start_position(position)
         if (start_cell !== undefined) {
-            this.stack.add_unique(start_cell)
+            this.store.add_unique(start_cell)
         }
         return start_cell
     }
