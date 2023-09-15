@@ -7,9 +7,14 @@
     background-color: #EEEEEE;
     padding-inline: 0.5rem;
     font-size: 0.8rem;
-}
 
-.Log .Text .Message {
-    margin: 0;
-    padding-block: 0.2rem;
+    .Message {
+        margin: 0;
+        padding-block: 0.2rem;
+    }
+
+    .Seperator {
+        border-top: 1px solid #888888;
+        margin-block: 0.2rem;
+    }
 }
