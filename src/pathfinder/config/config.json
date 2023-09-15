@@ -1,5 +1,10 @@
 [
     {
+        "key": "delay_after_finished",
+        "value": 5000,
+        "type": "number"
+    },
+    {
         "key": "grid_cell_size",
         "value": 10,
         "type": "number"
