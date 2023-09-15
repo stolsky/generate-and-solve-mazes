@@ -2,7 +2,7 @@ import Component from "./Component"
 
 class Container extends Component {
 
-    constructor(class_name: string, tag_name = "div") {
+    constructor(class_name = "", tag_name = "div") {
         super(class_name, tag_name)
     }
 
