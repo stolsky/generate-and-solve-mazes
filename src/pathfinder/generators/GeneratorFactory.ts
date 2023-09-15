@@ -10,6 +10,11 @@ interface GeneratorInfoType {
     short: string
 }
 
+// TODO add Prim's Algorithm
+// @see: https://en.wikipedia.org/wiki/Prim%27s_algorithm 
+// @see: https://en.wikipedia.org/wiki/Maze_generation_algorithm
+// @see: https://weblog.jamisbuck.org/under-the-hood/
+
 const GeneratorInfo = {
     EmptyMaze: { id: 1, full: "", short: "Empty"},
     GrowingTree: { id: 2, full: "", short: "GrowingTree"},

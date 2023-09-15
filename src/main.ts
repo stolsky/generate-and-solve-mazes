@@ -82,7 +82,10 @@ init_ui(
                 id: SolverInfo.AStar.id,
                 label: SolverInfo.AStar.short
             }
-        ]
+        ],
+        criteria: {
+            id: 3
+        }
     },
     {
         colors

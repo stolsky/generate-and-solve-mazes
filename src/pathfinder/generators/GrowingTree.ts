@@ -9,6 +9,10 @@ import Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import { shuffle } from "../utilities"
 
+/** Implementation of the Growing Tree algorithm to generate mazes.
+ * 
+ * Resource: https://weblog.jamisbuck.org/2011/1/27/maze-generation-growing-tree-algorithm.html
+ */
 class GrowingTree extends Generator {
 
     private readonly store: CellStore
