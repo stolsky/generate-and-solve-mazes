@@ -1,8 +1,7 @@
 import EmptyMaze from "./EmptyMaze"
 import Generator from "./Generator"
-import Grid from "../classes/Grid"
+import type Grid from "../classes/Grid"
 import GrowingTree from "./GrowingTree"
-
 
 interface GeneratorInfoType {
     id: number,
@@ -29,7 +28,7 @@ const create_generator = (id: number, grid: Grid): Generator => {
         return new GrowingTree(grid)
     }
     // return empty generator if nothing found
-    return new Generator(new Grid(0, 0))
+    return new Generator()
 }
 
 const get_generator_info_by_id = (id: number): GeneratorInfoType =>

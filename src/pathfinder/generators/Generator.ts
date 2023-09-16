@@ -3,8 +3,8 @@ import {
     SubType
 } from "../classes/CellTypes"
 import type Cell from "../classes/Cell"
-import type CellStore from "../classes/CellStore"
-import type Grid from "../classes/Grid"
+import CellStore from "../classes/CellStore"
+import Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Worker from "../classes/Worker"
 
@@ -36,10 +36,16 @@ class Generator extends Worker {
         }
     }
 
-    constructor (grid: Grid, initial_type: MainType, store: CellStore) {
-        super(grid)
-        this.get_grid().init(initial_type)
-        this.store = store
+    /** Creates a generator.
+     * 
+     * @param grid the grid to operate on. if not set then a grid with size 0 will be used as default
+     * @param initial_type the type of cell used to fill the grid with. if not set the grid will be filled with the NONE type
+     * @param store stores all the expanded and to be searched cells. if not set, it is initialized with the CellStore
+     */
+    constructor (grid?: Grid, initial_type?: MainType, store?: CellStore) {
+        super(grid ?? new Grid(0, 0))
+        this.get_grid().init(initial_type ?? MainType.NONE)
+        this.store = store ?? new CellStore()
     }
 
     protected carve_passage(

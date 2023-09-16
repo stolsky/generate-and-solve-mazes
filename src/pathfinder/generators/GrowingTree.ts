@@ -3,7 +3,6 @@ import {
     SubType
 } from "../classes/CellTypes"
 import type Cell from "../classes/Cell"
-import CellStore from "../classes/CellStore"
 import Generator from "./Generator"
 import Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
@@ -99,7 +98,7 @@ class GrowingTree extends Generator {
     }
 
     constructor(grid: Grid) {
-        super(grid, MainType.WALL, new CellStore)
+        super(grid, MainType.WALL)
     }
 
     override is_finished(): boolean {

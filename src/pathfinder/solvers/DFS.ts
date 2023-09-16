@@ -1,5 +1,3 @@
-import CellStore from "../classes/CellStore"
-import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Solver from "./Solver"
 
@@ -9,12 +7,8 @@ import Solver from "./Solver"
  */
 class DFS extends Solver {
 
-    constructor(grid: Grid) {
-        // behaves as a stack
-        super(grid, new CellStore())
-    }
-
     override perform_step(): void {
+        // behaves as a stack
         const current_cell = this.get_next_cell(-1)
         if (current_cell === undefined) {
             return

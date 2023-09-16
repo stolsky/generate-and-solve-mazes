@@ -1,7 +1,7 @@
 import { MainType, SubType } from "../classes/CellTypes"
 import type Cell from "../classes/Cell"
-import type CellStore from "../classes/CellStore"
-import type Grid from "../classes/Grid"
+import CellStore from "../classes/CellStore"
+import Grid from "../classes/Grid"
 import Worker from "../classes/Worker"
 
 class Solver extends Worker {
@@ -11,9 +11,9 @@ class Solver extends Worker {
     protected readonly store: CellStore
     private _path_length: number
 
-    constructor(grid: Grid, store: CellStore) {
-        super(grid)
-        this.store = store
+    constructor(grid?: Grid, store?: CellStore) {
+        super(grid ?? new Grid(0, 0))
+        this.store = store ?? new CellStore()
         this._path_length = 0
     }
 

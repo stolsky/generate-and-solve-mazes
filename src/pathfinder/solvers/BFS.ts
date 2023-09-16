@@ -1,5 +1,3 @@
-import CellStore from "../classes/CellStore"
-import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Solver from "./Solver"
 
@@ -9,13 +7,9 @@ import Solver from "./Solver"
  */
 class BFS extends Solver {
 
-    constructor(grid: Grid) {
-        // Behaves as a FIFO queue
-        super(grid, new CellStore())
-    }
-
     override perform_step(): void {
 
+        // behaves as a FIFO queue
         const current_cell = this.get_next_cell(0)
         if (current_cell === undefined) {
             return

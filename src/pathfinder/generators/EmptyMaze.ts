@@ -1,16 +1,11 @@
-import CellStore from "../classes/CellStore"
 import Generator from "./Generator"
 import type Grid from "../classes/Grid"
 import { MainType } from "../classes/CellTypes"
 
 class EmptyMaze extends Generator {
 
-    private readonly store: CellStore
-
     constructor(grid: Grid) {
-        super(grid)
-        this.get_grid().init(MainType.WALL)
-        this.store = new CellStore()
+        super(grid, MainType.WALL)
         const start_cell = this.get_grid().get_cell(1, 1)
         if (start_cell !== undefined) {
             this.store.add_unique(start_cell)
