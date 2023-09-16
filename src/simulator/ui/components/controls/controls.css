@@ -1,5 +1,4 @@
-.Layout > .Controls {
-    grid-area: controls;
+.Controls {
     display: flex;
     justify-content: space-evenly;
     align-items: center;

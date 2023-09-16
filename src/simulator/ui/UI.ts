@@ -16,15 +16,17 @@ const init = (
     table_options: TableOptions,
     legend_options: LegendOptions
 ): void => {
-    const layout = new Container("Layout").append(
-        init_content(content_options),
-        new Container("Information").append(
-            init_table(table_options),
-            init_log(),
-            init_legend(legend_options)
-        ),
-        init_controls()
-    )
+    const layout = new Container("Layout")
+        .append(
+            init_content(content_options),
+            new Container("Navigation")
+                .append(
+                    init_table(table_options),
+                    init_log(),
+                    init_legend(legend_options),
+                    init_controls()
+                )
+         )
     document.body.appendChild(layout.get_html_element())
 }
 
