@@ -29,8 +29,8 @@ class Configuration {
         return { ...this.properties[id] }
     }
 
-    get_property_value(id: string): AllowedValue | undefined {
-        return this.properties[id]?.value
+    get_property_value(id: string): AllowedValue {
+        return this.properties[id]?.value satisfies AllowedValue
     }
 
     set_property(key: string, value: AllowedValue): void {
