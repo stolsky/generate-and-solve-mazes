@@ -15,9 +15,8 @@ import { shuffle } from "../utilities"
  */
 class GrowingTree extends Generator {
 
-    private readonly store: CellStore
-
     private add_cell_to_maze(current_cell: Cell, next_cell: Cell): void {
+
         const passage = this.carve_passage(
             current_cell,
             {
@@ -100,9 +99,7 @@ class GrowingTree extends Generator {
     }
 
     constructor(grid: Grid) {
-        super(grid)
-        this.get_grid().init(MainType.WALL)
-        this.store = new CellStore()
+        super(grid, MainType.WALL, new CellStore)
     }
 
     override is_finished(): boolean {
@@ -120,9 +117,9 @@ class GrowingTree extends Generator {
         }
     }
 
-    override set_start_position(position: IPosition): Cell | undefined {
+    set_start_position(position: IPosition): void {
+
         const { x, y } = position
-        
         // by starting at odd coordinates, there will be a wall outside automatically 
         if (x % 2 === 0) {
             position.x = x - 1;
@@ -131,14 +128,10 @@ class GrowingTree extends Generator {
             position.y = y - 1;
         }
         
-        const start_cell = super.set_start_position(position)
-        if (start_cell !== undefined) {
-            start_cell.type = MainType.START
-            // start_cell.sub_type = SubType.EXPANDED
-            start_cell.sub_type = SubType.SEARCH
-            this.store.add_unique(start_cell)
-        }
-        return start_cell
+        super.init_start_cell(
+            super.create_start_cell(position),
+            (cell: Cell) => { cell.g = 0 }
+        )
     }
 
 }
