@@ -1,7 +1,7 @@
 class Ticker {
 
     private request_id: number;
-    private callback: ((dt: number) => void) | null;
+    private callback: ((dt: number) => void) | undefined;
     private last_time: number;
     private is_running: boolean;
 
@@ -24,7 +24,7 @@ class Ticker {
 
     constructor() {
         this.request_id = 0
-        this.callback = null
+        this.callback = undefined
         this.last_time = 0
         this.is_running = false
     }

@@ -34,7 +34,7 @@ class Configuration {
     }
 
     set_property(key: string, value: AllowedValue): void {
-        if (this.is_unlocked && Object.hasOwn(this.properties, key)) {
+        if (this.is_unlocked && key in this.properties) {
             this.properties[key].value = value
         }
     }

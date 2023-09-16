@@ -1,9 +1,7 @@
-import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Solver from "./Solver"
-import { SubType } from "../classes/CellTypes"
 
 /** Implementation of the Depth-first search algorithm
  * 
@@ -18,22 +16,17 @@ class DFS extends Solver {
 
     override perform_step(): void {
         const current_cell = this.get_next_cell(-1)
-        if (current_cell !== undefined) {
-            this.get_adjacent_neighbours(current_cell).forEach((neighbour) => {
-                neighbour.sub_type = SubType.SEARCH
-                neighbour.predecessor = current_cell
-                this.store.add_unique(neighbour)
-                this.updates.add(neighbour)
-            })
+        if (current_cell === undefined) {
+            return
         }
+
+        this.get_adjacent_neighbours(current_cell).forEach((neighbour) => {
+            this.discover_cell_from_source(neighbour, current_cell)
+        })
     }
 
-    override set_start_position(position: IPosition): Cell | undefined {
-        const start_cell = super.set_start_position(position)
-        if (start_cell !== undefined) {
-            this.store.add_unique(start_cell)
-        }
-        return start_cell
+    set_start_position(position: IPosition): void {
+        super.init_start_cell(super.create_start_cell(position))
     }
 
 }

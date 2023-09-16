@@ -17,6 +17,26 @@ class Solver extends Worker {
         this._path_length = 0
     }
 
+    protected construct_path (goal: Cell): void {
+        let temp = goal
+        temp.sub_type = SubType.PATH
+        this.updates.add(temp)
+        while (temp.predecessor !== undefined) {
+            const previous_cell = temp.predecessor
+            previous_cell.sub_type = SubType.PATH
+            this.updates.add(previous_cell)
+            temp = previous_cell
+        }
+        this._path_length = this.updates.get_all().length
+    }
+
+    protected discover_cell_from_source(cell: Cell, source: Cell): void {
+        cell.predecessor = source
+        cell.sub_type = SubType.SEARCH
+        this.store.add_unique(cell)
+        this.updates.add(cell)
+    }
+
     /** Calculates a Von-Neumann neighbourhood including all cells
      * that are floor tiles and not expanded.
      */
@@ -41,21 +61,20 @@ class Solver extends Worker {
         return current_cell
     }
 
-    construct_path (goal: Cell): void {
-        let temp = goal
-        temp.sub_type = SubType.PATH
-        this.updates.add(temp)
-        while (temp.predecessor !== undefined) {
-            const previous_cell = temp.predecessor
-            previous_cell.sub_type = SubType.PATH
-            this.updates.add(previous_cell)
-            temp = previous_cell
-        }
-        this._path_length = this.updates.get_all().length
-    }
-
     override is_finished(): boolean {
         return this.store.get_size() === 0
+    }
+
+    protected init_start_cell(
+        start_cell: Cell,
+        init_cell?: (cell: Cell) => void
+    ): void {
+        if (start_cell !== undefined) {
+            this.store.add_unique(start_cell)
+            if (init_cell instanceof Function) {
+                init_cell(start_cell)
+            }
+        }
     }
 
     get path_length (): number {

@@ -31,7 +31,7 @@ const render = (): void => {
 
 const update = (delta_time: number): void => {
     if (!is_empty()) {
-        states.at(-1)?.update(delta_time)
+        states[states.length - 1].update(delta_time)
     }
 }
 

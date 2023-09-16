@@ -4,7 +4,6 @@ import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import Solver from "./Solver"
 import SortedCellStore from "../classes/SortedCellStore"
-import { SubType } from "../classes/CellTypes"
 
 /** Version of the A* algorithm using 1 as weight for all edges between nodes.
  *
@@ -41,31 +40,32 @@ class AStar extends Solver {
     }
 
     override perform_step(): void {
+
         const current_cell = this.get_next_cell(0)
-        if (current_cell !== undefined) {
-            this.closed_set.add_unique(current_cell)
-            this.get_adjacent_neighbours(current_cell).forEach((neighbour) => {
-                // tentative_g_score is the distance from start to the neighbor through current
-                const tentative_g_score = current_cell.g + Solver.WEIGHT_OF_EDGE
-                if (tentative_g_score < neighbour.g) {
-                    neighbour.predecessor = current_cell
-                    neighbour.g = tentative_g_score
-                    neighbour.f = tentative_g_score + this.heuristic(neighbour)
-                    neighbour.sub_type = SubType.SEARCH
-                    this.store.add_unique(neighbour)
-                    this.updates.add(neighbour)
-                }
-            })
+        if (current_cell === undefined) {
+            return
         }
+
+        this.closed_set.add_unique(current_cell)
+
+        this.get_adjacent_neighbours(current_cell).forEach((neighbour) => {
+            // tentative_g_score is the distance from start to the neighbor through current
+            const tentative_g_score = current_cell.g + Solver.WEIGHT_OF_EDGE
+            if (tentative_g_score < neighbour.g) {
+                
+                neighbour.g = tentative_g_score
+                neighbour.f = tentative_g_score + this.heuristic(neighbour)
+
+                this.discover_cell_from_source(neighbour, current_cell)
+            }
+        })
     }
 
-    override set_start_position(position: IPosition): Cell | undefined {
-        const start_cell = super.set_start_position(position)
-        if (start_cell !== undefined) {
-            this.store.add_unique(start_cell)
-            start_cell.g = 0
-        }
-        return start_cell
+    set_start_position(position: IPosition): void {
+        super.init_start_cell(
+            super.create_start_cell(position),
+            (cell: Cell) => { cell.g = 0 }
+        )
     }
 }
 

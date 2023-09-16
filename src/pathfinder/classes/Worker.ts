@@ -2,7 +2,7 @@ import {
     MainType,
     SubType
 } from "./CellTypes"
-import type Cell from "./Cell"
+import Cell from "./Cell"
 import type Grid from "./Grid"
 import type IPosition from "./IPosition"
 import random from "../random/random"
@@ -65,28 +65,34 @@ class Worker {
     perform_step(): void { /* void */ }
 
     // TODO refactor
-    set_start_position(position: IPosition): Cell | undefined {
+    protected create_start_cell(position: IPosition): Cell {
         const { x, y } = position
         const cell = this.get_grid().get_cell(x, y)
-        if (cell !== undefined) {
-            this.updates.add(cell)
-            // TODO only difference
-            this.start_position = { x, y }
-            cell.type = MainType.START
+        if (cell === undefined) {
+            return new Cell(0, 0, MainType.FLOOR)
         }
+        this.updates.add(cell)
+        // TODO only difference
+        this.start_position = { x, y }
+        cell.type = MainType.START
         return cell
     }
 
     // TODO refactor
-    set_goal_position(position: IPosition): Cell | undefined {
+    protected set_goal_position(position: IPosition): Cell {
         const { x, y } = position
         const cell = this.get_grid().get_cell(x, y)
-        if (cell !== undefined) {
-            this.updates.add(cell)
-            // TODO only difference
-            this.goal_position = { x, y }
-            cell.type = MainType.GOAL
+        if (cell === undefined) {
+            return new Cell(
+                this.get_grid().width,
+                this.get_grid().height,
+                MainType.FLOOR
+            )
         }
+        this.updates.add(cell)
+        // TODO only difference
+        this.goal_position = { x, y }
+        cell.type = MainType.GOAL
         return cell
     }
 }
