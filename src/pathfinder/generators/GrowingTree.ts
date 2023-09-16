@@ -116,7 +116,7 @@ class GrowingTree extends Generator {
         }
     }
 
-    set_start_position(position: IPosition): void {
+    override set_start_position(position: IPosition): void {
 
         const { x, y } = position
         // by starting at odd coordinates, there will be a wall outside automatically 

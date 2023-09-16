@@ -12,8 +12,8 @@ import random,
 import type Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import create_generator from "../generators/GeneratorFactory"
-import { format_time } from "../../simulator/ui/components/utilities"
 import type Generator from "../generators/Generator"
+// TODO refactor to avoid using TaskList from simulator
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import Grid from "../classes/Grid"
 import { publish } from "../../simulator/Broker"
@@ -82,7 +82,7 @@ class GeneratorsState implements State {
         })
         // TODO move the following code -> nothing to do with rendering
         if (this.generator.is_finished()) {
-            publish("Log", `Maze generated in ${format_time(this.runtime)}`)
+            publish("Log", `Maze generated in %t${this.runtime}`)
             const updates = this.reset_generating_variables()
             // TODO refactor
             get_all_tasks().forEach((task) => {

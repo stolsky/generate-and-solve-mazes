@@ -3,6 +3,7 @@ import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import Grid from "../classes/Grid"
 import Worker from "../classes/Worker"
+import IPosition from "../classes/IPosition"
 
 class Solver extends Worker {
 
@@ -76,6 +77,8 @@ class Solver extends Worker {
             }
         }
     }
+
+    set_start_position (position: IPosition): void { /* void */ }
 
     get path_length (): number {
         return this._path_length

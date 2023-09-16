@@ -61,7 +61,7 @@ class AStar extends Solver {
         })
     }
 
-    set_start_position(position: IPosition): void {
+    override set_start_position(position: IPosition): void {
         super.init_start_cell(
             super.create_start_cell(position),
             (cell: Cell) => { cell.g = 0 }

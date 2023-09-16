@@ -103,6 +103,9 @@ class Generator extends Worker {
             }
         }
     }
+
+    // TODO refactor
+    set_start_position(position: IPosition): void { /* void */ }
 }
 
 export default Generator

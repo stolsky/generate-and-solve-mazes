@@ -66,33 +66,35 @@ class Worker {
 
     // TODO refactor
     protected create_start_cell(position: IPosition): Cell {
+        
         const { x, y } = position
-        const cell = this.get_grid().get_cell(x, y)
-        if (cell === undefined) {
-            return new Cell(0, 0, MainType.FLOOR)
-        }
-        this.updates.add(cell)
-        // TODO only difference
+        const cell = this.get_grid().get_cell(x, y) ?? new Cell(
+            1,
+            1,
+            MainType.FLOOR
+        )
+        
         this.start_position = { x, y }
         cell.type = MainType.START
+
+        this.updates.add(cell)
         return cell
     }
 
     // TODO refactor
-    protected set_goal_position(position: IPosition): Cell {
+    create_goal_cell(position: IPosition): Cell {
+
         const { x, y } = position
-        const cell = this.get_grid().get_cell(x, y)
-        if (cell === undefined) {
-            return new Cell(
-                this.get_grid().width,
-                this.get_grid().height,
-                MainType.FLOOR
-            )
-        }
-        this.updates.add(cell)
-        // TODO only difference
+        const cell = this.get_grid().get_cell(x, y) ?? new Cell(
+            this.get_grid().width - 2,
+            this.get_grid().height - 2,
+            MainType.FLOOR
+        )
+
         this.goal_position = { x, y }
         cell.type = MainType.GOAL
+
+        this.updates.add(cell)
         return cell
     }
 }

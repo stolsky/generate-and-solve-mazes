@@ -9,11 +9,13 @@ import {
 import Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
+// TODO refactor to avoid using TaskList from simulator
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import type Grid from "../classes/Grid"
 import type IPosition from "../classes/IPosition"
 import { MainType } from "../classes/CellTypes"
 import Solver from "../solvers/Solver"
+import { publish } from "../../simulator/Broker"
 
 const validate_position = (position: IPosition, grid: Grid): IPosition => {
     let cell = grid.get_cell(position.x, position.y)
@@ -59,7 +61,7 @@ class SolutionsState implements State {
         get_all_tasks().forEach((task) => {
             const solver = create_solver(task.get_solver_id(), grid.clean_copy())
             solver.set_start_position(start)
-            solver.set_goal_position(goal)
+            solver.create_goal_cell(goal)
             task.solver = solver
         })
         this.runtime = 0
@@ -74,7 +76,7 @@ class SolutionsState implements State {
     }
 
     exit(): void {
-        // console.log("exit solution state")
+        publish("IterationEnd")
     }
 
     render(): void {
