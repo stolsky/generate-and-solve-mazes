@@ -9,7 +9,7 @@ import {
 } from "../simulator/ui/components/controls/Controls"
 
 import Ticker from "./Ticker"
-import Value from "../global/Value"
+import type Value from "../global/Value"
 
 class Loop {
 
@@ -22,7 +22,7 @@ class Loop {
     private _speed_multiplier: number
     private readonly ticker: Ticker
 
-    private loop (delta_time: number): void {
+    private readonly loop = (delta_time: number): void => {
 
         if (is_state_stack_empty()) {
             stop()
@@ -55,17 +55,18 @@ class Loop {
         }
     }
     
-    constructor(speed_multiplier: Value, ticker: Ticker) {
+    private constructor(speed_multiplier?: Value, ticker?: Ticker) {
         this._runtime = 0
         this.slow_down_counter = 0
-        this.speed_multiplier_max = speed_multiplier.max
-        this.speed_multiplier_min = speed_multiplier.min
-        this._speed_multiplier = speed_multiplier.std
-        this.ticker = ticker
+        const { max, min, std } = speed_multiplier ?? { max: 1, min: 1, std: 1}
+        this.speed_multiplier_max = max
+        this.speed_multiplier_min = min
+        this._speed_multiplier = std
+        this.ticker = ticker ?? new Ticker()
     }
 
     static getInstance (speed_multiplier?: Value, ticker?: Ticker): Loop {
-        if (Loop.Instance === undefined && speed_multiplier instanceof Value && ticker instanceof Ticker) {
+        if (Loop.Instance === undefined) {
             Loop.Instance = new Loop(speed_multiplier, ticker)
         }
         return Loop.Instance

@@ -3,14 +3,13 @@ import { get_solver_info_by_id } from './pathfinder/solvers/SolverFactory'
 import { get_task_cards } from './simulator/ui/components/content/Content'
 import init_ui from './simulator/ui/UI'
 import IterationsState from './pathfinder/states/IterationState'
+import Loop from './loop/Loop'
 import PathfinderConfig from './pathfinder/config/Configuration'
 import { push as push_state } from './loop/StateStack'
 import SimulatorConfig from "./simulator/config/Configuration"
 import SolverInformation from "./pathfinder/solvers/SolverInformation"
 import Task from "./simulator/tasks/Task"
 import { TypeColors } from './pathfinder/types/TypeColors'
-import Loop from './loop/Loop'
-import Ticker from './loop/Ticker'
 import Value from './global/Value'
 
 // TODO add description/welcome overlay
@@ -46,8 +45,7 @@ Loop.getInstance(
         SimulatorConfig.get_property_value("speed_multiplier_max") as number,
         SimulatorConfig.get_property_value("speed_multiplier_min") as number,
         SimulatorConfig.get_property_value("speed_multiplier_default") as number
-    ),
-    new Ticker()
+    )
 )
 
 init_ui(
