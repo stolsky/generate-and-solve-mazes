@@ -1,0 +1,10 @@
+
+const MAZE_TYPE = {
+    PERFECT: 0,
+    ALLOW_CIRCLES: 1,
+    OBSTACLES_SPARSE: 2,
+    OBSTACLES_MODERATE: 3,
+    OBSTACLES_DENSE: 4
+} as const
+
+export default MAZE_TYPE
