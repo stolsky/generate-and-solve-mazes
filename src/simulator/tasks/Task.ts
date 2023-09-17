@@ -1,11 +1,9 @@
-import {
-    MAIN_TYPE,
-    get_color_by_type
-} from "../../pathfinder/types/CellType"
 import type Cell from "../../pathfinder/classes/Cell"
 import type ContextWrapper from "../ui/components/ContextWrapper"
 import { format_time } from "../ui/components/utilities"
+import { get_color_by_type } from "../../pathfinder/types/TypeColors"
 import { get_solver_info_by_id } from "../../pathfinder/solvers/SolverFactory"
+import { MAIN_TYPE } from "../../pathfinder/types/CellType"
 import { publish } from "../Broker"
 import type Solver from "../../pathfinder/solvers/Solver"
 
@@ -79,7 +77,7 @@ class Task {
     }
 
     send_results(runtime: number): void {
-        const id = get_solver_info_by_id(this.solver_id)?.id 
+        const id = get_solver_info_by_id(this.solver_id)?.ID 
         const time_taken = format_time(runtime)
         const path_length = this.solver?.path_length ?? 0
         const expanded_cells = this.solver?.expanded_cells_count ?? 0
