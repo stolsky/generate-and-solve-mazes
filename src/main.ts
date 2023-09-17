@@ -1,14 +1,17 @@
-import { add as add_task } from './simulator/classes/TaskList'
+import { add as add_task } from './simulator/tasks/TaskList'
 import { get_solver_info_by_id } from './pathfinder/solvers/SolverFactory'
 import { get_task_cards } from './simulator/ui/components/content/Content'
 import init_ui from './simulator/ui/UI'
 import IterationsState from './pathfinder/states/IterationState'
 import PathfinderConfig from './pathfinder/config/Configuration'
-import { push as push_state } from './simulator/classes/StateStack'
+import { push as push_state } from './loop/StateStack'
 import SimulatorConfig from "./simulator/config/Configuration"
 import SolverInformation from "./pathfinder/solvers/SolverInformation"
-import Task from "./simulator/classes/Task"
+import Task from "./simulator/tasks/Task"
 import { TypeColors } from './pathfinder/types/TypeColors'
+import Loop from './loop/Loop'
+import Ticker from './loop/Ticker'
+import Value from './global/Value'
 
 // TODO add description/welcome overlay
 // TODO add config page/overlay
@@ -22,10 +25,10 @@ const size = PathfinderConfig.get_property_value("grid_cell_size") as number
 const tasks_amount = PathfinderConfig.get_property_value("tasks_amount") as number
 
 const tasks = [
-    get_solver_info_by_id(SolverInformation.BFS.id),
-    get_solver_info_by_id(SolverInformation.DFS.id),
-    get_solver_info_by_id(SolverInformation.Dijkstra.id),
-    get_solver_info_by_id(SolverInformation.AStar.id)
+    get_solver_info_by_id(SolverInformation.BFS.ID),
+    get_solver_info_by_id(SolverInformation.DFS.ID),
+    get_solver_info_by_id(SolverInformation.Dijkstra.ID),
+    get_solver_info_by_id(SolverInformation.AStar.ID)
 ]
 
 const colors = [
@@ -65,20 +68,20 @@ init_ui(
         ],
         rows: [
             {
-                id: SolverInformation.BFS.id,
-                label: SolverInformation.BFS.short
+                id: SolverInformation.BFS.ID,
+                label: SolverInformation.BFS.SHORT
             },
             {
-                id: SolverInformation.DFS.id,
-                label: SolverInformation.DFS.short
+                id: SolverInformation.DFS.ID,
+                label: SolverInformation.DFS.SHORT
             },
             {
-                id: SolverInformation.Dijkstra.id,
-                label: SolverInformation.Dijkstra.short
+                id: SolverInformation.Dijkstra.ID,
+                label: SolverInformation.Dijkstra.SHORT
             },
             {
-                id: SolverInformation.AStar.id,
-                label: SolverInformation.AStar.short
+                id: SolverInformation.AStar.ID,
+                label: SolverInformation.AStar.SHORT
             }
         ],
         criteria: {
@@ -91,9 +94,18 @@ init_ui(
 )
 
 get_task_cards().forEach((card, index) => {
-    const { id, full } = tasks[index]
+    const { ID: id, FULL: full } = tasks[index]
     card.set_title(full)
     add_task(new Task(card.get_context(), id))
 })
+
+Loop.getInstance(
+    new Value(
+        SimulatorConfig.get_property_value("speed_multiplier_max") as number,
+        SimulatorConfig.get_property_value("speed_multiplier_min") as number,
+        SimulatorConfig.get_property_value("speed_multiplier_default") as number
+    ),
+    new Ticker()
+)
 
 push_state(new IterationsState())
