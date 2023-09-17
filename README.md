@@ -3,20 +3,20 @@ Visualization of the generation and solution of mazes with various algorithms.
 
 ## NaPAC - Not another Pathfinding Algorithm Comparison
 
-* Test with different kinds of mazes (perfect, with circles, only with obstacles)
-* tests different heuristics (taxicab, euclidean distance) for A* or other algorithms
-* set your own seed to analyze the same maze with different algorithms, start and goal positions, etc.
-* create your own maze or playground
+* [ ] Test with different kinds of mazes (perfect, with circles, only with obstacles)
+* [ ] tests different heuristics (taxicab, euclidean distance) for A* or other algorithms
+* [ ] set your own seed to analyze the same maze with different algorithms, start and goal positions, etc.
+* [ ] create your own maze or playground
   * width, height
   * different grids consisting of rectangle, triangle or hexagonal cells
-* set the start and goal position yourself
-* by default select different start and goal positions to not favour a specific algorithm
-* better control over the simulation
+* [ ] set the start and goal position yourself
+* [ ] by default select different start and goal positions to not favour a specific algorithm
+* [ ] better control over the simulation
   * play, pause the simulation
   * change the simulation speed
   * skip generation or solving to get faster to the results
   * set auto pause after generation and/or solution to view the result
-* flood the maze/playground to visualize certain qualities
+* [ ] flood the maze/playground to visualize certain qualities
 
 ## Inspirations
 * [A Comparison of Pathfinding Algorithms](https://www.youtube.com/watch?v=GC-nBgi9r0U)
