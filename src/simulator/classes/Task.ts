@@ -1,8 +1,5 @@
 import {
     MAIN_TYPE,
-    SUB_TYPE,
-    SubType,
-    TypeColorCollection,
     get_color_by_type
 } from "../../pathfinder/types/CellTypes"
 import type Cell from "../../pathfinder/classes/Cell"
