@@ -1,11 +1,11 @@
 import {
     MainType,
     SubType
-} from "../classes/CellTypes"
+} from "../types/CellTypes"
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import Grid from "../classes/Grid"
-import type IPosition from "../classes/IPosition"
+import type IPosition from "../types/IPosition"
 import Worker from "../classes/Worker"
 
 class Generator extends Worker {

@@ -8,7 +8,7 @@ import { push as push_state } from './simulator/classes/StateStack'
 import SimulatorConfig from "./simulator/config/Configuration"
 import SolverInformation from "./pathfinder/solvers/SolverInformation"
 import Task from "./simulator/classes/Task"
-import { TypeColor } from './pathfinder/classes/CellTypes'
+import { TypeColor } from './pathfinder/types/CellTypes'
 
 // TODO add description/welcome overlay
 // TODO add config page/overlay

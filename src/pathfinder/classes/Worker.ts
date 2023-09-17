@@ -1,10 +1,10 @@
 import {
     MainType,
     SubType
-} from "./CellTypes"
+} from "../types/CellTypes"
 import Cell from "./Cell"
 import type Grid from "./Grid"
-import type IPosition from "./IPosition"
+import type IPosition from "../types/IPosition"
 import random from "../random/random"
 import Updates from "./Updates"
 

@@ -12,8 +12,8 @@ import create_solver from "../solvers/SolverFactory"
 // TODO refactor to avoid using TaskList from simulator
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import type Grid from "../classes/Grid"
-import type IPosition from "../classes/IPosition"
-import { MainType } from "../classes/CellTypes"
+import type IPosition from "../types/IPosition"
+import { MainType } from "../types/CellTypes"
 import Solver from "../solvers/Solver"
 import { publish } from "../../simulator/Broker"
 

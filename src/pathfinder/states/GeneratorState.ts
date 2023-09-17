@@ -1,7 +1,7 @@
 import {
     MainType,
     SubType
-} from "../classes/CellTypes"
+} from "../types/CellTypes"
 import {
     pop as pop_state,
     push as push_state,

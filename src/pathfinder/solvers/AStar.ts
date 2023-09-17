@@ -1,7 +1,7 @@
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import type Grid from "../classes/Grid"
-import type IPosition from "../classes/IPosition"
+import type IPosition from "../types/IPosition"
 import Solver from "./Solver"
 import SortedCellStore from "../classes/SortedCellStore"
 

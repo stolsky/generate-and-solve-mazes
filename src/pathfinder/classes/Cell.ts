@@ -1,4 +1,4 @@
-import { MainType, SubType } from "./CellTypes"
+import { MainType, SubType } from "../types/CellTypes"
 
 class Cell {
 

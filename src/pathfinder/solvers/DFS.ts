@@ -1,4 +1,4 @@
-import type IPosition from "../classes/IPosition"
+import type IPosition from "../types/IPosition"
 import Solver from "./Solver"
 
 /** Implementation of the Depth-first search algorithm

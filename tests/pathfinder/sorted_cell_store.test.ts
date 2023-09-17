@@ -4,7 +4,7 @@ import {
     it
 } from 'vitest'
 import Cell from '../../src/pathfinder/classes/Cell'
-import { MainType } from '../../src/pathfinder/classes/CellTypes'
+import { MainType } from '../../src/pathfinder/types/CellTypes'
 import SortedCellStore from '../../src/pathfinder/classes/SortedCellStore'
 
 describe("Test sorted cell store class", () => {

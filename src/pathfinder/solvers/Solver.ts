@@ -1,9 +1,9 @@
-import { MainType, SubType } from "../classes/CellTypes"
+import { MainType, SubType } from "../types/CellTypes"
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import Grid from "../classes/Grid"
 import Worker from "../classes/Worker"
-import IPosition from "../classes/IPosition"
+import IPosition from "../types/IPosition"
 
 class Solver extends Worker {
 
