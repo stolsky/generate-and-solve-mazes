@@ -11,7 +11,7 @@ const SUB_TYPE = {
     SEARCH: 4,
     EXPANDED: 5,
     PATH: 6
-}
+} as const
 
 type ObjectValues<T> = T[keyof T]
 

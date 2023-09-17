@@ -2,29 +2,29 @@ import { InformationCollection } from "../types/Information"
 
 const SolverInformation: InformationCollection = {
     BFS: {
-        id: 1,
-        full: "BFS (Breadth-first search)",
-        short: "BFS"
+        ID: 1,
+        FULL: "BFS (Breadth-first search)",
+        SHORT: "BFS"
     },
     DFS: {
-        id: 2,
-        full: "DFS (Depth-first search)",
-        short: "DFS"
+        ID: 2,
+        FULL: "DFS (Depth-first search)",
+        SHORT: "DFS"
     },
     Dijkstra: {
-        id: 3,
-        full: "Dijkstra's algorithm",
-        short: "Dijkstra"
+        ID: 3,
+        FULL: "Dijkstra's algorithm",
+        SHORT: "Dijkstra"
     },
     AStar: {
-        id: 4,
-        full: "A* search",
-        short: "A*"
+        ID: 4,
+        FULL: "A* search",
+        SHORT: "A*"
     },
     NoSolver: {
-        id: -1,
-        full: "Requested solver information not found",
-        short: "Error"
+        ID: -1,
+        FULL: "Requested solver information not found",
+        SHORT: "Error"
     }
 } as const
 

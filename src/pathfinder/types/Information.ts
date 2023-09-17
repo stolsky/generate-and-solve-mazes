@@ -1,7 +1,7 @@
 interface Information {
-    id: number
-    full: string
-    short: string
+    ID: number
+    FULL: string
+    SHORT: string
 
     pros?: string
     const?: string

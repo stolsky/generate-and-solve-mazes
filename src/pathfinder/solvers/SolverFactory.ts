@@ -8,23 +8,23 @@ import Solver from "./Solver"
 import SolverInformation from "./SolverInformation"
 
 const create_solver = (id: number, grid: Grid): Solver => {
-    if (id === SolverInformation.AStar.id) {
+    if (id === SolverInformation.AStar.ID) {
         return new AStar(grid)
     }
-    if (id === SolverInformation.BFS.id) {
+    if (id === SolverInformation.BFS.ID) {
         return new BFS(grid)
     }
-    if (id === SolverInformation.DFS.id) {
+    if (id === SolverInformation.DFS.ID) {
         return new DFS(grid)
     }
-    if (id === SolverInformation.Dijkstra.id) {
+    if (id === SolverInformation.Dijkstra.ID) {
         return new Dijkstra(grid)
     }
     return new Solver()
 }
 
 const get_solver_info_by_id = (id: number): Information =>
-    Object.values(SolverInformation).find((solver) => solver.id === id) ?? SolverInformation.NoSolver
+    Object.values(SolverInformation).find((solver) => solver.ID === id) ?? SolverInformation.NoSolver
 
 export default create_solver
 export {

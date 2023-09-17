@@ -6,7 +6,7 @@ import {
     pop as pop_state,
     push as push_state,
     type State
-} from "../../simulator/classes/StateStack"
+} from "../../loop/StateStack"
 import random,
     { set_seed } from "../random/random"
 import type Cell from "../classes/Cell"
@@ -14,7 +14,7 @@ import Configuration from "../config/Configuration"
 import create_generator from "../generators/GeneratorFactory"
 import type Generator from "../generators/Generator"
 // TODO refactor to avoid using TaskList from simulator
-import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
+import { get_all as get_all_tasks } from "../../simulator/tasks/TaskList"
 import Grid from "../classes/Grid"
 import { publish } from "../../simulator/Broker"
 import SolutionsState from "./SolutionState"

@@ -2,21 +2,21 @@ import { InformationCollection } from "../types/Information";
 
 const GeneratorInformation: InformationCollection = {
     EmptyMaze: {
-        id: 1,
-        full: "",
-        short: "Empty"
+        ID: 1,
+        FULL: "",
+        SHORT: "Empty"
     },
     GrowingTree: {
-        id: 2,
-        full: "",
-        short: "GrowingTree"
+        ID: 2,
+        FULL: "",
+        SHORT: "GrowingTree"
         // TODO add pros
         // TODO add cons
     },
     NoGenerator: {
-        id: -1,
-        full: "Requested generator information not found",
-        short: "Error"
+        ID: -1,
+        FULL: "Requested generator information not found",
+        SHORT: "Error"
     }
 } as const
 

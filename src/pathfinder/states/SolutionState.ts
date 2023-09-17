@@ -5,12 +5,12 @@ import {
 import {
     pop as pop_state,
     type State
-} from "../../simulator/classes/StateStack"
+} from "../../loop/StateStack"
 import Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
 // TODO refactor to avoid using TaskList from simulator
-import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
+import { get_all as get_all_tasks } from "../../simulator/tasks/TaskList"
 import type Grid from "../classes/Grid"
 import type IPosition from "../types/IPosition"
 import { MAIN_TYPE } from "../types/CellType"

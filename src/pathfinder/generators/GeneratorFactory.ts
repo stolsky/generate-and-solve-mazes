@@ -11,10 +11,10 @@ import { Information } from "../types/Information"
 // @see: https://weblog.jamisbuck.org/under-the-hood/
 
 const create_generator = (id: number, grid: Grid): Generator => {
-    if (id === GeneratorInformation.EmptyMaze.id) {
+    if (id === GeneratorInformation.EmptyMaze.ID) {
         return new EmptyMaze(grid)
     }
-    if (id === GeneratorInformation.GrowingTree.id) {
+    if (id === GeneratorInformation.GrowingTree.ID) {
         return new GrowingTree(grid)
     }
     // return empty generator if nothing found
@@ -22,7 +22,7 @@ const create_generator = (id: number, grid: Grid): Generator => {
 }
 
 const get_generator_info_by_id = (id: number): Information =>
-    Object.values(GeneratorInformation).find((generator) => generator.id === id) ?? GeneratorInformation.NoGenerator
+    Object.values(GeneratorInformation).find((generator) => generator.ID === id) ?? GeneratorInformation.NoGenerator
 
 export default create_generator
 export {

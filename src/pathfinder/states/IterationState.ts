@@ -2,7 +2,7 @@ import {
     pop as pop_state,
     push as push_state,
     type State
-} from "../../simulator/classes/StateStack"
+} from "../../loop/StateStack"
 import Configuration from "../config/Configuration"
 import GeneratorsState from "./GeneratorState"
 import { publish } from "../../simulator/Broker"
