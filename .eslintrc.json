@@ -26,6 +26,5 @@
             "error",
             { "max": 3 }
         ]
-    },
-    "exclude": ["vite.config.ts"]
+    }
 }
