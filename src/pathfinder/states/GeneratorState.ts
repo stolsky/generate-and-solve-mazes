@@ -82,6 +82,7 @@ class GeneratorsState implements State {
         })
         // TODO move the following code -> nothing to do with rendering
         if (this.generator.is_finished()) {
+            // TODO change information to Generated <i>perfect</i> maze / maze with ${n} circle/ dense obstacles, etc..
             publish("Log", `Maze generated in %t${this.runtime}`)
             const updates = this.reset_generating_variables()
             // TODO refactor
