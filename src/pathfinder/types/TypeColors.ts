@@ -1,6 +1,8 @@
 import {
     MAIN_TYPE,
-    SUB_TYPE
+    type MainType,
+    SUB_TYPE,
+    type SubType
 } from "./CellType"
 
 // https://www.schemecolor.com/rainbow-child.php
@@ -42,10 +44,25 @@ const TypeColors = {
     }
 } as const
 
-const get_color_by_type = (type: number): string =>
+const get_color = (type: number): string =>
     Object.values(TypeColors).find((color) => color.type === type)?.color ?? ""
 
+const get_color_from_types = (main: MainType, sub: SubType): string => {
+        if (main === MAIN_TYPE.WALL
+            || main === MAIN_TYPE.START
+            || main === MAIN_TYPE.GOAL
+        ) {
+            return get_color(main)
+        }
+        
+        let color = get_color(sub)
+        if (color.length === 0) {
+            color = get_color(MAIN_TYPE.FLOOR)
+        }
+        return color
+    }
+
 export {
-    get_color_by_type,
+    get_color_from_types,
     TypeColors
 }
