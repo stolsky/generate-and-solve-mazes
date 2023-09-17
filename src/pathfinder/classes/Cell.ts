@@ -1,4 +1,9 @@
-import { MainType, SubType } from "../types/CellTypes"
+import {
+    MAIN_TYPE,
+    type MainType,
+    SUB_TYPE,
+    type SubType
+} from "../types/CellTypes"
 
 class Cell {
 
@@ -8,8 +13,8 @@ class Cell {
     private _f: number
     private _g: number
 
-    private _type: MainType = MainType.NONE
-    private _sub_type: SubType = SubType.NONE
+    private _type: MainType = MAIN_TYPE.NONE
+    private _sub_type: SubType = SUB_TYPE.NONE
 
     private _predecessor: Cell | undefined
   

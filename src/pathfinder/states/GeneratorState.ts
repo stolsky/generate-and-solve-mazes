@@ -1,6 +1,6 @@
 import {
-    MainType,
-    SubType
+    MAIN_TYPE,
+    SUB_TYPE
 } from "../types/CellTypes"
 import {
     pop as pop_state,
@@ -30,11 +30,11 @@ class GeneratorsState implements State {
     private reset_generating_variables(): Cell[] {
         const updates: Cell[] = []
         this.generator.get_grid().each((cell) => {
-            if (cell.type === MainType.START || cell.type === MainType.GOAL) {
-                cell.type = MainType.FLOOR
+            if (cell.type === MAIN_TYPE.START || cell.type === MAIN_TYPE.GOAL) {
+                cell.type = MAIN_TYPE.FLOOR
             }
-            cell.sub_type = SubType.NONE
-            cell.sub_type = SubType.NONE
+            cell.sub_type = SUB_TYPE.NONE
+            cell.sub_type = SUB_TYPE.NONE
             updates.push(cell)
         })
 

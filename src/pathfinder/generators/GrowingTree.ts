@@ -1,6 +1,6 @@
 import {
-    MainType,
-    SubType
+    MAIN_TYPE,
+    SUB_TYPE
 } from "../types/CellTypes"
 import type Cell from "../classes/Cell"
 import Generator from "./Generator"
@@ -26,10 +26,10 @@ class GrowingTree extends Generator {
         )
         passage.forEach((cell, index) => {
             if (index === 0 || index === passage.length - 1) {
-                cell.sub_type = SubType.SEARCH
+                cell.sub_type = SUB_TYPE.SEARCH
                 this.store.add_unique(cell)
             } else {
-                cell.sub_type = SubType.EXPANDED
+                cell.sub_type = SUB_TYPE.EXPANDED
             }
             this.updates.add(cell)
         })
@@ -58,15 +58,15 @@ class GrowingTree extends Generator {
                 look_ahead[index].x,
                 look_ahead[index].y
             )
-            if (neighbour!== undefined && neighbour.sub_type !== SubType.EXPANDED) {
+            if (neighbour!== undefined && neighbour.sub_type !== SUB_TYPE.EXPANDED) {
                 if (next_neighbour!== undefined
-                    && next_neighbour.sub_type !== SubType.SEARCH
-                    && next_neighbour.sub_type !== SubType.EXPANDED
+                    && next_neighbour.sub_type !== SUB_TYPE.SEARCH
+                    && next_neighbour.sub_type !== SUB_TYPE.EXPANDED
                 ) {
                     neighbours.push(neighbour)
                 } else {
-                    neighbour.type = MainType.WALL
-                    neighbour.sub_type = SubType.EXPANDED
+                    neighbour.type = MAIN_TYPE.WALL
+                    neighbour.sub_type = SUB_TYPE.EXPANDED
                 }
             }
         })
@@ -82,7 +82,7 @@ class GrowingTree extends Generator {
         if (unvisited_neighbours.length === 0) {
             const removed_cell = this.store.remove(index)
             if (removed_cell !== undefined) {
-                removed_cell.sub_type = SubType.EXPANDED
+                removed_cell.sub_type = SUB_TYPE.EXPANDED
                 this.updates.add(removed_cell)
             }
         } else {
@@ -98,7 +98,7 @@ class GrowingTree extends Generator {
     }
 
     constructor(grid: Grid) {
-        super(grid, MainType.WALL)
+        super(grid, MAIN_TYPE.WALL)
     }
 
     override is_finished(): boolean {

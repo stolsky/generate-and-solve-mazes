@@ -5,7 +5,7 @@ import {
 } from 'vitest'
 import Cell from '../../src/pathfinder/classes/Cell'
 import CellStore from '../../src/pathfinder/classes/CellStore'
-import { MainType } from '../../src/pathfinder/types/CellTypes'
+import { MAIN_TYPE } from '../../src/pathfinder/types/CellTypes'
 
 describe("Test cell store class", () => {
 
@@ -28,12 +28,12 @@ describe("Test cell store class", () => {
     it("Add only cells which different position", () => {
         const store = new CellStore()
 
-        expect(store.add_unique(new Cell(0, 0, MainType.FLOOR))).to.be.equal(true)
-        expect(store.add_unique(new Cell(1, 0, MainType.FLOOR))).to.be.equal(true)
-        expect(store.add_unique(new Cell(0, 1, MainType.FLOOR))).to.be.equal(true)
-        expect(store.add_unique(new Cell(1, 1, MainType.FLOOR))).to.be.equal(true)
+        expect(store.add_unique(new Cell(0, 0, MAIN_TYPE.FLOOR))).to.be.equal(true)
+        expect(store.add_unique(new Cell(1, 0, MAIN_TYPE.FLOOR))).to.be.equal(true)
+        expect(store.add_unique(new Cell(0, 1, MAIN_TYPE.FLOOR))).to.be.equal(true)
+        expect(store.add_unique(new Cell(1, 1, MAIN_TYPE.FLOOR))).to.be.equal(true)
         // duplicate
-        expect(store.add_unique(new Cell(1, 1, MainType.FLOOR))).to.be.equal(false)
+        expect(store.add_unique(new Cell(1, 1, MAIN_TYPE.FLOOR))).to.be.equal(false)
     
         expect(store.get_size()).to.be.equal(4)
     })
@@ -41,19 +41,19 @@ describe("Test cell store class", () => {
     it("Get size", () => {
         const store = new CellStore()
 
-        store.add_unique(new Cell(0, 0, MainType.FLOOR))
+        store.add_unique(new Cell(0, 0, MAIN_TYPE.FLOOR))
         expect(store.get_size()).to.be.equal(1)
 
-        store.add_unique(new Cell(1, 0, MainType.WALL))
+        store.add_unique(new Cell(1, 0, MAIN_TYPE.WALL))
         expect(store.get_size()).to.be.equal(2)
 
-        store.add_unique(new Cell(2, 0, MainType.FLOOR))
+        store.add_unique(new Cell(2, 0, MAIN_TYPE.FLOOR))
         expect(store.get_size()).to.be.equal(3)
     })
 
     it("Get Cell", () => {
         const store = new CellStore()
-        const cell = new Cell(0, 0, MainType.FLOOR)
+        const cell = new Cell(0, 0, MAIN_TYPE.FLOOR)
         store.add_unique(cell)
         const stored_cell = store.get_cell(0)
         expect(stored_cell).to.be.equal(cell)
@@ -62,9 +62,9 @@ describe("Test cell store class", () => {
     it("Get all", () => {
         const store = new CellStore()
         const cells = [
-            new Cell(0, 0, MainType.FLOOR),
-            new Cell(1, 0, MainType.WALL),
-            new Cell(2, 0, MainType.FLOOR)
+            new Cell(0, 0, MAIN_TYPE.FLOOR),
+            new Cell(1, 0, MAIN_TYPE.WALL),
+            new Cell(2, 0, MAIN_TYPE.FLOOR)
         ]
         cells.forEach((cell) => store.add_unique(cell))
         
@@ -74,7 +74,7 @@ describe("Test cell store class", () => {
 
     it("Remove", () => {
         const store = new CellStore()
-        const cell = new Cell(0, 0, MainType.FLOOR)
+        const cell = new Cell(0, 0, MAIN_TYPE.FLOOR)
         store.add_unique(cell)
         const removed_cell = store.remove(0)
         expect(store.get_size()).to.be.equal(0)
@@ -84,9 +84,9 @@ describe("Test cell store class", () => {
     it("Clear", () => {
         const store = new CellStore()
 
-        store.add_unique(new Cell(0, 0, MainType.FLOOR))
-        store.add_unique(new Cell(1, 0, MainType.WALL))
-        store.add_unique(new Cell(2, 0, MainType.FLOOR))
+        store.add_unique(new Cell(0, 0, MAIN_TYPE.FLOOR))
+        store.add_unique(new Cell(1, 0, MAIN_TYPE.WALL))
+        store.add_unique(new Cell(2, 0, MAIN_TYPE.FLOOR))
         expect(store.get_size()).to.be.equal(3)
 
         store.clear()

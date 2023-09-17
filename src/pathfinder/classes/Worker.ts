@@ -1,6 +1,6 @@
 import {
-    MainType,
-    SubType
+    MAIN_TYPE,
+    SUB_TYPE
 } from "../types/CellTypes"
 import Cell from "./Cell"
 import type Grid from "./Grid"
@@ -33,7 +33,7 @@ class Worker {
 
     protected update_as_expanded (cell: Cell): void {
         this._expanded_cells_count = this._expanded_cells_count + 1
-        cell.sub_type = SubType.EXPANDED
+        cell.sub_type = SUB_TYPE.EXPANDED
         this.updates.add(cell)
     }
 
@@ -71,11 +71,11 @@ class Worker {
         const cell = this.get_grid().get_cell(x, y) ?? new Cell(
             1,
             1,
-            MainType.FLOOR
+            MAIN_TYPE.FLOOR
         )
         
         this.start_position = { x, y }
-        cell.type = MainType.START
+        cell.type = MAIN_TYPE.START
 
         this.updates.add(cell)
         return cell
@@ -88,11 +88,11 @@ class Worker {
         const cell = this.get_grid().get_cell(x, y) ?? new Cell(
             this.get_grid().width - 2,
             this.get_grid().height - 2,
-            MainType.FLOOR
+            MAIN_TYPE.FLOOR
         )
 
         this.goal_position = { x, y }
-        cell.type = MainType.GOAL
+        cell.type = MAIN_TYPE.GOAL
 
         this.updates.add(cell)
         return cell

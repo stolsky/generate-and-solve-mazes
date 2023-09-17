@@ -1,4 +1,7 @@
-import { MainType, SubType } from "../types/CellTypes"
+import {
+    MAIN_TYPE,
+    SUB_TYPE
+} from "../types/CellTypes"
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import Grid from "../classes/Grid"
@@ -20,11 +23,11 @@ class Solver extends Worker {
 
     protected construct_path (goal: Cell): void {
         let temp = goal
-        temp.sub_type = SubType.PATH
+        temp.sub_type = SUB_TYPE.PATH
         this.updates.add(temp)
         while (temp.predecessor !== undefined) {
             const previous_cell = temp.predecessor
-            previous_cell.sub_type = SubType.PATH
+            previous_cell.sub_type = SUB_TYPE.PATH
             this.updates.add(previous_cell)
             temp = previous_cell
         }
@@ -33,7 +36,7 @@ class Solver extends Worker {
 
     protected discover_cell_from_source(cell: Cell, source: Cell): void {
         cell.predecessor = source
-        cell.sub_type = SubType.SEARCH
+        cell.sub_type = SUB_TYPE.SEARCH
         this.store.add_unique(cell)
         this.updates.add(cell)
     }
@@ -44,8 +47,8 @@ class Solver extends Worker {
     protected get_adjacent_neighbours (cell: Cell): Cell[] {
         return this.get_grid()
             .get_adjacent_neighbours(cell)
-            .filter((neighbour) => neighbour.type !== MainType.WALL
-                && neighbour.sub_type !== SubType.EXPANDED)
+            .filter((neighbour) => neighbour.type !== MAIN_TYPE.WALL
+                && neighbour.sub_type !== SUB_TYPE.EXPANDED)
     }
 
     protected get_next_cell (index: number): Cell | undefined {
@@ -53,7 +56,7 @@ class Solver extends Worker {
             return undefined
         }
         const current_cell = this.store.remove(index) as Cell
-        if (current_cell.type === MainType.GOAL) {
+        if (current_cell.type === MAIN_TYPE.GOAL) {
             this.store.clear()
             this.construct_path(current_cell)
             return undefined

@@ -1,6 +1,7 @@
 import {
+    MAIN_TYPE,
     MainType,
-    SubType
+    SUB_TYPE
 } from "../types/CellTypes"
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
@@ -14,14 +15,14 @@ class Generator extends Worker {
 
     private expand_position (x: number, y: number, type: number): void {
         const cell = this.get_grid().get_cell(x, y)
-        if (cell !== undefined && cell.sub_type !== SubType.EXPANDED) {
-            cell.type = type
-            cell.sub_type = SubType.EXPANDED
+        if (cell !== undefined && cell.sub_type !== SUB_TYPE.EXPANDED) {
+            cell.type = type as MainType
+            cell.sub_type = SUB_TYPE.EXPANDED
         }
     }
 
     private create_walls (cell: Cell, direction: IPosition): void {
-        const WALL = MainType.WALL
+        const WALL = MAIN_TYPE.WALL
         const x = cell.x
         const y = cell.y
         // set upper and lower wall to visited cell
@@ -44,7 +45,7 @@ class Generator extends Worker {
      */
     constructor (grid?: Grid, initial_type?: MainType, store?: CellStore) {
         super(grid ?? new Grid(0, 0))
-        this.get_grid().init(initial_type ?? MainType.NONE)
+        this.get_grid().init(initial_type ?? MAIN_TYPE.NONE)
         this.store = store ?? new CellStore()
     }
 
@@ -57,7 +58,6 @@ class Generator extends Worker {
             return []
         }
     
-        const { FLOOR, WALL } = MainType
         const passage = [start_cell]
         for (let i = 0; i < length; i = i + 1) {
             const { x, y } = passage[passage.length - 1]
@@ -66,7 +66,7 @@ class Generator extends Worker {
             // if moving into a cell of the outer ring, leave it as WALL amd stop
             if (next_x === 0 || next_x === this.get_grid().width - 1 ||
                 next_y === 0 || next_y === this.get_grid().height - 1) {
-                this.expand_position(next_x, next_y, WALL)
+                this.expand_position(next_x, next_y, MAIN_TYPE.WALL)
                 break
             }
             
@@ -78,7 +78,7 @@ class Generator extends Worker {
             }
 
             passage.push(next_cell)
-            this.expand_position(next_x, next_y, FLOOR)
+            this.expand_position(next_x, next_y, MAIN_TYPE.FLOOR)
             
             // set the walls to the sides of the path if not the start and end cell
             if (i < length - 1) {
@@ -96,7 +96,7 @@ class Generator extends Worker {
         init_cell?: (cell: Cell) => void
     ): void {
         if (start_cell !== undefined) {
-            start_cell.sub_type = SubType.SEARCH
+            start_cell.sub_type = SUB_TYPE.SEARCH
             this.store.add_unique(start_cell)
             if (init_cell instanceof Function) {
                 init_cell(start_cell)
@@ -105,7 +105,7 @@ class Generator extends Worker {
     }
 
     // TODO refactor
-    set_start_position(position: IPosition): void { /* void */ }
+    set_start_position(_position: IPosition): void { /* void */ }
 }
 
 export default Generator

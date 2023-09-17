@@ -13,18 +13,18 @@ import create_solver from "../solvers/SolverFactory"
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import type Grid from "../classes/Grid"
 import type IPosition from "../types/IPosition"
-import { MainType } from "../types/CellTypes"
+import { MAIN_TYPE } from "../types/CellTypes"
 import Solver from "../solvers/Solver"
 import { publish } from "../../simulator/Broker"
 
 const validate_position = (position: IPosition, grid: Grid): IPosition => {
     let cell = grid.get_cell(position.x, position.y)
-    if (cell instanceof Cell && cell.type === MainType.WALL) {
+    if (cell instanceof Cell && cell.type === MAIN_TYPE.WALL) {
         const neighbours = grid.get_moore_neighbourhood(cell)
         shuffle(neighbours)
         // if maze was generated correctly there must be a floor tile
         // in every moore neighbourhood
-        cell = neighbours.filter((neighbour) => neighbour.type === MainType.FLOOR).pop()
+        cell = neighbours.filter((neighbour) => neighbour.type === MAIN_TYPE.FLOOR).pop()
         if (cell instanceof Cell) {
             position.x = cell.x
             position.y = cell.y

@@ -1,7 +1,9 @@
 import {
-    MainType,
+    MAIN_TYPE,
+    SUB_TYPE,
     SubType,
-    TypeColor
+    TypeColorCollection,
+    get_color_by_type
 } from "../../pathfinder/types/CellTypes"
 import type Cell from "../../pathfinder/classes/Cell"
 import type ContextWrapper from "../ui/components/ContextWrapper"
@@ -19,30 +21,16 @@ class Task {
     private _is_finished: boolean
 
     private get_color(cell: Cell): string {
-        let color = ""
-        if (cell.type === MainType.WALL) {
-            color = TypeColor.wall.color
-        } else if (cell.type === MainType.START) {
-            color = TypeColor.start.color
-        } else if (cell.type === MainType.GOAL) {
-            color = TypeColor.goal.color
-        } else {
-            color = this.get_sub_color(cell.sub_type)
-            if (color.length === 0) {
-                color = TypeColor.floor.color
-            }
-        }  
-        return color
-    }
-
-    private get_sub_color(type: SubType): string {
-        let color = ""
-        if (type === SubType.EXPANDED) {
-            color = TypeColor.expanded.color
-        } else if (type === SubType.SEARCH) {
-            color = TypeColor.search.color
-        } else if (type === SubType.PATH) {
-            color = TypeColor.path.color
+        if (cell.type === MAIN_TYPE.WALL
+            || cell.type === MAIN_TYPE.START
+            || cell.type === MAIN_TYPE.GOAL
+        ) {
+            return get_color_by_type(cell.type)
+        }
+        
+        let color = get_color_by_type(cell.sub_type)
+        if (color.length === 0) {
+            color = get_color_by_type(MAIN_TYPE.FLOOR)
         }
         return color
     }
