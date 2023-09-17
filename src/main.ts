@@ -1,9 +1,9 @@
 import { add as add_task } from './simulator/tasks/TaskList'
 import { get_solver_info_by_id } from './pathfinder/solvers/SolverFactory'
 import { get_task_cards } from './simulator/ui/components/content/Content'
+import { init as init_loop } from './loop/Loop'
 import init_ui from './simulator/ui/UI'
 import IterationsState from './pathfinder/states/IterationState'
-import Loop from './loop/Loop'
 import PathfinderConfig from './pathfinder/config/Configuration'
 import { push as push_state } from './loop/StateStack'
 import SimulatorConfig from "./simulator/config/Configuration"
@@ -40,7 +40,7 @@ const colors = [
     { color: TypeColors.path.color, label: TypeColors.path.label }
 ]
 
-Loop.getInstance(
+init_loop(
     new Value(
         SimulatorConfig.get_property_value("speed_multiplier_max") as number,
         SimulatorConfig.get_property_value("speed_multiplier_min") as number,
