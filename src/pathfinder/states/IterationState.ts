@@ -4,7 +4,7 @@ import {
     type State
 } from "../../simulator/classes/StateStack"
 import Configuration from "../config/Configuration"
-import GeneratorsState from "./GeneratorsState"
+import GeneratorsState from "./GeneratorState"
 import { publish } from "../../simulator/Broker"
 
 class IterationsState implements State {

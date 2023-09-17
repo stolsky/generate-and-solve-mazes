@@ -69,6 +69,8 @@ class SolutionsState implements State {
         this.is_finished = false
         this.delay_after_finished = Configuration.get_property_value("delay_after_finished") as number
         this.finished_timestamp = 0
+
+        // TODO publish 
     }
 
     enter(): void {

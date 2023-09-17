@@ -17,7 +17,7 @@ import type Generator from "../generators/Generator"
 import { get_all as get_all_tasks } from "../../simulator/classes/TaskList"
 import Grid from "../classes/Grid"
 import { publish } from "../../simulator/Broker"
-import SolutionsState from "./SolutionsState"
+import SolutionsState from "./SolutionState"
 
 class GeneratorsState implements State {
 
