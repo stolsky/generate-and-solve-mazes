@@ -1,4 +1,9 @@
-class Ticker {
+interface TickWrapper {
+    start: (callback: (delta_time: number) => void) => void
+    stop: () => void
+}
+
+class Tick implements TickWrapper {
 
     private request_id: number;
     private callback: ((dt: number) => void) | undefined;
@@ -47,4 +52,7 @@ class Ticker {
 
 }
 
-export default Ticker
+export default Tick
+export {
+    type TickWrapper
+}

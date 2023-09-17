@@ -8,93 +8,82 @@ import {
     update_runtime
 } from "../simulator/ui/components/controls/Controls"
 
-import Ticker from "./Ticker"
+import Tick, { type TickWrapper } from "./Tick"
 import type Value from "../global/Value"
 
-class Loop {
+let runtime: number
+let slow_down_counter: number
 
-    private static Instance: Loop
+let speed_multiplier_max: number
+let speed_multiplier_min: number
+let speed_multiplier_std: number
 
-    private _runtime: number
-    private slow_down_counter: number
-    private readonly speed_multiplier_max: number
-    private readonly speed_multiplier_min: number
-    private _speed_multiplier: number
-    private readonly ticker: Ticker
+let tick: TickWrapper
 
-    private readonly loop = (delta_time: number): void => {
+const loop = (delta_time: number): void => {
+    if (is_state_stack_empty()) {
+        stop()
 
-        if (is_state_stack_empty()) {
-            stop()
-
-            // TODO remove from loop => use broker?
-            show_play_button()
-        }
-    
-        const speed = this.speed_multiplier
-        if (speed < 1 && this.slow_down_counter < 1 / speed) {
-            this.slow_down_counter = this.slow_down_counter + 1
-            return
-        }
-    
-        const adjusted_delta_time = speed * delta_time
-        this._runtime = this.runtime + adjusted_delta_time
-        
-        // TODO remove from loop
-        // TODO use broker ??
-        update_runtime(this.runtime)
-    
-        // TODO how to skip the rendering of an entire State
-        for (let i = 0; i < speed; i = i + 1) {
-            update(delta_time)
-            render()
-        }
-    
-        if (speed < 1) {
-            this.slow_down_counter = 0
-        }
-    }
-    
-    private constructor(speed_multiplier?: Value, ticker?: Ticker) {
-        this._runtime = 0
-        this.slow_down_counter = 0
-        const { max, min, std } = speed_multiplier ?? { max: 1, min: 1, std: 1}
-        this.speed_multiplier_max = max
-        this.speed_multiplier_min = min
-        this._speed_multiplier = std
-        this.ticker = ticker ?? new Ticker()
+        // TODO remove from loop => use broker?
+        show_play_button()
     }
 
-    static getInstance (speed_multiplier?: Value, ticker?: Ticker): Loop {
-        if (Loop.Instance === undefined) {
-            Loop.Instance = new Loop(speed_multiplier, ticker)
-        }
-        return Loop.Instance
+    const speed = speed_multiplier_std
+    if (speed < 1 && slow_down_counter < 1 / speed) {
+        slow_down_counter = slow_down_counter + 1
+        return
     }
 
-    get runtime (): number {
-        return this._runtime
-    }
-
-    get speed_multiplier (): number {
-        return this._speed_multiplier
-    }
-
-    set speed_multiplier (multiplier: number) {
-        if (multiplier >= this.speed_multiplier_min
-            && multiplier <= this.speed_multiplier_max) {
-            this._speed_multiplier = multiplier
-        }
-    }
-
-    start (): void {
-        this.ticker.start(this.loop)
-    }
+    const adjusted_delta_time = speed * delta_time
+    runtime = runtime + adjusted_delta_time
     
-    stop (): void {
-        this.ticker.stop()
-    
+    // TODO remove from loop
+    // TODO use broker ??
+    update_runtime(runtime)
+
+    // TODO how to skip the rendering of an entire State
+    for (let i = 0; i < speed; i = i + 1) {
+        update(delta_time)
+        render()
+    }
+
+    if (speed < 1) {
+        slow_down_counter = 0
     }
 }
+    
+const init = (speed_multiplier?: Value, ticker?: TickWrapper): void => {
+    runtime = 0
+    slow_down_counter = 0
+    const { max, min, std } = speed_multiplier ?? { max: 1, min: 1, std: 1}
+    speed_multiplier_max = max
+    speed_multiplier_min = min
+    speed_multiplier_std = std
+    tick = ticker ?? new Tick() satisfies TickWrapper
+}
 
-export default Loop
+const get_runtime = (): number => runtime
+
+const get_speed_multiplier = (): number => speed_multiplier_std
+
+const set_speed_multiplier = (multiplier: number): boolean => {
+    if (multiplier >= speed_multiplier_min
+        && multiplier <= speed_multiplier_max) {
+        speed_multiplier_std = multiplier
+        return true
+    }
+    return false
+}
+
+const start = (): void => { tick.start(loop) }
+    
+const stop = (): void => { tick.stop() }
+
+export {
+    get_runtime,
+    get_speed_multiplier,
+    init,
+    set_speed_multiplier,
+    start,
+    stop
+}

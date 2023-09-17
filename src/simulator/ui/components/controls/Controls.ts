@@ -1,6 +1,11 @@
 import "./controls.css"
 
-import Loop from "../../../../loop/Loop"
+import {
+    get_speed_multiplier,
+    set_speed_multiplier,
+    start as start_loop,
+    stop as stop_loop
+} from "../../../../loop/Loop"
 import Component from "../Component"
 import Configuration from "../../../config/Configuration"
 import Container from "../Container"
@@ -24,36 +29,39 @@ const show_pause_button = (): void => {
     pause_button.show()
 }
 
-const init = (autostart = false): Container => {
+const update_speed_multiplier = (multiplier: number): boolean => {
+    const old_speed = get_speed_multiplier()
+    const new_speed = old_speed * multiplier
+    const success = set_speed_multiplier(new_speed)
+    if (success) {
+        current_speed.set_content(new_speed.toString(10) + "x")
+    }
+    return success
+}
 
-    const loop = Loop.getInstance()
+const init = (autostart = false): Container => {
 
     backward_button = new IconButton(
         Configuration.get_property_value("controls_icon_backward") as string,
         () => {
-            const old_speed = loop.speed_multiplier
-            loop.speed_multiplier = old_speed * 0.5
-
-            const speed = loop.speed_multiplier
-            // if (speed === Configuration.get_property_value("speed_multiplier_min") as number) {
-            //     backward_button.disable()
-            // }
-            current_speed.set_content(speed.toString(10) + "x")
+            if (update_speed_multiplier(0.5)) {
+                backward_button.disable()
+            }
         }
     )
     
     play_button = new IconButton(Configuration.get_property_value("controls_icon_play") as string, () => {
         show_pause_button()
-        loop.start()
+        start_loop()
     })
 
     pause_button = new IconButton(Configuration.get_property_value("controls_icon_pause") as string, () => {
         show_play_button()
-        loop.stop()
+        stop_loop()
     })
 
     if (autostart) {
-        loop.start()
+        start_loop()
         show_pause_button()
     } else {
         show_play_button()
@@ -62,19 +70,14 @@ const init = (autostart = false): Container => {
     forward_button = new IconButton(
         Configuration.get_property_value("controls_icon_forward") as string,
         () => {
-            const old_speed = loop.speed_multiplier
-            loop.speed_multiplier = old_speed * 2
-
-            const speed = loop.speed_multiplier
-            // if (speed === Configuration.get_property_value("speed_multiplier_max") as number) {
-            //     forward_button.disable()
-            // }
-            current_speed.set_content(speed.toString(10) + "x")
+            if (update_speed_multiplier(2)) {
+                forward_button.disable()
+            }
         }
     )
 
     current_speed = new Component("Speed")
-        .set_content(loop.speed_multiplier.toString(10) + "x")
+        .set_content(get_speed_multiplier().toString(10) + "x")
     current_runtime = new Component("Runtime")
         .set_content("00:00.00")
 
