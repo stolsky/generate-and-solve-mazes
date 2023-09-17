@@ -5,8 +5,8 @@ import {
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import Grid from "../classes/Grid"
+import type IPosition from "../types/IPosition"
 import Worker from "../classes/Worker"
-import IPosition from "../types/IPosition"
 
 class Solver extends Worker {
 

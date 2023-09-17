@@ -3,7 +3,7 @@ import BFS from "./BFS"
 import DFS from "./DFS"
 import Dijkstra from "./Dijkstra"
 import type Grid from "../classes/Grid"
-import { Information } from "../types/Information"
+import { type Information } from "../types/Information"
 import Solver from "./Solver"
 import SolverInformation from "./SolverInformation"
 

@@ -65,7 +65,7 @@ class Loop {
     }
 
     static getInstance (speed_multiplier?: Value, ticker?: Ticker): Loop {
-        if (!Loop.Instance && speed_multiplier instanceof Value && ticker instanceof Ticker) {
+        if (Loop.Instance === undefined && speed_multiplier instanceof Value && ticker instanceof Ticker) {
             Loop.Instance = new Loop(speed_multiplier, ticker)
         }
         return Loop.Instance

@@ -1,4 +1,4 @@
-import { InformationCollection } from "../types/Information"
+import { type InformationCollection } from "../types/Information"
 
 const SolverInformation: InformationCollection = {
     BFS: {

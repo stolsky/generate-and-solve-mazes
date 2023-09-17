@@ -1,6 +1,6 @@
 import {
     MAIN_TYPE,
-    MainType,
+    type MainType,
     SUB_TYPE
 } from "../types/CellType"
 import type Cell from "../classes/Cell"

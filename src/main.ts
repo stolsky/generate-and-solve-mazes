@@ -41,6 +41,15 @@ const colors = [
     { color: TypeColors.path.color, label: TypeColors.path.label }
 ]
 
+Loop.getInstance(
+    new Value(
+        SimulatorConfig.get_property_value("speed_multiplier_max") as number,
+        SimulatorConfig.get_property_value("speed_multiplier_min") as number,
+        SimulatorConfig.get_property_value("speed_multiplier_default") as number
+    ),
+    new Ticker()
+)
+
 init_ui(
     {
         canvas_width: width * size,
@@ -98,14 +107,5 @@ get_task_cards().forEach((card, index) => {
     card.set_title(full)
     add_task(new Task(card.get_context(), id))
 })
-
-Loop.getInstance(
-    new Value(
-        SimulatorConfig.get_property_value("speed_multiplier_max") as number,
-        SimulatorConfig.get_property_value("speed_multiplier_min") as number,
-        SimulatorConfig.get_property_value("speed_multiplier_default") as number
-    ),
-    new Ticker()
-)
 
 push_state(new IterationsState())

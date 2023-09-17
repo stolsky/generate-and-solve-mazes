@@ -3,7 +3,7 @@ import Generator from "./Generator"
 import GeneratorInformation from "./GeneratorInformation"
 import type Grid from "../classes/Grid"
 import GrowingTree from "./GrowingTree"
-import { Information } from "../types/Information"
+import { type Information } from "../types/Information"
 
 // TODO add Prim's Algorithm
 // @see: https://en.wikipedia.org/wiki/Prim%27s_algorithm 

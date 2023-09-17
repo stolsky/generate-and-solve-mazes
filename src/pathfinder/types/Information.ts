@@ -7,9 +7,7 @@ interface Information {
     const?: string
 }
 
-interface InformationCollection {
-    [key: string]: Information
-}
+type InformationCollection = Record<string, Information>;
 
 export {
     type Information,
