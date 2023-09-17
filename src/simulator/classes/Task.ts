@@ -1,7 +1,7 @@
 import {
     MAIN_TYPE,
     get_color_by_type
-} from "../../pathfinder/types/CellTypes"
+} from "../../pathfinder/types/CellType"
 import type Cell from "../../pathfinder/classes/Cell"
 import type ContextWrapper from "../ui/components/ContextWrapper"
 import { format_time } from "../ui/components/utilities"

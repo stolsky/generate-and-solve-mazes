@@ -8,7 +8,7 @@ import { push as push_state } from './simulator/classes/StateStack'
 import SimulatorConfig from "./simulator/config/Configuration"
 import SolverInformation from "./pathfinder/solvers/SolverInformation"
 import Task from "./simulator/classes/Task"
-import { TypeColorCollection } from './pathfinder/types/CellTypes'
+import { TypeColors } from './pathfinder/types/TypeColors'
 
 // TODO add description/welcome overlay
 // TODO add config page/overlay
@@ -29,13 +29,13 @@ const tasks = [
 ]
 
 const colors = [
-    { color: TypeColorCollection.floor.color, label: TypeColorCollection.floor.label },
-    { color: TypeColorCollection.wall.color, label: TypeColorCollection.wall.label },
-    { color: TypeColorCollection.start.color, label: TypeColorCollection.start.label },
-    { color: TypeColorCollection.goal.color, label: TypeColorCollection.goal.label },
-    { color: TypeColorCollection.search.color, label: TypeColorCollection.search.label },
-    { color: TypeColorCollection.expanded.color, label: TypeColorCollection.expanded.label },
-    { color: TypeColorCollection.path.color, label: TypeColorCollection.path.label }
+    { color: TypeColors.floor.color, label: TypeColors.floor.label },
+    { color: TypeColors.wall.color, label: TypeColors.wall.label },
+    { color: TypeColors.start.color, label: TypeColors.start.label },
+    { color: TypeColors.goal.color, label: TypeColors.goal.label },
+    { color: TypeColors.search.color, label: TypeColors.search.label },
+    { color: TypeColors.expanded.color, label: TypeColors.expanded.label },
+    { color: TypeColors.path.color, label: TypeColors.path.label }
 ]
 
 init_ui(

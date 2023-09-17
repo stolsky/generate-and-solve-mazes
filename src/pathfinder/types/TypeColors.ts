@@ -1,25 +1,10 @@
-const MAIN_TYPE =  {
-    NONE: -1,
-    FLOOR: 0,
-    WALL: 1,
-    START: 2,
-    GOAL: 3
-} as const
-
-const SUB_TYPE = {
-    NONE: -1,
-    SEARCH: 4,
-    EXPANDED: 5,
-    PATH: 6
-}
-
-type ObjectValues<T> = T[keyof T]
-
-type MainType = ObjectValues<typeof MAIN_TYPE>
-type SubType = ObjectValues<typeof SUB_TYPE>
+import {
+    MAIN_TYPE,
+    SUB_TYPE
+} from "./CellType"
 
 // https://www.schemecolor.com/rainbow-child.php
-const TypeColorCollection = {
+const TypeColors = {
     expanded: {
         color: "#feee5e",
         label: "Expanded",
@@ -58,15 +43,9 @@ const TypeColorCollection = {
 } as const
 
 const get_color_by_type = (type: number): string =>
-    Object.values(TypeColorCollection).find((color) => color.type === type)?.color ?? ""
+    Object.values(TypeColors).find((color) => color.type === type)?.color ?? ""
 
 export {
-    MAIN_TYPE,
-    type MainType,
-
-    SUB_TYPE,
-    type SubType,
-    
     get_color_by_type,
-    TypeColorCollection
+    TypeColors
 }

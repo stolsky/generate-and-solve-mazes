@@ -1,6 +1,6 @@
 import Generator from "./Generator"
 import type Grid from "../classes/Grid"
-import { MAIN_TYPE } from "../types/CellTypes"
+import { MAIN_TYPE } from "../types/CellType"
 
 class EmptyMaze extends Generator {
 

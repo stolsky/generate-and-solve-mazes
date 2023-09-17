@@ -1,7 +1,7 @@
 import {
     MAIN_TYPE,
     SUB_TYPE
-} from "../types/CellTypes"
+} from "../types/CellType"
 import type Cell from "../classes/Cell"
 import Generator from "./Generator"
 import Grid from "../classes/Grid"

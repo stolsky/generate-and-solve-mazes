@@ -3,7 +3,7 @@ import {
     type MainType,
     SUB_TYPE,
     type SubType
-} from "../types/CellTypes"
+} from "../types/CellType"
 
 class Cell {
 
