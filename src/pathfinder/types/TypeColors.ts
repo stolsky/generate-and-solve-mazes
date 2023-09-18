@@ -5,7 +5,7 @@ import {
     type SubType
 } from "./CellType"
 
-// https://www.schemecolor.com/rainbow-child.php
+// https://www.schemecolor.com/
 const TypeColors = {
     expanded: {
         color: "#9ec1cf", // "#0C43FF", // "#f39b50", // blue
