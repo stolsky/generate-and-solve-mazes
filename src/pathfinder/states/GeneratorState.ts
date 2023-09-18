@@ -18,6 +18,8 @@ import { get_all as get_all_tasks } from "../../simulator/tasks/TaskList"
 import Grid from "../classes/Grid"
 import { publish } from "../../simulator/Broker"
 import SolutionsState from "./SolutionState"
+// import { store_generation } from "../../database/database"
+// import MAZE_TYPE from "../types/MazeType"
 
 class GeneratorsState implements State {
 
@@ -42,6 +44,7 @@ class GeneratorsState implements State {
     }
 
     constructor(generator_id: number) {
+
         const width = Configuration.get_property_value("grid_width") as number
         const height = Configuration.get_property_value("grid_height") as number
         this.cell_size = Configuration.get_property_value("grid_cell_size") as number
@@ -69,7 +72,8 @@ class GeneratorsState implements State {
     }
 
     exit(): void {
-        // console.log("exit generator state")
+        // TODO use with correct parameters
+        // store_generation(this.generator.id, MAZE_TYPE.PERFECT, this.seed, 0)
     }
 
     render(): void {

@@ -1,4 +1,4 @@
-import type IPosition from "./types/IPosition";
+import type IPosition from "../global/Position";
 import random from "./random/random";
 
 /** Shuffle an array using the Durstenfeld shuffle algorithm.

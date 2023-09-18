@@ -5,7 +5,7 @@ import {
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import Grid from "../classes/Grid"
-import type IPosition from "../types/IPosition"
+import type IPosition from "../../global/Position"
 import Worker from "../classes/Worker"
 
 class Solver extends Worker {
@@ -14,8 +14,8 @@ class Solver extends Worker {
 
     private _path_length: number
 
-    constructor(grid?: Grid, store?: CellStore) {
-        super(grid ?? new Grid(0, 0), store ?? new CellStore())
+    constructor(id: number, grid?: Grid, store?: CellStore) {
+        super(id, grid ?? new Grid(0, 0), store ?? new CellStore())
         this._path_length = 0
     }
 

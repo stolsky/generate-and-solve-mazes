@@ -1,7 +1,7 @@
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import type Grid from "../classes/Grid"
-import type IPosition from "../types/IPosition"
+import type IPosition from "../../global/Position"
 import Solver from "./Solver"
 import SortedCellStore from "../classes/SortedCellStore"
 
@@ -32,10 +32,10 @@ class AStar extends Solver {
     }
 
     // TODO add heuristic id as parameter to specify manhatten, euclidean or other heuristic method
-    constructor(grid: Grid) {
+    constructor(id: number, grid: Grid) {
         // list of cells that have been visited but not yet expanded
         // called open_set in the default algorithm
-        super(grid, new SortedCellStore())
+        super(id, grid, new SortedCellStore())
         this.closed_set = new CellStore()
     }
 

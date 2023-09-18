@@ -5,7 +5,7 @@ import {
 import Cell from "./Cell"
 import type CellStore from "./CellStore"
 import type Grid from "./Grid"
-import type IPosition from "../types/IPosition"
+import type IPosition from "../../global/Position"
 import random from "../random/random"
 import Updates from "./Updates"
 
@@ -35,6 +35,8 @@ class Worker {
         RANDOM: 3
     } as const
 
+    private readonly _id: number
+
     private readonly grid: Grid
     protected readonly store: CellStore
     protected updates: Updates
@@ -51,7 +53,8 @@ class Worker {
         return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y)
     }
 
-    constructor(grid: Grid, store: CellStore) {
+    constructor(id: number, grid: Grid, store: CellStore) {
+        this._id = id
         this.grid = grid
         this.store = store
         this.updates = new Updates()
@@ -77,6 +80,10 @@ class Worker {
 
     get expanded_cells_count (): number {
         return this._expanded_cells_count
+    }
+
+    get id (): number {
+        return this._id
     }
 
     // TODO make static and make use of "from" and "to"

@@ -12,23 +12,23 @@ import Worker from "../classes/Worker"
 
 const create_generator = (id: number, grid: Grid): Generator => {
     if (id === GeneratorInformation.EmptyMaze.ID) {
-        return new EmptyMaze(grid)
+        return new EmptyMaze(id, grid)
     }
     if (id === GeneratorInformation.GrowingTree.ID) {
-        return new GrowingTree(grid)
+        return new GrowingTree(id, grid)
     }
     if (id === GeneratorInformation.KruskalsAlgorithm.ID) {
         // TODO replace with correct algorithm
-        return new GrowingTree(grid, Worker.Index.FIRST)
+        return new GrowingTree(id, grid, Worker.Index.FIRST)
     }
     if (id === GeneratorInformation.PrimsAlgorithm.ID) {
-        return new GrowingTree(grid, Worker.Index.RANDOM)
+        return new GrowingTree(id, grid, Worker.Index.RANDOM)
     }
     if (id === GeneratorInformation.RecursiveBacktracking.ID) {
-        return new GrowingTree(grid, Worker.Index.LAST)
+        return new GrowingTree(id, grid, Worker.Index.LAST)
     }
     // return empty generator if nothing found
-    return new Generator()
+    return new Generator(GeneratorInformation.NoGenerator.ID)
 }
 
 const get_generator_info_by_id = (id: number): Information =>

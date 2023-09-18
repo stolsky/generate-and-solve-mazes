@@ -4,8 +4,8 @@ import { MAIN_TYPE } from "../types/CellType"
 
 class EmptyMaze extends Generator {
 
-    constructor(grid: Grid) {
-        super(grid, MAIN_TYPE.WALL)
+    constructor(id: number, grid: Grid) {
+        super(id, grid, MAIN_TYPE.WALL)
         const start_cell = this.get_grid().get_cell(1, 1)
         if (start_cell !== undefined) {
             this.store.add_unique(start_cell)

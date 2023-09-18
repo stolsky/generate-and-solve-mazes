@@ -5,7 +5,7 @@ import {
 import type Cell from "../classes/Cell"
 import Generator from "./Generator"
 import type Grid from "../classes/Grid"
-import type IPosition from "../types/IPosition"
+import type IPosition from "../../global/Position"
 import { shuffle } from "../utilities"
 import Worker from "../classes/Worker"
 
@@ -47,8 +47,8 @@ class GrowingTree extends Generator {
         }
     }
 
-    constructor(grid: Grid, index_type: number = Worker.Index.LAST) {
-        super(grid, MAIN_TYPE.WALL)
+    constructor(id: number, grid: Grid, index_type: number = Worker.Index.LAST) {
+        super(id, grid, MAIN_TYPE.WALL)
         this.index_type = index_type
     }
 

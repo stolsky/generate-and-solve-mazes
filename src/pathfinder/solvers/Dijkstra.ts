@@ -1,6 +1,6 @@
 import type Cell from "../classes/Cell"
 import type Grid from "../classes/Grid"
-import type IPosition from "../types/IPosition"
+import type IPosition from "../../global/Position"
 import Solver from "./Solver"
 import SortedCellStore from "../classes/SortedCellStore"
 
@@ -10,8 +10,8 @@ import SortedCellStore from "../classes/SortedCellStore"
  */
 class Dijkstra extends Solver {
 
-    constructor(grid: Grid) {
-        super(grid, new SortedCellStore())
+    constructor(id: number, grid: Grid) {
+        super(id, grid, new SortedCellStore())
     }
 
     override perform_step(): void {

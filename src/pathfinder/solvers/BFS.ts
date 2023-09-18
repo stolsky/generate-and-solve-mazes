@@ -1,4 +1,4 @@
-import type IPosition from "../types/IPosition"
+import type IPosition from "../../global/Position"
 import Solver from "./Solver"
 
 /** Implementation of the Breadth-first search algorithm

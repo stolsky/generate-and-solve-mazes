@@ -1,5 +1,5 @@
 import Cell from "./Cell"
-import type IPosition from "../types/IPosition"
+import type IPosition from "../../global/Position"
 import { type MainType } from "../types/CellType"
 
 class Grid {
