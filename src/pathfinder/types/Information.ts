@@ -7,9 +7,4 @@ interface Information {
     const?: string
 }
 
-type InformationCollection = Record<string, Information>;
-
-export {
-    type Information,
-    type InformationCollection
-}
+export default Information

@@ -12,12 +12,10 @@ class Solver extends Worker {
 
     protected static WEIGHT_OF_EDGE = 1
 
-    protected readonly store: CellStore
     private _path_length: number
 
     constructor(grid?: Grid, store?: CellStore) {
-        super(grid ?? new Grid(0, 0))
-        this.store = store ?? new CellStore()
+        super(grid ?? new Grid(0, 0), store ?? new CellStore())
         this._path_length = 0
     }
 
@@ -81,7 +79,7 @@ class Solver extends Worker {
         }
     }
 
-    set_start_position (position: IPosition): void { /* void */ }
+    set_start_position (_position: IPosition): void { /* void */ }
 
     get path_length (): number {
         return this._path_length

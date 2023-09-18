@@ -1,6 +1,4 @@
-import { type InformationCollection } from "../types/Information"
-
-const SolverInformation: InformationCollection = {
+const SolverInformation = {
     BFS: {
         ID: 1,
         FULL: "BFS (Breadth-first search)",
