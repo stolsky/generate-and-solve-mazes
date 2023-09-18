@@ -4,8 +4,8 @@ import {
     SUB_TYPE
 } from "../types/CellType"
 import type Cell from "../classes/Cell"
-import CellStore from "../classes/CellStore"
-import Grid from "../classes/Grid"
+import type CellStore from "../classes/CellStore"
+import type Grid from "../classes/Grid"
 import type IPosition from "../../global/Position"
 import Worker from "../classes/Worker"
 
@@ -87,7 +87,7 @@ class Generator extends Worker {
      * @param store stores all the expanded and to be searched cells. if not set, it is initialized with the CellStore
      */
     constructor (id: number, grid?: Grid, initial_type?: MainType, store?: CellStore) {
-        super(id, grid ?? new Grid(0, 0), store ?? new CellStore())
+        super(id, grid, store)
         this.get_grid().init(initial_type ?? MAIN_TYPE.NONE)
     }
 

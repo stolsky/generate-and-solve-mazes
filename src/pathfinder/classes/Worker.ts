@@ -3,8 +3,8 @@ import {
     SUB_TYPE
 } from "../types/CellType"
 import Cell from "./Cell"
-import type CellStore from "./CellStore"
-import type Grid from "./Grid"
+import CellStore from "./CellStore"
+import Grid from "./Grid"
 import type IPosition from "../../global/Position"
 import random from "../random/random"
 import Updates from "./Updates"
@@ -53,10 +53,10 @@ class Worker {
         return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y)
     }
 
-    constructor(id: number, grid: Grid, store: CellStore) {
+    constructor(id: number, grid?: Grid, store?: CellStore) {
         this._id = id
-        this.grid = grid
-        this.store = store
+        this.grid = grid ?? new Grid(0, 0)
+        this.store = store ?? new CellStore()
         this.updates = new Updates()
         this._expanded_cells_count = 0
     }
