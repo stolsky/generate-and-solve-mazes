@@ -1,7 +1,10 @@
+import {
+    get_main_color_from_type,
+    get_sub_color_from_type
+} from "../../pathfinder/types/TypeColors"
 import type Cell from "../../pathfinder/classes/Cell"
 import type ContextWrapper from "../ui/components/ContextWrapper"
 import { format_time } from "../ui/components/utilities"
-import { get_color_from_types } from "../../pathfinder/types/TypeColors"
 import { get_solver_info_by_id } from "../../pathfinder/solvers/SolverFactory"
 import { publish } from "../Broker"
 import type Solver from "../../pathfinder/solvers/Solver"
@@ -49,14 +52,26 @@ class Task {
 
     render(updates: Cell[], size: number): void {
         updates.forEach((cell) => {
-            const color = get_color_from_types(cell.type, cell.sub_type)
+            const main_color = get_main_color_from_type(cell.type)
             this.renderer.fill_rect(
                 cell.x * size,
                 cell.y * size,
                 size,
                 size,
-                color
-            ) 
+                main_color
+            )
+
+            const sub_color = get_sub_color_from_type(cell.sub_type)
+            if (sub_color !== undefined) {
+                this.renderer.fill_rect(
+                cell.x * size + 1,
+                cell.y * size + 1,
+                size - 2,
+                size - 2,
+                sub_color
+            )
+            }
+            
         })
     }
 

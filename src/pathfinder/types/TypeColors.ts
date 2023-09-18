@@ -47,22 +47,12 @@ const TypeColors = {
 const get_color = (type: number): string =>
     Object.values(TypeColors).find((color) => color.type === type)?.color ?? ""
 
-const get_color_from_types = (main: MainType, sub: SubType): string => {
-        if (main === MAIN_TYPE.WALL
-            || main === MAIN_TYPE.START
-            || main === MAIN_TYPE.GOAL
-        ) {
-            return get_color(main)
-        }
-        
-        let color = get_color(sub)
-        if (color.length === 0) {
-            color = get_color(MAIN_TYPE.FLOOR)
-        }
-        return color
-    }
+const get_main_color_from_type = (main: MainType): string => get_color(main)
+
+const get_sub_color_from_type = (sub: SubType): string => get_color(sub)
 
 export {
-    get_color_from_types,
+    get_main_color_from_type,
+    get_sub_color_from_type,
     TypeColors
 }
