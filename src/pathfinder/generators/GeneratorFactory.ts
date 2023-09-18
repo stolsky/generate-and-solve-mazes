@@ -3,10 +3,10 @@ import Generator from "./Generator"
 import GeneratorInformation from "./GeneratorInformation"
 import type Grid from "../classes/Grid"
 import GrowingTree from "./GrowingTree"
-import { type Information } from "../types/Information"
+import type Information from "../types/Information"
+import Worker from "../classes/Worker"
 
-// TODO add Prim's Algorithm
-// @see: https://en.wikipedia.org/wiki/Prim%27s_algorithm 
+// TODO add more algorithms
 // @see: https://en.wikipedia.org/wiki/Maze_generation_algorithm
 // @see: https://weblog.jamisbuck.org/under-the-hood/
 
@@ -16,6 +16,16 @@ const create_generator = (id: number, grid: Grid): Generator => {
     }
     if (id === GeneratorInformation.GrowingTree.ID) {
         return new GrowingTree(grid)
+    }
+    if (id === GeneratorInformation.KruskalsAlgorithm.ID) {
+        // TODO replace with correct algorithm
+        return new GrowingTree(grid, Worker.Index.FIRST)
+    }
+    if (id === GeneratorInformation.PrimsAlgorithm.ID) {
+        return new GrowingTree(grid, Worker.Index.RANDOM)
+    }
+    if (id === GeneratorInformation.RecursiveBacktracking.ID) {
+        return new GrowingTree(grid, Worker.Index.LAST)
     }
     // return empty generator if nothing found
     return new Generator()

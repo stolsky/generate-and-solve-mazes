@@ -3,14 +3,40 @@ import {
     SUB_TYPE
 } from "../types/CellType"
 import Cell from "./Cell"
+import type CellStore from "./CellStore"
 import type Grid from "./Grid"
 import type IPosition from "../types/IPosition"
 import random from "../random/random"
 import Updates from "./Updates"
 
+
 class Worker {
 
+    // TODO improve Indeces 
+    // TODO add to options to config page for all algorithms that selects cells by index
+    /*
+        Newest/LAST
+        Random
+        
+        Newest/Random, 75/25 split
+        Newest/Random, 50/50 split
+        Newest/Random, 25/75 split
+
+        Oldest/FIRST
+        Middle
+        Newest/Oldest, 50/50 split
+        Oldest/Random, 50/50 split
+
+        FIBONACCI ??
+    */
+    static Index = {
+        FIRST: 1,
+        LAST: 2,
+        RANDOM: 3
+    } as const
+
     private readonly grid: Grid
+    protected readonly store: CellStore
     protected updates: Updates
     protected start_position: IPosition | undefined
     protected goal_position: IPosition | undefined
@@ -25,10 +51,22 @@ class Worker {
         return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y)
     }
 
-    constructor(grid: Grid) {
+    constructor(grid: Grid, store: CellStore) {
         this.grid = grid
+        this.store = store
         this.updates = new Updates()
         this._expanded_cells_count = 0
+    }
+
+    protected choose_index_by_type (type: number): number {
+        // === Worker.Index.FIRST
+        let index = 0
+        if (type === Worker.Index.LAST) {
+            index = this.store.get_size() - 1
+        } else if (type === Worker.Index.RANDOM) {
+            index = Math.floor(random(0, this.store.get_size() - 1))
+        }
+        return index
     }
 
     protected update_as_expanded (cell: Cell): void {
@@ -59,7 +97,7 @@ class Worker {
     }
 
     is_finished(): boolean {
-        return true
+        return this.store.get_size() === 0
     }
 
     perform_step(): void { /* void */ }

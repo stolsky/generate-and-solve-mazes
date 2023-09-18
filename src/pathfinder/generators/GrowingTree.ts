@@ -4,9 +4,10 @@ import {
 } from "../types/CellType"
 import type Cell from "../classes/Cell"
 import Generator from "./Generator"
-import Grid from "../classes/Grid"
+import type Grid from "../classes/Grid"
 import type IPosition from "../types/IPosition"
 import { shuffle } from "../utilities"
+import Worker from "../classes/Worker"
 
 /** Implementation of the Growing Tree algorithm to generate mazes.
  * 
@@ -14,106 +15,63 @@ import { shuffle } from "../utilities"
  */
 class GrowingTree extends Generator {
 
-    private add_cell_to_maze(current_cell: Cell, next_cell: Cell): void {
+    private readonly index_type: number
 
-        const passage = this.carve_passage(
-            current_cell,
-            {
-              x: next_cell.x - current_cell.x,
-              y: next_cell.y - current_cell.y
-            },
-            2
+    private get_random_cell (cells: Cell[]): Cell {
+        shuffle(cells)
+        return cells[0]
+    }
+
+    private get_unvisited_neighbours (cell: Cell): Cell[] {
+        return this.get_grid()
+            .get_adjacent_neighbours(cell)
+            .filter((neighbour) => neighbour.sub_type !== SUB_TYPE.EXPANDED
+                && this.is_next_cell_available(cell, neighbour))
+    }
+
+    private is_next_cell_available (start: Cell, goal: Cell): boolean {
+        const x = goal.x * 2 - start.x
+        const y = goal.y * 2 - start.y
+        const look_ahead = this.get_grid().get_cell(x, y)
+        return (look_ahead !== undefined
+            && look_ahead.sub_type !== SUB_TYPE.SEARCH
+            && look_ahead.sub_type !== SUB_TYPE.EXPANDED
         )
-        passage.forEach((cell, index) => {
-            if (index === 0 || index === passage.length - 1) {
-                cell.sub_type = SUB_TYPE.SEARCH
-                this.store.add_unique(cell)
-            } else {
-                cell.sub_type = SUB_TYPE.EXPANDED
-            }
-            this.updates.add(cell)
-        })
     }
 
-    private choose_index(): number {
-        // newest cell
-        const index = -1
-        // random cell
-        // const index = Math.floor(random(store.length - 1));
-        // oldest cell
-        // const index = 0;
-        return index
-    }
-
-    private find_unvisited_neighbours(x: number, y: number): Cell[] {
-        const directions = Grid.calculate_von_neumann_directions(x, y)
-        const look_ahead = Grid.calculate_look_ahead(x, y)
-        const neighbours: Cell[] = [];
-        directions.forEach((direction, index) => {
-            const neighbour = this.get_grid().get_cell(
-                direction.x,
-                direction.y
-            )
-            const next_neighbour = this.get_grid().get_cell(
-                look_ahead[index].x,
-                look_ahead[index].y
-            )
-            if (neighbour!== undefined && neighbour.sub_type !== SUB_TYPE.EXPANDED) {
-                if (next_neighbour!== undefined
-                    && next_neighbour.sub_type !== SUB_TYPE.SEARCH
-                    && next_neighbour.sub_type !== SUB_TYPE.EXPANDED
-                ) {
-                    neighbours.push(neighbour)
-                } else {
-                    neighbour.type = MAIN_TYPE.WALL
-                    neighbour.sub_type = SUB_TYPE.EXPANDED
-                }
-            }
-        })
-        return neighbours
-    }
-
-    private find_next_cell(cell: Cell, index: number): Cell | undefined {
-        const unvisited_neighbours = this.find_unvisited_neighbours(
-            cell.x,
-            cell.y
-        )
-        let next_cell
-        if (unvisited_neighbours.length === 0) {
-            const removed_cell = this.store.remove(index)
-            if (removed_cell !== undefined) {
-                removed_cell.sub_type = SUB_TYPE.EXPANDED
-                this.updates.add(removed_cell)
-            }
-        } else {
-            shuffle(unvisited_neighbours)
-            next_cell = unvisited_neighbours[0]
+    private remove_cell (index: number): void {
+        const removed_cell = this.store.remove(index)
+        if (removed_cell !== undefined) {
+            removed_cell.sub_type = SUB_TYPE.EXPANDED
+            this.updates.add(removed_cell)
         }
-        return next_cell
     }
 
-    private select_current_cell(): { cell: Cell | undefined, index: number } {
-        const index = this.choose_index()
-        return { cell: this.store.get_cell(index), index }
-    }
-
-    constructor(grid: Grid) {
+    constructor(grid: Grid, index_type: number = Worker.Index.LAST) {
         super(grid, MAIN_TYPE.WALL)
-    }
-
-    override is_finished(): boolean {
-        return this.store.get_size() === 0
+        this.index_type = index_type
     }
 
     override perform_step(): void {
-        const { cell, index } = this.select_current_cell()
+
+        const current_index = this.choose_index_by_type(this.index_type)
+        const current_cell = this.store.get_cell(current_index)
+
         // if current cell is undefined than store must be empty and algorithm is finished
-        if (cell!== undefined) {
-            const next_cell = this.find_next_cell(cell, index)
-            if (next_cell!== undefined) {
-                this.add_cell_to_maze(cell, next_cell)
-            }
+        if (current_cell === undefined) {
+            return
         }
+
+        const neighbours = this.get_unvisited_neighbours(current_cell)
+        if (neighbours.length === 0) {
+            this.remove_cell(current_index)
+            return
+        }
+
+        this.create_passage(
+            current_cell,
+            this.get_random_cell(neighbours)
+        )
     }
 
     override set_start_position(position: IPosition): void {
@@ -128,8 +86,7 @@ class GrowingTree extends Generator {
         }
         
         super.init_start_cell(
-            super.create_start_cell(position),
-            (cell: Cell) => { cell.g = 0 }
+            super.create_start_cell(position)
         )
     }
 

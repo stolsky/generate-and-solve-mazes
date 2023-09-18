@@ -1,6 +1,5 @@
-import { type InformationCollection } from "../types/Information";
-
-const GeneratorInformation: InformationCollection = {
+// TODO add pros and cons to every algorithm seperated by comma (",")
+const GeneratorInformation = {
     EmptyMaze: {
         ID: 1,
         FULL: "",
@@ -10,8 +9,22 @@ const GeneratorInformation: InformationCollection = {
         ID: 2,
         FULL: "",
         SHORT: "GrowingTree"
-        // TODO add pros
-        // TODO add cons
+        
+    },
+    KruskalsAlgorithm: {
+        ID: 3,
+        FULL: "",
+        SHORT: "Kruskal"
+    },
+    PrimsAlgorithm: {
+        ID: 4,
+        FULL: "",
+        SHORT: "Prim"
+    },
+    RecursiveBacktracking: {
+        ID: 5,
+        FULL: "",
+        SHORT: "RecursiveBacktracking"
     },
     NoGenerator: {
         ID: -1,
