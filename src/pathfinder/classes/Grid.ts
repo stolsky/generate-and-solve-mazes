@@ -1,5 +1,6 @@
 import Cell from "./Cell"
 import type IPosition from "../types/IPosition"
+import { type MainType } from "../types/CellType"
 
 class Grid {
 
@@ -21,12 +22,12 @@ class Grid {
         { x: x - 1, y: y - 1},  // north west
     ]
 
-    static calculate_look_ahead = (x: number, y: number): IPosition[] => [
-        { x, y: y - 2},  // north
-        { x: x + 2, y }, // east
-        { x, y: y + 2},  // south
-        { x: x - 2, y}   // west
-    ]
+    // static calculate_look_ahead = (x: number, y: number, length = 2): IPosition[] => [
+    //     { x, y: y - length},  // north
+    //     { x: x + length, y }, // east
+    //     { x, y: y + length},  // south
+    //     { x: x - length, y}   // west
+    // ]
 
     private readonly _width: number
     private readonly _height: number
@@ -101,7 +102,7 @@ class Grid {
         )
     }
 
-    init(type: number): void {
+    init(type: MainType): void {
         for (let x = 0; x < this.width; x = x + 1) {
             for (let y = 0; y < this.height; y = y + 1) {
                 this.cells[this.hash_index(x, y)] = new Cell(x, y, type)
