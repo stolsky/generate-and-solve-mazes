@@ -64,12 +64,12 @@ class Task {
             const sub_color = get_sub_color_from_type(cell.sub_type)
             if (sub_color !== undefined) {
                 this.renderer.fill_rect(
-                cell.x * size + 1,
-                cell.y * size + 1,
-                size - 2,
-                size - 2,
-                sub_color
-            )
+                    cell.x * size + 2,
+                    cell.y * size + 2,
+                    size - 4,
+                    size - 4,
+                    sub_color
+                )
             }
             
         })
