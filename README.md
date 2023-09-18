@@ -10,9 +10,11 @@ Visualization of the generation and solution of mazes with various algorithms.
   * perfect, with circles
   * only with sparse/moderate/dense obstacles
 * [ ] set the start and goal position yourself
+* [ ] force the random path (solution) to be short, medium or long
 * [ ] set your own seed
   * to analyze the same maze with different algorithms, start and goal positions, etc.
 * [ ] select own maze generator
+* [ ] dig your maze by yourself (in one/some/every iteration)
 * [ ] choose path finding algorithms
 * [ ] tests different heuristics (taxicab, euclidean distance) for A* or other algorithms
 * [ ] set flood option to flood the maze/playground after generation to visualize certain qualities
