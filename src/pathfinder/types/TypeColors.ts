@@ -8,7 +8,7 @@ import {
 // https://www.schemecolor.com/rainbow-child.php
 const TypeColors = {
     expanded: {
-        color: "#feee5e",
+        color: "#9ec1cf", // "#0C43FF", // "#f39b50", // blue
         label: "Expanded",
         type: SUB_TYPE.EXPANDED
     },
@@ -18,22 +18,22 @@ const TypeColors = {
         type: MAIN_TYPE.FLOOR
     },
     goal: {
-        color: "#a4cf09",
+        color: "#9ee09e", // "#29CA40", // "#a4cf09", // green
         label: "Goal",
         type: MAIN_TYPE.GOAL
     },
     path: {
-        color: "#7349a2",
+        color: "#cc99c9", // "#972DA9", // "#7349a2", // purple
         label: "Path",
         type: SUB_TYPE.PATH
     },
     search: {
-        color: "#f39b50",
+        color: "#feb144", // "#F58E16", // "#feee5e", // orange
         label: "Search",
         type: SUB_TYPE.SEARCH
     },
     start: {
-        color: "#f03e3e",
+        color: "#ff6663", // "#FF0C2C", // "#f03e3e", // red
         label: "Start",
         type: MAIN_TYPE.START
     },
