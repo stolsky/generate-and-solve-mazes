@@ -2,6 +2,7 @@ import "./table.css"
 
 import Component from "../Component"
 import Container from "../Container"
+import { get_results_of_solver } from "../../../../database/database"
 import { subscribe } from "../../../Broker"
 
 interface Identifier {
@@ -12,45 +13,23 @@ interface Identifier {
 interface TableOptions {
     columns: Identifier[]
     rows: Identifier[]
-    criteria: {
-        id: number
-    }
 }
 
-type DataTable = Record<
-    string,
-    {
-        results: number[][],
-        ref: Container | undefined
-    }
->
-
-const data_table: DataTable = {}
+const output: Record<string, Container> = {}
 
 const update = (message: string): void => {
-    // first part is reserved for id
-    const [id, ...items] = message.split("/")
-    if (id in data_table) {
-        const dataset = data_table[id]
-
-        let count = 0
-        const datasets = Object.values(data_table)
-        const size = datasets.length
-        datasets.forEach((dataset) => count = (count + dataset.results.length) % size)
-
-        dataset.results.push(items.map((str) => Number.parseInt(str, 10)))
-        items.push((count + 1).toString(10))
-        if (dataset.ref instanceof Container) {
-            const children = dataset.ref.get_children()
-            for (let i = 1; i < children.length; i = i + 1) {
-                children[i].textContent = items[i - 1]
-            }
+    if (message in output) {
+        const results = get_results_of_solver(Number.parseInt(message, 10))
+        if (results !== undefined) {
+            const children = output[message].get_children()
+            // for (let i = 1; i < children.length; i = i + 1) {
+            //     children[i].textContent = items[i - 1]
+            // }
         }
-        
     }
 }
 
-const finalize_round = (_message: string): void => {
+const finalize_iteration = (_message: string): void => {
     // getting position
         
     // calculate points
@@ -75,7 +54,7 @@ const create_body = (items: Identifier[], width: number): Container => {
     const body = new Container("", "tbody")
     items.forEach((item) => {
         const row = new Container("", "tr")
-        data_table[item.id.toString(10)].ref = row
+        output[item.id.toString(10)] = row
         row.append_child(
             new Component("", "td")
                 .set_content(item.label)
@@ -96,12 +75,8 @@ const create_foot = (): Component => new Component("Hint", "p").set_content("*ac
 
 const init = (table_options: TableOptions): Container => {
 
-    subscribe("Results", update)
-    subscribe("IterationEnd", finalize_round)
-
-    table_options.rows.forEach((item) => {
-        data_table[item.id.toString(10)] = { results: [], ref: undefined }
-    })
+    subscribe("SolutionReady", update)
+    subscribe("AllSolutionsFinished", finalize_iteration)
 
     return new Container("Results")
         .append(

@@ -64,15 +64,15 @@ init_ui(
             },
             {
                 id: 2,
-                label: "Path length",
+                label: "path length",
             },
             {
                 id: 3,
-                label: "Expanded nodes",
+                label: "expanded nodes",
             },
             {
                 id: 4,
-                label: "Time taken",
+                label: "time taken",
             }
         ],
         rows: [
@@ -92,10 +92,7 @@ init_ui(
                 id: SOLVER_TYPE.A_STAR,
                 label: get_solver_information(SOLVER_TYPE.A_STAR).SHORT
             }
-        ],
-        criteria: {
-            id: 3
-        }
+        ]
     },
     {
         colors

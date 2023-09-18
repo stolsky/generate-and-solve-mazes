@@ -1,5 +1,4 @@
 import {
-    
     type GenerationResults,
     type Iteration,
     type Solution,
@@ -14,8 +13,6 @@ const results: Iteration[] = []
 const finalize_iteration = (): void => {
     // add copy(!) of current iteration to results
     results.push({ ...current_iteration })
-
-    console.dir(results)
 }
 
 export const setup_iteration = (id: number): void => {
@@ -53,13 +50,21 @@ export const store_positions = (start: Position, goal: Position): void => {
 export const store_solution = (results: SolutionResults): void => {
     if ("solutions" in current_iteration) {
         const { solver_id, path_length, expanded_nodes, time_taken_ms } = results
+        
+        // TODO evaluate solution
+        const points = 0
+
         current_iteration.solutions.push({
             solver_id,
             path_length,
             expanded_nodes,
-            time_taken_ms
+            time_taken_ms,
+            points
         })
     }
 }
 
 export const get_all_iteration_results = (index: number): Solution[] => results[index].solutions
+
+export const get_results_of_solver = (solver_id: number): Solution | undefined =>
+    current_iteration.solutions.find((solution) => solution.solver_id === solver_id)

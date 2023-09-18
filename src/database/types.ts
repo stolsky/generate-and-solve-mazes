@@ -25,7 +25,8 @@ interface Solution {
     solver_id: number
     path_length: number
     expanded_nodes: number
-    time_taken_ms: number
+    time_taken_ms: number,
+    points: number
 }
 
 interface Iteration {
