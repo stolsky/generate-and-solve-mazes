@@ -1,36 +1,46 @@
-// TODO add pros and cons to every algorithm seperated by comma (",")
-const GeneratorInformation = {
-    EmptyMaze: {
-        ID: 1,
+import type Information from "../types/Information"
+
+export const GENERATOR_TYPE = {
+    EMPTY_MAZE: 0,
+    GROWING_TREE: 1,
+    KRUSKALS_ALGORITHM: 2,
+    PRIMS_ALGORITHM: 3,
+    RECURSIVE_BACKTRACKING: 4
+} as const
+
+const GeneratorInformation: readonly Information[] = [
+    {
+        ID: 0,
         FULL: "",
         SHORT: "Empty"
     },
-    GrowingTree: {
-        ID: 2,
+    {
+        ID: 1,
         FULL: "",
         SHORT: "GrowingTree"
         
     },
-    KruskalsAlgorithm: {
-        ID: 3,
+    {
+        ID: 2,
         FULL: "",
         SHORT: "Kruskal"
     },
-    PrimsAlgorithm: {
-        ID: 4,
+    {
+        ID: 3,
         FULL: "",
         SHORT: "Prim"
     },
-    RecursiveBacktracking: {
-        ID: 5,
+    {
+        ID: 4,
         FULL: "",
         SHORT: "RecursiveBacktracking"
-    },
-    NoGenerator: {
-        ID: -1,
-        FULL: "Requested generator information not found",
-        SHORT: "Error"
     }
+] as const
+
+export const NoGenerator: Information = {
+    ID: -1,
+    FULL: "Requested generator information not found",
+    SHORT: "Error"
 } as const
 
-export default GeneratorInformation
+export const get_information_by_id = (id: number): Information => GeneratorInformation[id] ?? NoGenerator

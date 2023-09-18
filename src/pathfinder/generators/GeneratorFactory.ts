@@ -1,9 +1,11 @@
+import {
+    GENERATOR_TYPE,
+    NoGenerator
+} from "./GeneratorInformation"
 import EmptyMaze from "./EmptyMaze"
 import Generator from "./Generator"
-import GeneratorInformation from "./GeneratorInformation"
 import type Grid from "../classes/Grid"
 import GrowingTree from "./GrowingTree"
-import type Information from "../types/Information"
 import Worker from "../classes/Worker"
 
 // TODO add more algorithms
@@ -11,27 +13,24 @@ import Worker from "../classes/Worker"
 // @see: https://weblog.jamisbuck.org/under-the-hood/
 
 const create_generator = (id: number, grid: Grid): Generator => {
-    if (id === GeneratorInformation.EmptyMaze.ID) {
+    if (id === GENERATOR_TYPE.EMPTY_MAZE) {
         return new EmptyMaze(id, grid)
     }
-    if (id === GeneratorInformation.GrowingTree.ID) {
+    if (id === GENERATOR_TYPE.GROWING_TREE) {
         return new GrowingTree(id, grid)
     }
-    if (id === GeneratorInformation.KruskalsAlgorithm.ID) {
+    if (id === GENERATOR_TYPE.KRUSKALS_ALGORITHM) {
         // TODO replace with correct algorithm
         return new GrowingTree(id, grid, Worker.Index.FIRST)
     }
-    if (id === GeneratorInformation.PrimsAlgorithm.ID) {
+    if (id === GENERATOR_TYPE.PRIMS_ALGORITHM) {
         return new GrowingTree(id, grid, Worker.Index.RANDOM)
     }
-    if (id === GeneratorInformation.RecursiveBacktracking.ID) {
+    if (id === GENERATOR_TYPE.RECURSIVE_BACKTRACKING) {
         return new GrowingTree(id, grid, Worker.Index.LAST)
     }
     // return empty generator if nothing found
-    return new Generator(GeneratorInformation.NoGenerator.ID)
+    return new Generator(NoGenerator.ID)
 }
-
-export const get_generator_info_by_id = (id: number): Information =>
-    Object.values(GeneratorInformation).find((generator) => generator.ID === id) ?? GeneratorInformation.NoGenerator
 
 export default create_generator

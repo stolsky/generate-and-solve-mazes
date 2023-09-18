@@ -1,5 +1,8 @@
+import {
+    get_information_by_id as get_solver_information,
+    SOLVER_TYPE
+} from './pathfinder/solvers/SolverInformation'
 import { add as add_task } from './simulator/tasks/TaskList'
-import { get_solver_info_by_id } from './pathfinder/solvers/SolverFactory'
 import { get_task_cards } from './simulator/ui/components/content/Content'
 import { init as init_loop } from './loop/Loop'
 import init_ui from './simulator/ui/UI'
@@ -7,7 +10,6 @@ import IterationsState from './pathfinder/states/IterationState'
 import PathfinderConfig from './pathfinder/config/Configuration'
 import { push as push_state } from './loop/StateStack'
 import SimulatorConfig from "./simulator/config/Configuration"
-import SolverInformation from "./pathfinder/solvers/SolverInformation"
 import Task from "./simulator/tasks/Task"
 import { TypeColors } from './pathfinder/types/TypeColors'
 import Value from './global/Value'
@@ -24,10 +26,10 @@ const size = PathfinderConfig.get_property_value("grid_cell_size") as number
 const tasks_amount = PathfinderConfig.get_property_value("tasks_amount") as number
 
 const tasks = [
-    get_solver_info_by_id(SolverInformation.BFS.ID),
-    get_solver_info_by_id(SolverInformation.DFS.ID),
-    get_solver_info_by_id(SolverInformation.Dijkstra.ID),
-    get_solver_info_by_id(SolverInformation.AStar.ID)
+    get_solver_information(SOLVER_TYPE.BFS),
+    get_solver_information(SOLVER_TYPE.DFS),
+    get_solver_information(SOLVER_TYPE.DIJKSTRA),
+    get_solver_information(SOLVER_TYPE.A_STAR)
 ]
 
 const colors = [
@@ -75,20 +77,20 @@ init_ui(
         ],
         rows: [
             {
-                id: SolverInformation.BFS.ID,
-                label: SolverInformation.BFS.SHORT
+                id: SOLVER_TYPE.BFS,
+                label: get_solver_information(SOLVER_TYPE.BFS).SHORT
             },
             {
-                id: SolverInformation.DFS.ID,
-                label: SolverInformation.DFS.SHORT
+                id: SOLVER_TYPE.DFS,
+                label: get_solver_information(SOLVER_TYPE.DFS).SHORT
             },
             {
-                id: SolverInformation.Dijkstra.ID,
-                label: SolverInformation.Dijkstra.SHORT
+                id: SOLVER_TYPE.DIJKSTRA,
+                label: get_solver_information(SOLVER_TYPE.DIJKSTRA).SHORT
             },
             {
-                id: SolverInformation.AStar.ID,
-                label: SolverInformation.AStar.SHORT
+                id: SOLVER_TYPE.A_STAR,
+                label: get_solver_information(SOLVER_TYPE.A_STAR).SHORT
             }
         ],
         criteria: {
