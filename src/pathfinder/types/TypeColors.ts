@@ -6,7 +6,7 @@ import {
 } from "./CellType"
 
 // https://www.schemecolor.com/
-const TypeColors = {
+export const TypeColors = {
     expanded: {
         color: "#9ec1cf", // "#0C43FF", // "#f39b50", // blue
         label: "Expanded",
@@ -47,12 +47,6 @@ const TypeColors = {
 const get_color = (type: number): string =>
     Object.values(TypeColors).find((color) => color.type === type)?.color ?? ""
 
-const get_main_color_from_type = (main: MainType): string => get_color(main)
+export const get_main_color_from_type = (main: MainType): string => get_color(main)
 
-const get_sub_color_from_type = (sub: SubType): string => get_color(sub)
-
-export {
-    get_main_color_from_type,
-    get_sub_color_from_type,
-    TypeColors
-}
+export const get_sub_color_from_type = (sub: SubType): string => get_color(sub)

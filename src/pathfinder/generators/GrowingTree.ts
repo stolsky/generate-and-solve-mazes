@@ -5,7 +5,7 @@ import {
 import type Cell from "../classes/Cell"
 import Generator from "./Generator"
 import type Grid from "../classes/Grid"
-import type IPosition from "../../global/Position"
+import type Position from "../../global/Position"
 import { shuffle } from "../utilities"
 import Worker from "../classes/Worker"
 
@@ -74,7 +74,7 @@ class GrowingTree extends Generator {
         )
     }
 
-    override set_start_position(position: IPosition): void {
+    override set_start_position(position: Position): void {
 
         const { x, y } = position
         // by starting at odd coordinates, there will be a wall outside automatically 

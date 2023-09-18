@@ -7,9 +7,9 @@ interface State {
 
 const states: State[] = []
 
-const is_empty = (): boolean => states.length === 0
+export const is_empty = (): boolean => states.length === 0
 
-const pop = (): void => {
+export const pop = (): void => {
     if (!is_empty()) {
         const state = states.pop()
         if (state !== undefined) {
@@ -18,18 +18,18 @@ const pop = (): void => {
     }
 }
 
-const push = (state: State): void => {
+export const push = (state: State): void => {
     states.push(state)
     state.enter()
 }
 
-const render = (): void => {
+export const render = (): void => {
     states.forEach((state) => {
         state.render()
     })
 }
 
-const update = (delta_time: number): void => {
+export const update = (delta_time: number): void => {
     if (!is_empty()) {
         states[states.length - 1].update(delta_time)
     }
@@ -37,9 +37,4 @@ const update = (delta_time: number): void => {
 
 export {
     type State,
-    is_empty,
-    pop,
-    push,
-    render,
-    update
 }

@@ -16,19 +16,25 @@ import type Generator from "../generators/Generator"
 // TODO refactor to avoid using TaskList from simulator
 import { get_all as get_all_tasks } from "../../simulator/tasks/TaskList"
 import Grid from "../classes/Grid"
+import type Position from "../../global/Position"
 import { publish } from "../../simulator/Broker"
 import SolutionsState from "./SolutionState"
-// import { store_generation } from "../../database/database"
-// import MAZE_TYPE from "../types/MazeType"
+import { store_generation } from "../../database/database"
 
 class GeneratorsState implements State {
 
+    private readonly generator_id: number
+    private readonly maze_type: number
+    private readonly maze_width: number
+    private readonly maze_height: number
     private readonly seed: string
+    private readonly start_position: Position
+
     private readonly generator: Generator
     private readonly cell_size: number
     private runtime: number
+    private count_floor_tiles: number
 
-    // TODO necessary with clean_copy method
     private reset_generating_variables(): Cell[] {
         const updates: Cell[] = []
         this.generator.get_grid().each((cell) => {
@@ -38,42 +44,50 @@ class GeneratorsState implements State {
             cell.sub_type = SUB_TYPE.NONE
             cell.sub_type = SUB_TYPE.NONE
             updates.push(cell)
+            if (cell.type === MAIN_TYPE.FLOOR) {
+                this.count_floor_tiles = this.count_floor_tiles + 1
+            }
         })
 
         return updates
     }
 
-    constructor(generator_id: number) {
+    constructor() {
 
-        const width = Configuration.get_property_value("grid_width") as number
-        const height = Configuration.get_property_value("grid_height") as number
-        this.cell_size = Configuration.get_property_value("grid_cell_size") as number
-        this.runtime = 0
-
-        get_all_tasks().forEach((task) => { task.reset() })
-
-        this.generator = create_generator(generator_id, new Grid(width, height))
-        
-        // TODO refactor to method
+        this.generator_id = Configuration.get_property_value("generator_id") as number
+        this.maze_type = Configuration.get_property_value("maze_type") as number
+        this.maze_width = Configuration.get_property_value("grid_width") as number
+        this.maze_height = Configuration.get_property_value("grid_height") as number
         this.seed = Math.floor(random(0, Date.now())).toString(10)
-        // TODO DEVELOPMENT ONLY
-        // this.seed = "739905356692"
         // initialize pseudo random number generator with seed
         set_seed(this.seed)
+
+        this.generator = create_generator(this.generator_id, new Grid(this.maze_width, this.maze_height))
+        this.start_position = this.generator.find_random_position()
+        this.generator.set_start_position(this.start_position)
+
+        this.cell_size = Configuration.get_property_value("grid_cell_size") as number
+        this.runtime = 0
+        this.count_floor_tiles = 0
+    
         publish("Log", `Seed ${this.seed}`)
-        
-        const start_position = this.generator.find_random_position()
-        this.generator.set_start_position(start_position)
-        publish("Log", `Start generating at ${start_position.x}:${start_position.y}`)
+        publish("Log", `Start generating at ${this.start_position.x}:${this.start_position.y}`)
     }
 
     enter(): void {
-        // console.log("enter generator state")
+        get_all_tasks().forEach((task) => { task.reset() })
     }
 
     exit(): void {
-        // TODO use with correct parameters
-        // store_generation(this.generator.id, MAZE_TYPE.PERFECT, this.seed, 0)
+        store_generation({
+            generator_id: this.generator.id,
+            seed: this.seed,
+            maze_width: this.maze_width,
+            maze_height: this.maze_height,
+            maze_type: this.maze_type,
+            start_position: this.start_position,
+            floor_tiles: this.count_floor_tiles
+        })
     }
 
     render(): void {

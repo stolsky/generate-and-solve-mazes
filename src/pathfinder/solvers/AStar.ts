@@ -1,7 +1,7 @@
 import type Cell from "../classes/Cell"
 import CellStore from "../classes/CellStore"
 import type Grid from "../classes/Grid"
-import type IPosition from "../../global/Position"
+import type Position from "../../global/Position"
 import Solver from "./Solver"
 import SortedCellStore from "../classes/SortedCellStore"
 
@@ -61,7 +61,7 @@ class AStar extends Solver {
         })
     }
 
-    override set_start_position(position: IPosition): void {
+    override set_start_position(position: Position): void {
         super.init_start_cell(
             super.create_start_cell(position),
             (cell: Cell) => { cell.g = 0 }

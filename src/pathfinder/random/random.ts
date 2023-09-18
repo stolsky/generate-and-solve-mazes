@@ -32,7 +32,7 @@ let samples: number[] = []
  *
  * @returns {number} random number
  */
-const gauss = (m: number = 0, sd: number = 1): number => {
+export const gauss = (m: number = 0, sd: number = 1): number => {
     if (samples.length === 0) {
         samples = box_muller_transform()
     }
@@ -61,7 +61,7 @@ const random = (from: number = 0, to: number = 1): number => {
  *
  * @param {string} seed
  */
-const set_seed = (seed: string = ""): void => {
+export const set_seed = (seed: string = ""): void => {
     const use_seed = seed.length === 0 ? `${Math.random()}` : seed
     const hash = xmur3(use_seed)
     prng = xoshiro128ss(hash(), hash(), hash(), hash())
@@ -71,7 +71,3 @@ const set_seed = (seed: string = ""): void => {
 set_seed()
 
 export default random
-export {
-    gauss,
-    set_seed
-}

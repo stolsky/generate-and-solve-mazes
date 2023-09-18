@@ -1,6 +1,6 @@
 const subscriptions: Record<string, Array<(value: string) => void>> = {}
 
-const publish = (id: string, value?: string): void => {
+export const publish = (id: string, value?: string): void => {
     if (id in subscriptions) {
         subscriptions[id].forEach((subscription) => {
             subscription(value ?? "")
@@ -8,7 +8,7 @@ const publish = (id: string, value?: string): void => {
     }
 }
 
-const subscribe = (id: string, callback: (value: string) => void): void => {
+export const subscribe = (id: string, callback: (value: string) => void): void => {
     if (id in subscriptions) {
 	    subscriptions[id].push(callback);
   	} else {
@@ -16,9 +16,4 @@ const subscribe = (id: string, callback: (value: string) => void): void => {
   			value: [callback]
 		})
   	}
-}
-
-export {
-    publish,
-    subscribe
 }

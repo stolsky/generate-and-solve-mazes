@@ -1,11 +1,12 @@
-import type IPosition from "../global/Position"
+import type Position from "../global/Position"
 
 interface GenerationResults {
-    generator_id: number,
-    seed: string,
-    maze_width: number,
-    maze_height: number,
-    maze_type: number,
+    generator_id: number
+    seed: string
+    maze_width: number
+    maze_height: number
+    maze_type: number
+    start_position: Position
     floor_tiles: number
 }
 
@@ -16,8 +17,8 @@ interface Setup {
     maze_height?: number
     maze_type?: number
     floor_tiles?: number
-    start_position?: IPosition
-    goal_position?: IPosition
+    start_position?: Position
+    goal_position?: Position
 }
 
 interface Solution {

@@ -1,17 +1,17 @@
 import Cell from "./Cell"
-import type IPosition from "../../global/Position"
 import { type MainType } from "../types/CellType"
+import type Position from "../../global/Position"
 
 class Grid {
 
-    static calculate_von_neumann_directions = (x: number, y: number): IPosition[] => [
+    static calculate_von_neumann_directions = (x: number, y: number): Position[] => [
         { x, y: y - 1},  // north
         { x: x + 1, y }, // east
         { x, y: y + 1},  // south
         { x: x - 1, y}   // west
     ]
 
-    static calculate_moore_directions = (x: number, y: number): IPosition[] => [
+    static calculate_moore_directions = (x: number, y: number): Position[] => [
         { x, y: y - 1},  // north
         { x: x + 1, y: y - 1},  // north east
         { x: x + 1, y }, // east
@@ -22,7 +22,7 @@ class Grid {
         { x: x - 1, y: y - 1},  // north west
     ]
 
-    // static calculate_look_ahead = (x: number, y: number, length = 2): IPosition[] => [
+    // static calculate_look_ahead = (x: number, y: number, length = 2): Position[] => [
     //     { x, y: y - length},  // north
     //     { x: x + length, y }, // east
     //     { x, y: y + length},  // south
@@ -37,7 +37,7 @@ class Grid {
         return x > -1 && x < this.width && y > -1 && y < this.height
     }
 
-    private get_neighbourhood_from_directions (directions: IPosition[]): Cell[] {
+    private get_neighbourhood_from_directions (directions: Position[]): Cell[] {
         const neighbours: Cell[] = []
         directions.forEach((direction) => {
             const neighbour = this.get_cell(direction.x, direction.y)

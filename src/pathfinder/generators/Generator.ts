@@ -6,14 +6,14 @@ import {
 import type Cell from "../classes/Cell"
 import type CellStore from "../classes/CellStore"
 import type Grid from "../classes/Grid"
-import type IPosition from "../../global/Position"
+import type Position from "../../global/Position"
 import Worker from "../classes/Worker"
 
 class Generator extends Worker {
 
     private carve_passage(
         start_cell: Cell,
-        direction: IPosition,
+        direction: Position,
         length: number
     ): Cell[] {
         const passage = [start_cell]
@@ -44,7 +44,7 @@ class Generator extends Worker {
         return passage
     }
 
-    private create_walls (cell: Cell, direction: IPosition): void {
+    private create_walls (cell: Cell, direction: Position): void {
         const WALL = MAIN_TYPE.WALL
         const x = cell.x
         const y = cell.y
@@ -118,7 +118,7 @@ class Generator extends Worker {
     }
 
     // TODO refactor
-    set_start_position(_position: IPosition): void { /* void */ }
+    set_start_position(_position: Position): void { /* void */ }
 }
 
 export default Generator

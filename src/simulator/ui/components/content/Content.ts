@@ -25,10 +25,9 @@ const init = ({
     return container
 }
 
-const get_task_cards = (): TaskCard[] => taskcards
+export const get_task_cards = (): TaskCard[] => taskcards
 
 export default init
 export {
-    type ContentOptions,
-    get_task_cards
+    type ContentOptions
 }

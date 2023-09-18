@@ -1,24 +1,11 @@
-import type IPosition from "../global/Position";
-import random from "./random/random";
+import Cell from "./classes/Cell"
+import type Grid from "./classes/Grid"
+import { MAIN_TYPE } from "./types/CellType"
+import type Position from "../global/Position"
+import random from "./random/random"
+import type Zone from "./types/Zone"
 
-/** Shuffle an array using the Durstenfeld shuffle algorithm.
- * The array is shuffled in place.
- */
-const shuffle = <T>(cells: T[]): void => {
-    for (let i = cells.length - 1; i > 0; i--) {
-        const j = Math.floor(random() * (i + 1));
-        [cells[i], cells[j]] = [cells[j], cells[i]];
-    }
-}
-
-interface Sector {
-    x_min: number
-    x_max: number
-    y_min: number
-    y_max: number
-}
-
-const create_sectors = (width: number, height: number): Sector[] => {
+const create_sectors = (width: number, height: number): Zone[] => {
     const left_quarter_width = Math.ceil(width * 0.25)
     const right_quarter_width = width - left_quarter_width
     const upper_quarter_height = Math.ceil(height * 0.25)
@@ -67,7 +54,7 @@ const create_sectors = (width: number, height: number): Sector[] => {
     ]
 }
 
-const find_random_position_in_sector = (sector: Sector | undefined): IPosition | undefined => {
+const find_random_position_in_sector = (sector: Zone | undefined): Position | undefined => {
     if (sector === undefined) {
         return undefined
     }
@@ -78,8 +65,8 @@ const find_random_position_in_sector = (sector: Sector | undefined): IPosition |
 }
 
 const find_positions_from_sectors = (width: number, height: number): {
-    start: IPosition,
-    goal: IPosition
+    start: Position,
+    goal: Position
 } => {
     const sectors = create_sectors(width, height)
     shuffle(sectors)
@@ -91,7 +78,42 @@ const find_positions_from_sectors = (width: number, height: number): {
     }
 }
 
-export {
-    find_positions_from_sectors,
-    shuffle
+const validate_position = (position: Position, grid: Grid): Position => {
+    let cell = grid.get_cell(position.x, position.y)
+    if (cell instanceof Cell && cell.type === MAIN_TYPE.WALL) {
+        const neighbours = grid.get_moore_neighbourhood(cell)
+        shuffle(neighbours)
+        // if maze was generated correctly there must be a floor tile
+        // in every moore neighbourhood
+        cell = neighbours.filter((neighbour) => neighbour.type === MAIN_TYPE.FLOOR).pop()
+        if (cell instanceof Cell) {
+            position.x = cell.x
+            position.y = cell.y
+        } else {
+            position.x = 0
+            position.y = 0
+        }
+    }
+    return position
+}
+
+export const find_initial_positions = (grid: Grid): {
+    start: Position,
+    goal: Position
+} => {
+    const { start, goal } = find_positions_from_sectors(grid.width, grid.height)
+    return {
+        start: validate_position(start, grid),
+        goal: validate_position(goal, grid)
+    }
+}
+
+/** Shuffle an array using the Durstenfeld shuffle algorithm.
+ * The array is shuffled in place.
+ */
+export const shuffle = <T>(cells: T[]): void => {
+    for (let i = cells.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [cells[i], cells[j]] = [cells[j], cells[i]];
+    }
 }

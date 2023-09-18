@@ -5,7 +5,7 @@ import {
 import Cell from "./Cell"
 import CellStore from "./CellStore"
 import Grid from "./Grid"
-import type IPosition from "../../global/Position"
+import type Position from "../../global/Position"
 import random from "../random/random"
 import Updates from "./Updates"
 
@@ -40,16 +40,16 @@ class Worker {
     private readonly grid: Grid
     protected readonly store: CellStore
     protected updates: Updates
-    protected start_position: IPosition | undefined
-    protected goal_position: IPosition | undefined
+    protected start_position: Position | undefined
+    protected goal_position: Position | undefined
 
     private _expanded_cells_count: number
 
-    static euclidean_distance (start: IPosition, goal: IPosition): number {
+    static euclidean_distance (start: Position, goal: Position): number {
         return Math.sqrt((goal.x - start.x) ** 2 + (goal.y - start.y) ** 2)
     }
     
-    static manhatten_distance (start: IPosition, goal: IPosition): number {
+    static manhatten_distance (start: Position, goal: Position): number {
         return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y)
     }
 
@@ -87,7 +87,7 @@ class Worker {
     }
 
     // TODO make static and make use of "from" and "to"
-    find_random_position(from?: number, to?: number): IPosition {
+    find_random_position(from?: number, to?: number): Position {
         const x = Math.floor(random(1, this.get_grid().width - 2))
         const y = Math.floor(random(1, this.get_grid().height - 2))
         return { x, y }
@@ -110,7 +110,7 @@ class Worker {
     perform_step(): void { /* void */ }
 
     // TODO refactor
-    protected create_start_cell(position: IPosition): Cell {
+    protected create_start_cell(position: Position): Cell {
         
         const { x, y } = position
         const cell = this.get_grid().get_cell(x, y) ?? new Cell(
@@ -127,7 +127,7 @@ class Worker {
     }
 
     // TODO refactor
-    create_goal_cell(position: IPosition): Cell {
+    create_goal_cell(position: Position): Cell {
 
         const { x, y } = position
         const cell = this.get_grid().get_cell(x, y) ?? new Cell(

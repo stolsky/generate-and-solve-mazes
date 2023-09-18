@@ -5,13 +5,13 @@ import {
     type Solution,
     type SolutionResults
 } from "./types"
-import type IPosition from "../global/Position"
+import type Position from "../global/Position"
 
 let current_iteration: Iteration
 
 const results: Iteration[] = []
 
-const setup_iteration = (id: number): void => {
+export const setup_iteration = (id: number): void => {
     current_iteration = {
         id,
         setup: {},
@@ -19,7 +19,7 @@ const setup_iteration = (id: number): void => {
     }
 }
 
-const store_generation = (results: GenerationResults): void => {
+export const store_generation = (results: GenerationResults): void => {
     const { setup } = current_iteration
     if (setup !== undefined) {
         const { generator_id, seed, maze_width, maze_height, maze_type, floor_tiles } = results
@@ -32,7 +32,7 @@ const store_generation = (results: GenerationResults): void => {
     }
 }
 
-const store_positions = (start: IPosition, goal: IPosition): void => {
+export const store_positions = (start: Position, goal: Position): void => {
     const { setup } = current_iteration
     if (setup !== undefined) {
         setup.start_position = start
@@ -40,7 +40,7 @@ const store_positions = (start: IPosition, goal: IPosition): void => {
     }
 }
 
-const store_solution = (results: SolutionResults): void => {
+export const store_solution = (results: SolutionResults): void => {
     if ("solutions" in current_iteration) {
         const { solver_id, path_length, expanded_nodes, time_taken_ms } = results
         current_iteration.solutions.push({
@@ -52,18 +52,9 @@ const store_solution = (results: SolutionResults): void => {
     }
 }
 
-const get_all_iteration_results = (index: number): Solution[] => results[index].solutions
+export const get_all_iteration_results = (index: number): Solution[] => results[index].solutions
 
-const finalize_iteration = (): void => {
+export const finalize_iteration = (): void => {
     // add copy(!) of current iteration to results
     results.push({ ...current_iteration })
-}
-
-export {
-    finalize_iteration,
-    get_all_iteration_results,
-    setup_iteration,
-    store_generation,
-    store_positions,
-    store_solution,
 }

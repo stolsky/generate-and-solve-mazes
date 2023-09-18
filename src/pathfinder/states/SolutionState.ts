@@ -1,51 +1,15 @@
 import {
-    find_positions_from_sectors,
-    shuffle
-} from "../utilities"
-import {
     pop as pop_state,
     type State
 } from "../../loop/StateStack"
-import Cell from "../classes/Cell"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
+import { find_initial_positions } from "../utilities"
 // TODO refactor to avoid using TaskList from simulator
 import { get_all as get_all_tasks } from "../../simulator/tasks/TaskList"
 import type Grid from "../classes/Grid"
-import type IPosition from "../../global/Position"
-import { MAIN_TYPE } from "../types/CellType"
-import Solver from "../solvers/Solver"
 import { publish } from "../../simulator/Broker"
-
-const validate_position = (position: IPosition, grid: Grid): IPosition => {
-    let cell = grid.get_cell(position.x, position.y)
-    if (cell instanceof Cell && cell.type === MAIN_TYPE.WALL) {
-        const neighbours = grid.get_moore_neighbourhood(cell)
-        shuffle(neighbours)
-        // if maze was generated correctly there must be a floor tile
-        // in every moore neighbourhood
-        cell = neighbours.filter((neighbour) => neighbour.type === MAIN_TYPE.FLOOR).pop()
-        if (cell instanceof Cell) {
-            position.x = cell.x
-            position.y = cell.y
-        } else {
-            position.x = 0
-            position.y = 0
-        }
-    }
-    return position
-}
-
-const find_initial_positions = (grid: Grid): {
-    start: IPosition,
-    goal: IPosition
-} => {
-    const { start, goal } = find_positions_from_sectors(grid.width, grid.height)
-    return {
-        start: validate_position(start, grid),
-        goal: validate_position(goal, grid)
-    }
-}
+import Solver from "../solvers/Solver"
 
 class SolutionsState implements State {
 

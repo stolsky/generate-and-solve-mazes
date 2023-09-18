@@ -31,11 +31,7 @@ const create_generator = (id: number, grid: Grid): Generator => {
     return new Generator(GeneratorInformation.NoGenerator.ID)
 }
 
-const get_generator_info_by_id = (id: number): Information =>
+export const get_generator_info_by_id = (id: number): Information =>
     Object.values(GeneratorInformation).find((generator) => generator.ID === id) ?? GeneratorInformation.NoGenerator
 
 export default create_generator
-export {
-    get_generator_info_by_id,
-    GeneratorInformation
-}

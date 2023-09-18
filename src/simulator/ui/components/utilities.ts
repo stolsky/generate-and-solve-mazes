@@ -14,7 +14,7 @@ const create = (tag_name: string, class_name?: string): HTMLElement => {
 
 const add_leading_zero = (value: number): "0" | "" => ((value < 10) ? "0" : "")
 
-const format_time = (msec: number): string => {
+export const format_time = (msec: number): string => {
     const seconds = msec / 1000
     const seconds_string = `${add_leading_zero(seconds % 60)}${(seconds % 60).toFixed(2)}`
     const minutes = seconds / 60
@@ -22,7 +22,4 @@ const format_time = (msec: number): string => {
     return `${minutes_string}:${seconds_string}`
 }
 
-export {
-    create,
-    format_time
-}
+export default create

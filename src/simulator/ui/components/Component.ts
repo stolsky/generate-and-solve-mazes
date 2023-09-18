@@ -1,4 +1,4 @@
-import { create } from "./utilities"
+import create from "./utilities"
 
 class Component {
 

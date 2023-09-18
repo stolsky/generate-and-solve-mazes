@@ -52,7 +52,7 @@ const loop = (delta_time: number): void => {
     }
 }
     
-const init = (speed_multiplier?: Value, ticker?: TickWrapper): void => {
+export  const init = (speed_multiplier?: Value, ticker?: TickWrapper): void => {
     runtime = 0
     slow_down_counter = 0
     const { max, min, std } = speed_multiplier ?? { max: 1, min: 1, std: 1}
@@ -62,11 +62,11 @@ const init = (speed_multiplier?: Value, ticker?: TickWrapper): void => {
     tick = ticker ?? new Tick() satisfies TickWrapper
 }
 
-const get_runtime = (): number => runtime
+export  const get_runtime = (): number => runtime
 
-const get_speed_multiplier = (): number => speed_multiplier_std
+export const get_speed_multiplier = (): number => speed_multiplier_std
 
-const set_speed_multiplier = (multiplier: number): boolean => {
+export const set_speed_multiplier = (multiplier: number): boolean => {
     if (multiplier >= speed_multiplier_min
         && multiplier <= speed_multiplier_max) {
         speed_multiplier_std = multiplier
@@ -75,15 +75,6 @@ const set_speed_multiplier = (multiplier: number): boolean => {
     return false
 }
 
-const start = (): void => { tick.start(loop) }
+export const start = (): void => { tick.start(loop) }
     
-const stop = (): void => { tick.stop() }
-
-export {
-    get_runtime,
-    get_speed_multiplier,
-    init,
-    set_speed_multiplier,
-    start,
-    stop
-}
+export const stop = (): void => { tick.stop() }

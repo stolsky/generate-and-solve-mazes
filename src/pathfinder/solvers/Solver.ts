@@ -5,7 +5,7 @@ import {
 import type Cell from "../classes/Cell"
 import type CellStore from "../classes/CellStore"
 import type Grid from "../classes/Grid"
-import type IPosition from "../../global/Position"
+import type Position from "../../global/Position"
 import Worker from "../classes/Worker"
 
 class Solver extends Worker {
@@ -79,7 +79,7 @@ class Solver extends Worker {
         }
     }
 
-    set_start_position (_position: IPosition): void { /* void */ }
+    set_start_position (_position: Position): void { /* void */ }
 
     get path_length (): number {
         return this._path_length

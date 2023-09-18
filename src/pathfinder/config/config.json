@@ -30,6 +30,11 @@
         "type": "number"
     },
     {
+        "key": "maze_type",
+        "value": 0,
+        "type": "number"
+    },
+    {
         "key": "tasks_amount",
         "value": 4,
         "type": "number"

@@ -13,7 +13,7 @@
  *
  * @returns new "random" 32-bit hash value each time
  */
-const xmur3 = (str: string): () => number => {
+export const xmur3 = (str: string): () => number => {
     let h = 1779033703 ^ str.length
     for (let i = 0; i < str.length; i = i + 1) {
         h = Math.imul(h ^ str.charCodeAt(i), 3432918353)
@@ -31,7 +31,7 @@ const TWO_POW_32 = 2 ** 32
 
 // https://prng.di.unimi.it/
 // https://vigna.di.unimi.it/ftp/papers/ScrambledLinear.pdf
-const xoshiro128ss = (a: number, b: number, c: number, d: number) => () => {
+export const xoshiro128ss = (a: number, b: number, c: number, d: number) => () => {
     const t = b << 9
     let r = a * 5
     r = ((r << 7) | (r >>> 25)) * 9
@@ -42,9 +42,4 @@ const xoshiro128ss = (a: number, b: number, c: number, d: number) => () => {
     c = c ^ t
     d = (d << 11) | (d >>> 21)
     return (r >>> 0) / TWO_POW_32
-}
-
-export {
-    xoshiro128ss,
-    xmur3
 }
