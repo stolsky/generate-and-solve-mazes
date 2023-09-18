@@ -41,7 +41,6 @@ interface SolutionResults {
     time_taken_ms: number
 }
 
-
 export {
     type GenerationResults,
     type Iteration,

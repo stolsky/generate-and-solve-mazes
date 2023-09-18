@@ -11,7 +11,17 @@ let current_iteration: Iteration
 
 const results: Iteration[] = []
 
+const finalize_iteration = (): void => {
+    // add copy(!) of current iteration to results
+    results.push({ ...current_iteration })
+
+    console.dir(results)
+}
+
 export const setup_iteration = (id: number): void => {
+    if (current_iteration !== undefined) {
+        finalize_iteration()
+    }
     current_iteration = {
         id,
         setup: {},
@@ -53,8 +63,3 @@ export const store_solution = (results: SolutionResults): void => {
 }
 
 export const get_all_iteration_results = (index: number): Solution[] => results[index].solutions
-
-export const finalize_iteration = (): void => {
-    // add copy(!) of current iteration to results
-    results.push({ ...current_iteration })
-}

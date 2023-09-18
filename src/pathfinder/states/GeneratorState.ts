@@ -14,7 +14,9 @@ import Configuration from "../config/Configuration"
 import create_generator from "../generators/GeneratorFactory"
 import type Generator from "../generators/Generator"
 // TODO refactor to avoid using TaskList from simulator
-import { get_all as get_all_tasks } from "../../simulator/tasks/TaskList"
+import { get_all_tasks } from "../../simulator/tasks/TaskList"
+import { get_information_by_id as get_generator_information } from "../generators/GeneratorInformation"
+import { get_information_by_id as get_maze_information } from "../types/MazeInformation"
 import Grid from "../classes/Grid"
 import type Position from "../../global/Position"
 import { publish } from "../../simulator/Broker"
@@ -88,6 +90,9 @@ class GeneratorsState implements State {
             start_position: this.start_position,
             floor_tiles: this.count_floor_tiles
         })
+        const maze_type = get_maze_information(this.maze_type).FULL
+        const generator_name = get_generator_information(this.generator_id).SHORT
+        publish("Log", `Generated ${maze_type} in %t${this.runtime} with ${generator_name}`)
     }
 
     render(): void {
@@ -98,12 +103,9 @@ class GeneratorsState implements State {
                 this.cell_size
             )
         })
-        // TODO move the following code -> nothing to do with rendering
         if (this.generator.is_finished()) {
-            // TODO change information to Generated <i>perfect</i> maze / maze with ${n} circle/ dense obstacles, etc..
-            publish("Log", `Maze generated in %t${this.runtime}`)
             const updates = this.reset_generating_variables()
-            // TODO refactor
+            // TODO refactor -> duplicate code
             get_all_tasks().forEach((task) => {
                 task.render(
                     updates,

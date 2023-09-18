@@ -1,92 +1,103 @@
+// TODO refactor to avoid using TaskList from simulator
+import {
+    get_all_tasks,
+    get_all_unfinished_tasks
+} from "../../simulator/tasks/TaskList"
 import {
     pop as pop_state,
     type State
 } from "../../loop/StateStack"
+import {
+    store_positions,
+    store_solution
+} from "../../database/database"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
 import { find_initial_positions } from "../utilities"
-// TODO refactor to avoid using TaskList from simulator
-import { get_all as get_all_tasks } from "../../simulator/tasks/TaskList"
 import type Grid from "../classes/Grid"
+import type Position from "../../global/Position"
 import { publish } from "../../simulator/Broker"
 import Solver from "../solvers/Solver"
 
 class SolutionsState implements State {
 
-    private runtime: number
     private readonly cell_size: number
-    private is_finished: boolean
     private readonly delay_after_finished: number
+    private readonly goal_position: Position
+    private readonly start_position: Position
     private finished_timestamp: number
-
-
+    private runtime: number
+    
     constructor(grid: Grid) {
+
+        this.cell_size = Configuration.get_property_value("grid_cell_size") as number
+        this.delay_after_finished = Configuration.get_property_value("delay_after_finished") as number
+
+        this.finished_timestamp = 0
+        this.runtime = 0
+        
         const { start, goal } = find_initial_positions(grid)
+        this.start_position = start
+        this.goal_position = goal
         get_all_tasks().forEach((task) => {
             const solver = create_solver(task.get_solver_id(), grid.clean_copy())
             solver.set_start_position(start)
             solver.create_goal_cell(goal)
             task.solver = solver
         })
-        this.runtime = 0
-        this.cell_size = Configuration.get_property_value("grid_cell_size") as number
-        this.is_finished = false
-        this.delay_after_finished = Configuration.get_property_value("delay_after_finished") as number
-        this.finished_timestamp = 0
-
-        // TODO publish 
     }
 
     enter(): void {
-        // console.log("enter solution state")
+        store_positions(
+            this.start_position,
+            this.goal_position
+        )
     }
 
     exit(): void {
-        publish("IterationEnd")
+        publish("AllSolutionsFinished")
     }
 
     render(): void {
-        if (!this.is_finished) {
-            let all_finished = true
-            get_all_tasks().forEach((task) => {
-                if (task.is_finished) {
-                    return
+        get_all_unfinished_tasks().forEach((task) => {
+            const solver = task.solver
+            if (solver instanceof Solver) {
+                task.render(
+                    solver.get_updates(),
+                    this.cell_size
+                )
+                if (solver.is_finished()) {
+                    task.is_finished = true
                 }
-                const solver = task.solver
-                if (solver instanceof Solver) {
-                    task.render(
-                        solver.get_updates(),
-                        this.cell_size
-                    )
-                    if (solver.is_finished()) {
-                        task.send_results(this.runtime)
-                        task.is_finished = true
-                    } else {
-                        all_finished = false
-                    }
-                }
-            })
-            if (all_finished) {
-                this.is_finished = true
-                this.finished_timestamp = this.runtime
             }
-        }
+        })
     }
 
     update(delta_time: number): void {
         this.runtime = this.runtime + delta_time
-        if (this.is_finished) {
-            if (this.runtime - this.finished_timestamp > this.delay_after_finished) {
+        const unfinished_tasks = get_all_unfinished_tasks()
+        if (unfinished_tasks.length === 0) {
+            if (this.finished_timestamp === 0) {
+                this.finished_timestamp = this.runtime
+            } else if (this.runtime - this.finished_timestamp > this.delay_after_finished) {
                 pop_state()
             }
-        } else {
-            get_all_tasks().forEach((task) => {
-                if (task.solver instanceof Solver) {
-                    task.solver.perform_step()
-                }
-            })
         }
-        
+        unfinished_tasks.forEach((task) => {
+            const solver = task.solver
+            if (solver instanceof Solver) {
+                solver.perform_step()
+                if (solver.is_finished()) {
+                    store_solution({
+                        solver_id: solver.id,
+                        path_length: solver.path_length,
+                        expanded_nodes: solver.expanded_cells_count,
+                        time_taken_ms: this.runtime
+                    })
+                    publish("SolutionReady", `${solver.id}`)
+                }
+            }
+        })
     }
 }
 

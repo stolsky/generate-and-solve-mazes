@@ -1,8 +1,4 @@
 import {
-    finalize_iteration,
-    setup_iteration
-} from "../../database/database"
-import {
     pop as pop_state,
     push as push_state,
     type State
@@ -10,6 +6,7 @@ import {
 import Configuration from "../config/Configuration"
 import GeneratorsState from "./GeneratorState"
 import { publish } from "../../simulator/Broker"
+import { setup_iteration} from "../../database/database"
 
 class IterationsState implements State {
 
@@ -21,18 +18,11 @@ class IterationsState implements State {
         this.max_iterations = Configuration.get_property_value("iterations") as number
     }
 
-    enter(): void {
-        setup_iteration(this.current_iteration)
-    }
+    enter(): void { /* void */ }
 
-    exit(): void {
-        finalize_iteration()
-    }
+    exit(): void { /* void */ }
 
-    render(): void {
-        // console.log("render iteration state")
-
-    }
+    render(): void { /* void */ }
 
     update(): void {
         if (this.current_iteration <= this.max_iterations) {
@@ -40,7 +30,8 @@ class IterationsState implements State {
                 "Log",
                 `Processing iteration ${this.current_iteration} of ${this.max_iterations}`
             )
-            push_state(new GeneratorsState(Configuration.get_property_value("generator_id") as number))
+            setup_iteration(this.current_iteration)
+            push_state(new GeneratorsState())
         } else {
             pop_state()
         }
