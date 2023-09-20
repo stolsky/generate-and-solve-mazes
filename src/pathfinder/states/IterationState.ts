@@ -2,11 +2,11 @@ import {
     pop as pop_state,
     push as push_state,
     type State
-} from "../../loop/StateStack"
+} from "../../global/loop/StateStack"
 import Configuration from "../config/Configuration"
 import GeneratorsState from "./GeneratorState"
-import { publish } from "../../simulator/Broker"
-import { setup_iteration} from "../../database/database"
+import { publish } from "../../global/Broker"
+import { setup_iteration} from "../../global/database/database"
 
 class IterationsState implements State {
 
