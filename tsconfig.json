@@ -5,6 +5,8 @@
     "module": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    
+    "strictFunctionTypes": true,
 
     "types": ["vite/client"],
 
