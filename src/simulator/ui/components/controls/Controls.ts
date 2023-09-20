@@ -5,7 +5,7 @@ import {
     set_speed_multiplier,
     start as start_loop,
     stop as stop_loop
-} from "../../../../loop/Loop"
+} from "../../../../global/loop/Loop"
 import Component from "../Component"
 import Configuration from "../../../config/Configuration"
 import Container from "../Container"

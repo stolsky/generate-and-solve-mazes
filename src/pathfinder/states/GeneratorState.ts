@@ -6,7 +6,7 @@ import {
     pop as pop_state,
     push as push_state,
     type State
-} from "../../loop/StateStack"
+} from "../../global/loop/StateStack"
 import random,
     { set_seed } from "../random/random"
 import type Cell from "../classes/Cell"
@@ -19,9 +19,9 @@ import { get_information_by_id as get_generator_information } from "../generator
 import { get_information_by_id as get_maze_information } from "../types/MazeInformation"
 import Grid from "../classes/Grid"
 import type Position from "../../global/Position"
-import { publish } from "../../simulator/Broker"
+import { publish } from "../../global/Broker"
 import SolutionsState from "./SolutionState"
-import { store_generation } from "../../database/database"
+import { store_generation } from "../../global/database/database"
 
 class GeneratorsState implements State {
 

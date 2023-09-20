@@ -1,4 +1,4 @@
-import type Position from "../global/Position"
+import type Position from "../Position"
 
 interface GenerationResults {
     generator_id: number

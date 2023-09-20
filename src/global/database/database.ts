@@ -4,7 +4,7 @@ import {
     type Solution,
     type SolutionResults
 } from "./types"
-import type Position from "../global/Position"
+import type Position from "../Position"
 
 let current_iteration: Iteration
 
@@ -51,6 +51,7 @@ export const store_solution = (results: SolutionResults): void => {
     if ("solutions" in current_iteration) {
         const { solver_id, path_length, expanded_nodes, time_taken_ms } = results
         
+        // console.dir(results)
         // TODO evaluate solution
         const points = 0
 

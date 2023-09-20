@@ -2,7 +2,7 @@ import "./log.css"
 
 import Component from "../Component"
 import Container from "../Container"
-import { subscribe } from "../../../Broker"
+import { subscribe } from "../../../../global/Broker"
 import { format_time } from "../utilities"
 
 let text_output: Container

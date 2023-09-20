@@ -4,11 +4,11 @@ import {
 } from './pathfinder/solvers/SolverInformation'
 import { add as add_task } from './simulator/tasks/TaskList'
 import { get_task_cards } from './simulator/ui/components/content/Content'
-import { init as init_loop } from './loop/Loop'
+import { init as init_loop } from './global/loop/Loop'
 import init_ui from './simulator/ui/UI'
 import IterationsState from './pathfinder/states/IterationState'
 import PathfinderConfig from './pathfinder/config/Configuration'
-import { push as push_state } from './loop/StateStack'
+import { push as push_state } from './global/loop/StateStack'
 import SimulatorConfig from "./simulator/config/Configuration"
 import Task from "./simulator/tasks/Task"
 import { TypeColors } from './pathfinder/types/TypeColors'

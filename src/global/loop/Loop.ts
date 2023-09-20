@@ -6,10 +6,10 @@ import {
 import {
     show_play_button,
     update_runtime
-} from "../simulator/ui/components/controls/Controls"
+} from "../../simulator/ui/components/controls/Controls"
 
 import Tick, { type TickWrapper } from "./Tick"
-import type Value from "../global/Value"
+import type Value from "../Value"
 
 let runtime: number
 let slow_down_counter: number

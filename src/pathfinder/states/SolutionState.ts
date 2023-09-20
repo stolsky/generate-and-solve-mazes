@@ -6,17 +6,17 @@ import {
 import {
     pop as pop_state,
     type State
-} from "../../loop/StateStack"
+} from "../../global/loop/StateStack"
 import {
     store_positions,
     store_solution
-} from "../../database/database"
+} from "../../global/database/database"
 import Configuration from "../config/Configuration"
 import create_solver from "../solvers/SolverFactory"
 import { find_initial_positions } from "../utilities"
 import type Grid from "../classes/Grid"
 import type Position from "../../global/Position"
-import { publish } from "../../simulator/Broker"
+import { publish } from "../../global/Broker"
 import Solver from "../solvers/Solver"
 
 class SolutionsState implements State {
