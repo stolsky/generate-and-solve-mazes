@@ -2,8 +2,9 @@ import "./table.css"
 
 import Component from "../Component"
 import Container from "../Container"
-import { get_results_of_solver } from "../../../../database/database"
-import { subscribe } from "../../../Broker"
+import { format_time } from "../utilities"
+import { get_results_of_solver } from "../../../../global/database/database"
+import { subscribe } from "../../../../global/Broker"
 
 interface Identifier {
     id: number
@@ -22,9 +23,13 @@ const update = (message: string): void => {
         const results = get_results_of_solver(Number.parseInt(message, 10))
         if (results !== undefined) {
             const children = output[message].get_children()
-            // for (let i = 1; i < children.length; i = i + 1) {
-            //     children[i].textContent = items[i - 1]
-            // }
+            // TODO refactor -> how table gets to know these property names
+            children[1].textContent = results.path_length.toString(10)
+            children[2].textContent = results.expanded_nodes.toString(10)
+            children[3].textContent = format_time(results.time_taken_ms)
+            children[4].textContent = results.points.toString(10)
+
+            // sort by time taken -> incoming position is correct position
         }
     }
 }
@@ -82,16 +87,16 @@ const init = (table_options: TableOptions): Container => {
         .append(
             new Component("Title", "h3")
                 .set_content("Results"),
-            new Container("Table")
+            new Container("Table", "table")
                 .append(
-                create_head(table_options.columns),
-                create_body(
-                    table_options.rows,
-                    table_options.columns.length
+                    create_head(table_options.columns),
+                    create_body(
+                        table_options.rows,
+                        table_options.columns.length
+                    )
                 ),
-                create_foot()
-            )
-    )
+            create_foot()
+        )
 }
 
 export default init
