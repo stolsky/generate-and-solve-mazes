@@ -3,7 +3,7 @@ type AllowedValue = string | number
 interface ConfigurationData {
     readonly key: string
     value: AllowedValue
-    readonly type: "string" | "number"
+    readonly type: AllowedValue
     // if type is string this is the minimum length of the string
     // else if type is number this is the minimal allowed number
     readonly min?: number
@@ -21,7 +21,7 @@ class Configuration {
 
     constructor(data: ConfigurationData[]) {
         data.forEach((set) => {
-            this.properties[set.key] = set
+            this.properties[set.key] = {...set}
         })
     }
 
