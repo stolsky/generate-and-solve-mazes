@@ -11,7 +11,7 @@ import {
     subscribe
 } from '../../src/global/Broker'
 
-describe("test Cell class", () => {
+describe("test Broker features", () => {
 
     beforeEach(() => {
         reset_broker()
