@@ -14,95 +14,101 @@ import Task from "./simulator/tasks/Task"
 import { TypeColors } from './pathfinder/types/TypeColors'
 import Value from './global/Value'
 
-// TODO add description/welcome overlay
-// TODO add config page/overlay
+const init = (): void => {
 
-SimulatorConfig.lock()
-PathfinderConfig.lock()
+    // TODO add description/welcome overlay
+    // TODO add config page/overlay
 
-const width = PathfinderConfig.get_property_value("grid_width") as number
-const height = PathfinderConfig.get_property_value("grid_height") as number
-const size = PathfinderConfig.get_property_value("grid_cell_size") as number
-const tasks_amount = PathfinderConfig.get_property_value("tasks_amount") as number
+    SimulatorConfig.lock()
+    PathfinderConfig.lock()
 
-const tasks = [
-    get_solver_information(SOLVER_TYPE.BFS),
-    get_solver_information(SOLVER_TYPE.DFS),
-    get_solver_information(SOLVER_TYPE.DIJKSTRA),
-    get_solver_information(SOLVER_TYPE.A_STAR)
-]
+    const width = PathfinderConfig.get_property_value("grid_width") as number
+    const height = PathfinderConfig.get_property_value("grid_height") as number
+    const size = PathfinderConfig.get_property_value("grid_cell_size") as number
+    const tasks_amount = PathfinderConfig.get_property_value("tasks_amount") as number
 
-const colors = [
-    { color: TypeColors.floor.color, label: TypeColors.floor.label },
-    { color: TypeColors.wall.color, label: TypeColors.wall.label },
-    { color: TypeColors.start.color, label: TypeColors.start.label },
-    { color: TypeColors.goal.color, label: TypeColors.goal.label },
-    { color: TypeColors.search.color, label: TypeColors.search.label },
-    { color: TypeColors.expanded.color, label: TypeColors.expanded.label },
-    { color: TypeColors.path.color, label: TypeColors.path.label }
-]
+    const tasks = [
+        get_solver_information(SOLVER_TYPE.BFS),
+        get_solver_information(SOLVER_TYPE.DFS),
+        get_solver_information(SOLVER_TYPE.DIJKSTRA),
+        get_solver_information(SOLVER_TYPE.A_STAR)
+    ]
 
-init_loop(
-    new Value(
-        SimulatorConfig.get_property_value("speed_multiplier_max") as number,
-        SimulatorConfig.get_property_value("speed_multiplier_min") as number,
-        SimulatorConfig.get_property_value("speed_multiplier_default") as number
+    const colors = [
+        { color: TypeColors.floor.color, label: TypeColors.floor.label },
+        { color: TypeColors.wall.color, label: TypeColors.wall.label },
+        { color: TypeColors.start.color, label: TypeColors.start.label },
+        { color: TypeColors.goal.color, label: TypeColors.goal.label },
+        { color: TypeColors.search.color, label: TypeColors.search.label },
+        { color: TypeColors.expanded.color, label: TypeColors.expanded.label },
+        { color: TypeColors.path.color, label: TypeColors.path.label }
+    ]
+
+    init_loop(
+        new Value(
+            SimulatorConfig.get_property_value("speed_multiplier_max") as number,
+            SimulatorConfig.get_property_value("speed_multiplier_min") as number,
+            SimulatorConfig.get_property_value("speed_multiplier_default") as number
+        )
     )
-)
 
-init_ui(
-    {
-        canvas_width: width * size,
-        canvas_height: height * size,
-        tasks_amount
-    },
-    {
-        columns: [
-            {
-                id: 1,
-                label: ""
-            },
-            {
-                id: 2,
-                label: "path length",
-            },
-            {
-                id: 3,
-                label: "expanded nodes",
-            },
-            {
-                id: 4,
-                label: "time taken",
-            }
-        ],
-        rows: [
-            {
-                id: SOLVER_TYPE.BFS,
-                label: get_solver_information(SOLVER_TYPE.BFS).SHORT
-            },
-            {
-                id: SOLVER_TYPE.DFS,
-                label: get_solver_information(SOLVER_TYPE.DFS).SHORT
-            },
-            {
-                id: SOLVER_TYPE.DIJKSTRA,
-                label: get_solver_information(SOLVER_TYPE.DIJKSTRA).SHORT
-            },
-            {
-                id: SOLVER_TYPE.A_STAR,
-                label: get_solver_information(SOLVER_TYPE.A_STAR).SHORT
-            }
-        ]
-    },
-    {
-        colors
-    }
-)
+    init_ui(
+        {
+            canvas_width: width * size,
+            canvas_height: height * size,
+            tasks_amount
+        },
+        {
+            columns: [
+                {
+                    id: 1,
+                    label: ""
+                },
+                {
+                    id: 2,
+                    label: "path length",
+                },
+                {
+                    id: 3,
+                    label: "expanded nodes",
+                },
+                {
+                    id: 4,
+                    label: "time taken",
+                }
+            ],
+            rows: [
+                {
+                    id: SOLVER_TYPE.BFS,
+                    label: get_solver_information(SOLVER_TYPE.BFS).SHORT
+                },
+                {
+                    id: SOLVER_TYPE.DFS,
+                    label: get_solver_information(SOLVER_TYPE.DFS).SHORT
+                },
+                {
+                    id: SOLVER_TYPE.DIJKSTRA,
+                    label: get_solver_information(SOLVER_TYPE.DIJKSTRA).SHORT
+                },
+                {
+                    id: SOLVER_TYPE.A_STAR,
+                    label: get_solver_information(SOLVER_TYPE.A_STAR).SHORT
+                }
+            ]
+        },
+        {
+            colors
+        }
+    )
 
-get_task_cards().forEach((card, index) => {
-    const { ID: id, FULL: full } = tasks[index]
-    card.set_title(full)
-    add_task(new Task(card.get_context(), id))
-})
+    get_task_cards().forEach((card, index) => {
+        const { ID: id, FULL: full } = tasks[index]
+        card.set_title(full)
+        add_task(new Task(card.get_context(), id))
+    })
 
-push_state(new IterationsState())
+    push_state(new IterationsState())
+
+}
+
+init()

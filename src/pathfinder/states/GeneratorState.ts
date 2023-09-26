@@ -54,6 +54,31 @@ class GeneratorsState implements State {
         return updates
     }
 
+    private render_updates (updates: Cell[]): void {
+        get_all_tasks().forEach((task) => {
+            task.render(
+                updates,
+                this.cell_size
+            )
+        })
+    }
+
+    private adjust_start_position (position: Position): Position {
+
+        const { x, y } = position
+        // make sure that the outer ring is a wall
+
+        if (x % 2 === 0) {
+            position.x = x - 1;
+        }
+
+        if (y % 2 === 0) {
+            position.y = y - 1;
+        }
+
+        return position
+    }
+
     constructor() {
 
         this.generator_id = Configuration.get_property_value("generator_id") as number
@@ -65,7 +90,10 @@ class GeneratorsState implements State {
         set_seed(this.seed)
 
         this.generator = create_generator(this.generator_id, new Grid(this.maze_width, this.maze_height))
-        this.start_position = this.generator.find_random_position()
+
+        this.start_position = this.adjust_start_position(
+            this.generator.find_random_position(),
+        )
         this.generator.set_start_position(this.start_position)
 
         this.cell_size = Configuration.get_property_value("grid_cell_size") as number
@@ -96,22 +124,9 @@ class GeneratorsState implements State {
     }
 
     render(): void {
-        const updates = this.generator.get_updates()
-        get_all_tasks().forEach((task) => {
-            task.render(
-                updates,
-                this.cell_size
-            )
-        })
+        this.render_updates(this.generator.get_updates())
         if (this.generator.is_finished()) {
-            const updates = this.reset_generating_variables()
-            // TODO refactor -> duplicate code
-            get_all_tasks().forEach((task) => {
-                task.render(
-                    updates,
-                    this.cell_size
-                )
-            })
+            this.render_updates(this.reset_generating_variables())
             pop_state()
             push_state(new SolutionsState(this.generator.get_grid().clean_copy()))
         }
@@ -121,6 +136,7 @@ class GeneratorsState implements State {
         this.runtime = this.runtime + delta_time
         this.generator.perform_step()
     }
+
 }
 
 export default GeneratorsState

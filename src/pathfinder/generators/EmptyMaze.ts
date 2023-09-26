@@ -6,14 +6,14 @@ class EmptyMaze extends Generator {
 
     constructor(id: number, grid: Grid) {
         super(id, grid, MAIN_TYPE.WALL)
-        const start_cell = this.get_grid().get_cell(1, 1)
+
+        const start_cell = grid.get_cell(1, 1)
         if (start_cell !== undefined) {
             this.store.add_unique(start_cell)
             while(!this.is_finished()) {
                 const cell = this.store.remove(0)
                 if (cell!== undefined) {
                     cell.type = MAIN_TYPE.FLOOR
-                    const grid = this.get_grid()
                     grid.get_adjacent_neighbours(cell).forEach((neighbour) => {
                         if (neighbour.type === MAIN_TYPE.WALL
                             && neighbour.x > 0 && neighbour.x < grid.width - 1
