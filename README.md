@@ -2,6 +2,9 @@
 Visualization of the generation and solution of mazes with various algorithms.
 
 ## NaPAC - Not another Pathfinding Algorithm Comparison
+<!-- Why another comparison? 
+List reasons
+-->
 
 ### Create your own maze
 * [ ] set dimensions (width, height)
