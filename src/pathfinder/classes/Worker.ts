@@ -87,7 +87,7 @@ class Worker {
     }
 
     // TODO make static and make use of "from" and "to"
-    find_random_position(from?: number, to?: number): Position {
+    find_random_position(/* from?: number, to?: number */): Position {
         const x = Math.floor(random(1, this.get_grid().width - 2))
         const y = Math.floor(random(1, this.get_grid().height - 2))
         return { x, y }
