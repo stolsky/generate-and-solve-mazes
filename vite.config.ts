@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from "vitest/config"
 
 export default defineConfig({
     base: "./",
@@ -6,17 +6,17 @@ export default defineConfig({
         port: 3000
     },
     build: {
-        target: 'esnext'
+        target: "esnext"
     },
     test: {
-        environment: 'jsdom',
+        environment: "jsdom",
         globals: true,
         coverage: {
             all: true,
             enabled: true,
             include: ["src/**/*.ts"],
-            provider: 'istanbul',
-            reporter: ['text', 'json', 'html']
+            provider: "istanbul",
+            reporter: ["text", "json", "html"]
         }
     }
 })

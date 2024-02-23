@@ -6,8 +6,7 @@
     "extends": [
         "standard-with-typescript",
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
+        "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -25,6 +24,8 @@
         "max-depth": [
             "error",
             { "max": 3 }
-        ]
+        ],
+        "@typescript-eslint/quotes": ["error", "double"],
+        "@typescript-eslint/indent": ["error", 4]
     }
 }
