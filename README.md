@@ -6,6 +6,12 @@ Visualization of the generation and solution of mazes with various algorithms.
 List reasons
 -->
 
+### Different types of mazes
+* [ ] from long corridores (few forks) to small passages and many forks
+* [ ] multiple solutions vs. unique solution (different maze generators)
+* [ ] sparse (many clean areas like connected caves) vs. dense maze (only passages)
+* [ ] circles vs circle-free
+
 ### Create your own maze
 * [ ] set dimensions (width, height)
 * [ ] set different grids by selecting rectangle, triangle or hexagonal cells
@@ -32,10 +38,15 @@ List reasons
 * [ ] skip generation or solving to get faster to the results
 * [ ] set auto pause after generation and/or solution to view the result
 
+### Add more algorithms
+* [ ] right-hand side algorithm
+* [ ] left-hand side algorithm
+
 ## Inspirations
 * [A Comparison of Pathfinding Algorithms](https://www.youtube.com/watch?v=GC-nBgi9r0U)
 * [Path-finding Visualization Comparison](https://www.youtube.com/watch?v=aW9kZcJx64o)
 * [Path finding algorithms comparison](https://www.youtube.com/watch?v=-bdFEaNeZMM)
+* [Green Code - I Solved The World's Hardest Maze (with Code)](https://www.youtube.com/watch?v=4L7BDRmH4cM)
 
 ## Research Algorithms
 * [Path Finding comparison](https://www.youtube.com/watch?v=tW1V2Xhabe8)
